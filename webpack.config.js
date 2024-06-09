@@ -4,6 +4,7 @@ const path = require('path');
 
 module.exports = {
  mode: 'development',
+ devtool: 'inline-sorce-map',
  resolve: { 
    extensions: ['.ts','.js']
       } ,
@@ -19,7 +20,7 @@ module.exports = {
         {test: /\.(ttf | otf)$/i,
         type: 'asset/resource',
             } ,
-        {test: /\.( png | svg | jpg | jpeg | gif ) $/i,
+        {test: /\.( png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',   
             },
     ]   },
