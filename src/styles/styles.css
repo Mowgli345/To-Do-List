@@ -1,24 +1,24 @@
-@font-face {
+/* @font-face {
     font-family: 'Poppins';
     font-weight: 400;
-    src: url(./assets/fonts/poppins-regular-webfont.woff2) format('woff2')
-}
-@font-face {
+    src: url(./src/assets/fonts/poppins-regular-webfont.woff2) format('woff2')
+} */
+/* @font-face {
     font-family: 'Poppins';
     font-weight: 700;
-    src: url(./assets/fonts/poppins-bold-webfont.woff2) format('woff2')
+    src: url(./src/assets/fonts/poppins-bold-webfont.woff2) format('woff2')
 }
 @font-face {
     font-family: 'Poppins';
     font-weight: 500;
-    src: url(./assets/fonts/poppins-medium-webfont.woff2) format('woff2')
+    src: url(./src/assets/fonts/poppins-medium-webfont.woff2) format('woff2')
 }
 @font-face {
     font-family: 'Poppins';
     font-weight: 400;
-    src: url(./assets/fonts/poppins-italic-webfont.woff2) format('woff2');
+    src: url(./src/assets/fonts/poppins-italic-webfont.woff2) format('woff2');
     font-style: italic;
-}
+} */
 
 :root {
     /* --page-orange: rgb(255, 178, 34);
@@ -140,7 +140,7 @@ h1 {
     justify-content:center;
 }
 .task-edit img {
-    height: 1.6rem;
+    height: 1.5rem;
 }
 .task-edit img:hover {
     cursor: pointer;
@@ -177,7 +177,7 @@ h1 {
     padding-bottom: -5px;
 }
 .task-delete img {
-    height: 1.7rem;
+    height: 1.6rem;
 }
 .task-delete img:hover {
     cursor: pointer;

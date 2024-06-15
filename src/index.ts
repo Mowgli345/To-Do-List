@@ -1,9 +1,10 @@
-import "../src/styles.css";
+import "../src/styles/styles.css";
+import "../src/styles/form.css";
 import delImg from './assets/images/delete.svg';
 import pencilImg from './assets/images/pencil.svg';
 
 
-function addListItem() {
+function renderListItem() {
     const fragment = new DocumentFragment;
 
     const content = document.querySelector('.content');
@@ -55,7 +56,8 @@ function addListItem() {
     const taskDelete = document.createElement('div');
         taskDelete.className='task-delete toggle';
     const trashBin = document.createElement('img') as HTMLImageElement;
-        trashBin.src=delImg;    
+        trashBin.src=delImg; 
+        trashBin.addEventListener('click',(e:Event)=>deleteItem(e));   
     const taskListName = document.createElement('div');
         taskListName.className='task-list-name toggle';
         text = document.createTextNode('Project 2');
@@ -92,7 +94,14 @@ function addListItem() {
     };
 
 const newTaskButton = document.querySelector('.newTaskButton');
-newTaskButton?.addEventListener('click',(e:Event)=>addListItem());
+// newTaskButton?.addEventListener('click',(e:Event)=>renderListItem());
+
+newTaskButton?.addEventListener('click',(e:Event)=>showNewItemForm());
+
+
+const newListButton = document.querySelector('.newListButton');
+newListButton?.addEventListener('click',(e:Event)=>showNewListForm());
+
 
 const showInfo = document.querySelector('.task-toggle');
 
@@ -116,4 +125,180 @@ function toggleInfo(e:Event) {
             }
         }
     }
+}
+
+function deleteItem(e:Event) {
+    const event = e.target as HTMLDivElement;
+    let thisListItem = event.parentElement?.parentElement;
+    console.log(thisListItem);
+}
+
+function showNewItemForm() {
+    const fragment = new DocumentFragment;
+    const content = document.querySelector('.content');
+
+    const dialog = document.createElement('dialog');
+        dialog.id='newTaskDialog';
+
+    const form = document.createElement('form');
+        form.setAttribute('method','dialog');
+    const fieldset = document.createElement('fieldset');
+        fieldset.className='newItemForm';
+    const list = document.createElement('ul');
+    let listItem = document.createElement('li');
+
+
+    let label = document.createElement('label');
+        label.setAttribute('for','taskName');
+        let text = document.createTextNode('Task');
+        label.appendChild(text);
+    listItem.appendChild(label);
+    let input = document.createElement('input');
+        input.setAttribute('type','text');
+        input.setAttribute('name','taskName');
+        input.id='taskName';
+    listItem.appendChild(input);
+    list.appendChild(listItem);     
+
+    listItem = document.createElement('li');
+    label = document.createElement('label');
+        label.setAttribute('for','taskDate');
+        text = document.createTextNode('Date');
+        label.appendChild(text);
+    listItem.appendChild(label);
+    input = document.createElement('input');
+        input.setAttribute('type','text');
+        input.setAttribute('name','taskDate');
+        input.id='taskDate';
+    listItem.appendChild(input);
+    list.appendChild(listItem);  
+
+    listItem = document.createElement('li');
+    label = document.createElement('label');
+        label.setAttribute('for','taskPriority');
+        text = document.createTextNode('Priority');
+        label.appendChild(text);
+    listItem.appendChild(label);
+    input = document.createElement('input');
+        input.setAttribute('type','text');
+        input.setAttribute('name','taskPriority');
+        input.setAttribute('value','Normal');
+        input.id='taskPriority';
+    listItem.appendChild(input);
+    list.appendChild(listItem);  
+    
+    listItem = document.createElement('li');
+    label = document.createElement('label');
+        label.setAttribute('for','taskStatus');
+        text = document.createTextNode('Status');
+        label.appendChild(text);
+    listItem.appendChild(label);
+    input = document.createElement('input');
+        input.setAttribute('type','text');
+        input.setAttribute('name','taskStatus');
+        input.setAttribute('value','Not started');
+        input.id='taskStatus';
+    listItem.appendChild(input);
+    list.appendChild(listItem);  
+
+    listItem = document.createElement('li');
+    label = document.createElement('label');
+        label.setAttribute('for','taskDetails');
+        text = document.createTextNode('Details');
+        label.appendChild(text);
+    listItem.appendChild(label);
+    input = document.createElement('input');
+        input.setAttribute('type','text');
+        input.setAttribute('name','taskDetails');
+        input.id='taskDetails';
+    listItem.appendChild(input);
+    list.appendChild(listItem);  
+    
+    listItem = document.createElement('li');
+    let buttonsRow = document.createElement('div');
+        buttonsRow.className='buttonsRow';
+    let button = document.createElement('button');
+        text = document.createTextNode('Cancel');
+        button.setAttribute('type','reset');
+        button.addEventListener('click',() => {
+            dialog.close()
+        });
+        button.appendChild(text);
+        buttonsRow.appendChild(button);
+    button = document.createElement('button');
+        text = document.createTextNode('Add task');
+        button.setAttribute('type','submit');
+        button.appendChild(text);
+        buttonsRow.appendChild(button);
+    
+    listItem.appendChild(buttonsRow);
+    list.appendChild(listItem);  
+  
+    fieldset.appendChild(list);
+    form.appendChild(fieldset);
+    dialog.append(form);
+
+    fragment.appendChild(dialog);
+    content?.append(fragment);
+
+    dialog.showModal();
+
+}
+
+function showNewListForm() {
+    const fragment = new DocumentFragment;
+    const content = document.querySelector('.content');
+
+    const dialog = document.createElement('dialog');
+        dialog.id='newListDialog';
+
+    const form = document.createElement('form');
+        form.setAttribute('method','dialog');
+    const fieldset = document.createElement('fieldset');
+        fieldset.className='newListForm';
+    const list = document.createElement('ul');
+    let listItem = document.createElement('li');
+
+    let label = document.createElement('label');
+        label.setAttribute('for','newList');
+        let text = document.createTextNode('List');
+        label.appendChild(text);
+    listItem.appendChild(label);
+    let input = document.createElement('input');
+        input.setAttribute('type','text');
+        input.setAttribute('name','newList');
+        input.id='newList';
+    listItem.appendChild(input);
+    list.appendChild(listItem);     
+   
+    listItem = document.createElement('li');
+    let buttonsRow = document.createElement('div');
+        buttonsRow.className='buttonsRow';
+    let button = document.createElement('button');
+        text = document.createTextNode('Cancel');
+        button.setAttribute('type','reset');
+        button.addEventListener('click',() => {
+            dialog.close()
+        });
+
+        button.appendChild(text);
+        buttonsRow.appendChild(button);
+    button = document.createElement('button');
+        text = document.createTextNode('Add list');
+        button.setAttribute('type','submit');
+        button.appendChild(text);
+        buttonsRow.appendChild(button);
+    
+    listItem.appendChild(buttonsRow);
+    list.appendChild(listItem);  
+  
+    fieldset.appendChild(list);
+    form.appendChild(fieldset);
+    dialog.append(form);
+
+    fragment.appendChild(dialog);
+    content?.append(fragment);
+
+    dialog.showModal();
+
 }
