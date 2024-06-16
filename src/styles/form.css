@@ -32,9 +32,22 @@ input {
     height: 1.8rem;
     border: solid 2px var(--dark-orange);
     border-radius: 4px;
-    outline:red;
     font-size: 1.2rem;
     color:rgb(122, 122, 122);
+}
+
+input:focus {
+    border:solid 2px green;
+}
+
+select {
+    height: 1.8rem;
+    border: solid 2px var(--dark-orange);
+    border-radius: 4px;
+    font-size: 1.2rem;
+    color:rgb(122, 122, 122);
+    background-color: white;
+    width:70%;
 }
 
 .buttonsRow>button {

@@ -1,24 +1,24 @@
-/* @font-face {
+@font-face {
     font-family: 'Poppins';
     font-weight: 400;
-    src: url(./src/assets/fonts/poppins-regular-webfont.woff2) format('woff2')
-} */
-/* @font-face {
+    src: url(/src/assets/fonts/poppins-regular-webfont.woff2) format('woff2');
+}
+@font-face {
     font-family: 'Poppins';
     font-weight: 700;
-    src: url(./src/assets/fonts/poppins-bold-webfont.woff2) format('woff2')
+    src: url(/src/assets/fonts/poppins-bold-webfont.woff2) format('woff2')
 }
 @font-face {
     font-family: 'Poppins';
     font-weight: 500;
-    src: url(./src/assets/fonts/poppins-medium-webfont.woff2) format('woff2')
+    src: url(/src/assets/fonts/poppins-medium-webfont.woff2) format('woff2')
 }
 @font-face {
     font-family: 'Poppins';
     font-weight: 400;
-    src: url(./src/assets/fonts/poppins-italic-webfont.woff2) format('woff2');
+    src: url(/src/assets/fonts/poppins-italic-webfont.woff2) format('woff2');
     font-style: italic;
-} */
+}
 
 :root {
     /* --page-orange: rgb(255, 178, 34);
@@ -48,6 +48,10 @@ body {
     align-items: flex-end;
     padding-bottom: .5rem;
  }
+
+ header {
+    /* outline: dotted red .3px; */
+ }
 h1 {
     font-weight: bold;
     color: var(--dark-orange);
@@ -57,9 +61,46 @@ h1 {
 }
 .sort {
     color:rgb(109, 109, 109);
-    font-size: 1.3rem;
-    padding-bottom: 2px;
+    font-size: 1.4rem;
+    /* padding-bottom: 2px; */
+    padding: 2px;
+    position: relative;
 }
+.sort:hover {
+    cursor: pointer;
+    /* font-weight: bold; */
+}
+
+.sort-menu {
+    font-size: 1.2rem;
+    color:rgb(109, 109, 109);
+    position:absolute;
+    left:-19px;
+    top: 2.3rem;
+    padding:5px;
+    display: none;
+}
+
+.sort-menu ul>li {
+    padding: 4px 6px;
+    text-align: center;
+    margin: 0;
+}
+
+.sort-menu ul>li:hover {
+    background-color:var(--page-orange);
+    color:white;
+    border:none;
+    border-radius: 4px;
+
+}
+
+.sort-menu ul li+li {
+    border-top:1px solid rgb(175, 172, 172);
+    text-align: center;
+    margin: 0;
+}
+
 .task-toggle {
     grid-area: 1/4/2/5;
     color: var(--page-orange);

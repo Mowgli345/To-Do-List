@@ -2,7 +2,28 @@ import "../src/styles/styles.css";
 import "../src/styles/form.css";
 import delImg from './assets/images/delete.svg';
 import pencilImg from './assets/images/pencil.svg';
+import { createListItem } from "./scripts";
 
+
+//IIFE to store all DOM variables and event listeners
+(function() {
+    const newTaskButton = document.querySelector('.newTaskButton');
+    // newTaskButton?.addEventListener('click',(e:Event)=>renderListItem());
+    
+    newTaskButton?.addEventListener('click',(e:Event)=>showNewItemForm());
+    
+    const newListButton = document.querySelector('.newListButton');
+    newListButton?.addEventListener('click',(e:Event)=>showNewListForm());
+    
+    const sort = document.querySelector('.sort');
+    sort?.addEventListener('click',(e:Event)=>showSortMenu());
+    
+    const showInfo = document.querySelector('.task-toggle');
+    
+    const sortItems = document.querySelector('.sort-menu');
+    sortItems?.addEventListener('mouseover',(e:Event)=>borderOff(e));
+    sortItems?.addEventListener('mouseout',(e:Event)=>borderOn(e));
+}());
 
 function renderListItem() {
     const fragment = new DocumentFragment;
@@ -40,14 +61,10 @@ function renderListItem() {
         text = document.createTextNode('All the other details about this one');
         taskInfo.appendChild(text);
 
-
     const taskEdit = document.createElement('div');
         taskEdit.className='task-edit toggle';
     const editPencil = document.createElement('img') as HTMLImageElement;
         editPencil.src=pencilImg;
-
-
-
 
     const taskStatus = document.createElement('div');
         taskStatus.className='task-status toggle';
@@ -62,7 +79,6 @@ function renderListItem() {
         taskListName.className='task-list-name toggle';
         text = document.createTextNode('Project 2');
         taskListName.appendChild(text);
-
 
     fragment.appendChild(list);
     list.appendChild(listItem);
@@ -82,8 +98,7 @@ function renderListItem() {
 
     content?.append(fragment);
 
-
-    //Ad Project heading
+    //Add Project heading
     const listHeading = document.createElement('div');
         listHeading.className='task-list-heading';
     const heading = document.createElement('h2');
@@ -92,18 +107,6 @@ function renderListItem() {
         listHeading.appendChild(heading);
         content?.appendChild(listHeading);
     };
-
-const newTaskButton = document.querySelector('.newTaskButton');
-// newTaskButton?.addEventListener('click',(e:Event)=>renderListItem());
-
-newTaskButton?.addEventListener('click',(e:Event)=>showNewItemForm());
-
-
-const newListButton = document.querySelector('.newListButton');
-newListButton?.addEventListener('click',(e:Event)=>showNewListForm());
-
-
-const showInfo = document.querySelector('.task-toggle');
 
 //Expand/Hide List details
 function toggleInfo(e:Event) {
@@ -142,11 +145,13 @@ function showNewItemForm() {
 
     const form = document.createElement('form');
         form.setAttribute('method','dialog');
+        form.className='newItemForm';
+        form.addEventListener('submit',(e:Event)=>{
+            createListItem(e);
+        })
     const fieldset = document.createElement('fieldset');
-        fieldset.className='newItemForm';
     const list = document.createElement('ul');
     let listItem = document.createElement('li');
-
 
     let label = document.createElement('label');
         label.setAttribute('for','taskName');
@@ -156,6 +161,7 @@ function showNewItemForm() {
     let input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','taskName');
+               input.setAttribute('value','Get this assignment done'); //Placeholder
         input.id='taskName';
     listItem.appendChild(input);
     list.appendChild(listItem);     
@@ -169,36 +175,79 @@ function showNewItemForm() {
     input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','taskDate');
+        input.setAttribute('value','31 July 2024'); //Placeholder
         input.id='taskDate';
     listItem.appendChild(input);
     list.appendChild(listItem);  
 
+    // listItem = document.createElement('li');
+    // label = document.createElement('label');
+    //     label.setAttribute('for','taskPriority');
+    //     text = document.createTextNode('Priority');
+    //     label.appendChild(text);
+    // listItem.appendChild(label);
+    // input = document.createElement('input');
+    //     input.setAttribute('type','text');
+    //     input.setAttribute('name','taskPriority');
+    //     input.setAttribute('value','Normal');
+    //     input.id='taskPriority';
+    // listItem.appendChild(input);
+    // list.appendChild(listItem);  
+    
     listItem = document.createElement('li');
     label = document.createElement('label');
         label.setAttribute('for','taskPriority');
         text = document.createTextNode('Priority');
         label.appendChild(text);
     listItem.appendChild(label);
-    input = document.createElement('input');
-        input.setAttribute('type','text');
-        input.setAttribute('name','taskPriority');
-        input.setAttribute('value','Normal');
-        input.id='taskPriority';
-    listItem.appendChild(input);
+
+    let select = document.createElement('select');
+        select.setAttribute('name','taskPriority');
+        select.id='taskPriority';
+    let option = document.createElement('option');
+        option.setAttribute('value','Normal');
+        text = document.createTextNode('Normal');
+        option.appendChild(text);
+        select.appendChild(option);
+    option = document.createElement('option');
+        option.setAttribute('value','High');
+        text = document.createTextNode('High');
+        option.appendChild(text);
+        select.appendChild(option);
+    option = document.createElement('option');
+        option.setAttribute('value','Low');
+        text = document.createTextNode('Low');
+        option.appendChild(text);
+        select.appendChild(option);
+    listItem.appendChild(select);
     list.appendChild(listItem);  
-    
+
     listItem = document.createElement('li');
     label = document.createElement('label');
         label.setAttribute('for','taskStatus');
         text = document.createTextNode('Status');
         label.appendChild(text);
     listItem.appendChild(label);
-    input = document.createElement('input');
-        input.setAttribute('type','text');
-        input.setAttribute('name','taskStatus');
-        input.setAttribute('value','Not started');
-        input.id='taskStatus';
-    listItem.appendChild(input);
+
+    select = document.createElement('select');
+        select.setAttribute('name','taskStatus');
+        select.id='taskStatus';
+    option = document.createElement('option');
+        option.setAttribute('value','not-started');
+        text = document.createTextNode('Not Started');
+        option.appendChild(text);
+        select.appendChild(option);
+    option = document.createElement('option');
+        option.setAttribute('value','in-progress');
+        text = document.createTextNode('In Progress');
+        option.appendChild(text);
+        select.appendChild(option);
+    option = document.createElement('option');
+        option.setAttribute('value','completed');
+        text = document.createTextNode('Completed');
+        option.appendChild(text);
+        select.appendChild(option);
+    listItem.appendChild(select);
     list.appendChild(listItem);  
 
     listItem = document.createElement('li');
@@ -210,9 +259,31 @@ function showNewItemForm() {
     input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','taskDetails');
+        input.setAttribute('value','Here are the many details of this task'); //Placeholder
         input.id='taskDetails';
     listItem.appendChild(input);
     list.appendChild(listItem);  
+
+    //LIST NAME
+    listItem = document.createElement('li');
+    label = document.createElement('label');
+        label.setAttribute('for','taskList');
+        text = document.createTextNode('List');
+        label.appendChild(text);
+    listItem.appendChild(label);
+
+    select = document.createElement('select');
+        select.setAttribute('name','taskList');
+        select.id='taskList';
+    option = document.createElement('option');
+        option.setAttribute('value','my-list');
+        text = document.createTextNode('My List');
+        option.appendChild(text);
+        select.appendChild(option);
+    // Needs to add other list names
+    listItem.appendChild(select);
+    list.appendChild(listItem); 
+
     
     listItem = document.createElement('li');
     let buttonsRow = document.createElement('div');
@@ -233,16 +304,12 @@ function showNewItemForm() {
     
     listItem.appendChild(buttonsRow);
     list.appendChild(listItem);  
-  
-    fieldset.appendChild(list);
+      fieldset.appendChild(list);
     form.appendChild(fieldset);
     dialog.append(form);
-
     fragment.appendChild(dialog);
     content?.append(fragment);
-
     dialog.showModal();
-
 }
 
 function showNewListForm() {
@@ -267,6 +334,7 @@ function showNewListForm() {
     let input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','newList');
+        input.setAttribute('value','My Second Project'); //Placeholder
         input.id='newList';
     listItem.appendChild(input);
     list.appendChild(listItem);     
@@ -302,3 +370,48 @@ function showNewListForm() {
     dialog.showModal();
 
 }
+
+function showSortMenu() {
+    const sortMenu = document.querySelector('.sort-menu') as HTMLDivElement;
+    if (sortMenu.style.display==='block') {
+        sortMenu.style.display='none'
+    } else {
+        sortMenu.style.display='block'
+    }    
+};
+
+function borderOff(e:Event) {
+    let sortTag = e.target as HTMLDivElement;
+    if (sortTag.nextElementSibling) {
+        let nextSibling = sortTag.nextElementSibling as HTMLDivElement;
+        nextSibling.style.borderTop ='0';
+        sortTag.style.borderTop ='0';
+    }
+}
+
+function borderOn(e:Event) {
+    let sortTag = e.target as HTMLDivElement;
+    if (sortTag.nextElementSibling) {
+        if (sortTag.previousElementSibling) {
+        let nextSibling = sortTag.nextElementSibling as HTMLDivElement;
+        nextSibling.style.borderTop ='1px solid rgb(175,172,172';
+        sortTag.style.borderTop ='1px solid rgb(175,172,172';
+        } else {
+            let nextSibling = sortTag.nextElementSibling as HTMLDivElement;
+            nextSibling.style.borderTop ='1px solid rgb(175,172,172';
+        }
+    }
+}
+
+//Function works here but I want it in the scripts page
+// function createListItem(e:Event) {
+//     e.preventDefault();
+//     console.log(e.target);
+//     const form = e.target as HTMLFormElement;
+//     const formData = new FormData(form);
+//     console.log(form);
+//     console.log(formData);
+//     for (const [key, value] of formData) {
+//         console.log(value);
+//     }
+// }
