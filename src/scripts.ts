@@ -2,40 +2,39 @@ export {};
 
 console.log('Hello from scripts');
 
-class listItem{
+export class listItem {
     task:string;
-    date:Date;
+    // date:Date;  //CHANGE TO DATE format
+    date:string;
     status:string;
     details:string;
     list:string; 
-    constructor(task:string, date:Date, status:string, details:string, list:string) {
-        this.task = task;
-        this.date = date;
-        this.status = status;
-        this.details = details;
-        this.list = list;
+    constructor(taskObj: {taskName:string; taskDate:string; taskStatus:string; taskDetails:string; taskList:string}) {
+        this.task = taskObj.taskName;
+        this.date = taskObj.taskDate;
+        this.status = taskObj.taskStatus;
+        this.details = taskObj.taskDetails;
+        this.list = taskObj.taskList;
         }
 }
 
-const form = document.querySelector('.newItemForm') as HTMLFormElement;
-if (form) {
-form.addEventListener('submit',(e:Event)=>{
-    debugger;
-    e.preventDefault();
-    console.log(e.target);
-    // const taskFormData = new FormData(e.target as );
-});
-};
-
-
 export function createListItem(e:Event) {
     e.preventDefault();
-    console.log(e.target);
+    console.log("createListItem");
+    const dialog = document.getElementById('newTaskDialog') as HTMLDialogElement;
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
-    console.log(form);
-    console.log(formData);
-    for (const [key, value] of formData) {
-        console.log(value);
-    }
+    const listArrayLength = Object.entries(localStorage).length +1;
+    const newTask = Object.fromEntries(formData);
+    const taskKey = `newTask${listArrayLength}`;
+    localStorage.setItem(taskKey,JSON.stringify(newTask));
+    form.reset();
+    dialog?.close();
 }
+
+
+
+
+
+
+

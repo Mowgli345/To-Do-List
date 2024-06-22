@@ -26,7 +26,8 @@ module.exports = {
     ]   },
   entry: {
     index: './src/index.ts',
-    scripts: './src/scripts.ts'
+    scripts: './src/scripts.ts',
+    local: './src/localStorage.ts'
         },
 
   output: {
@@ -41,7 +42,7 @@ module.exports = {
         })
     ],
     output: {
-        //clean:true,
+        clean:true,
     },
     devServer: {
         static:'dist',
