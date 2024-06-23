@@ -141,9 +141,11 @@ function showNewItemForm() {
         label.appendChild(text);
     listItem.appendChild(label);
     input = document.createElement('input');
-        input.setAttribute('type','text');
+        input.setAttribute('type','date');
         input.setAttribute('name','taskDate');
-        input.setAttribute('value','31 July 2024'); //Placeholder
+        // let today = new Date();
+        input.valueAsDate=new Date();
+        // input.setAttribute('value',today); //Placeholder
         input.id='taskDate';
     listItem.appendChild(input);
     list.appendChild(listItem);  
