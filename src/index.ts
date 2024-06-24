@@ -2,23 +2,19 @@ import "../src/styles/styles.css";
 import "../src/styles/form.css";
 import delImg from './assets/images/delete.svg';
 import pencilImg from './assets/images/pencil.svg';
-import { createListItem, listItem } from "./scripts";
+import { createListItem, listItem, createNewList } from "./scripts";
 // import listItem from './scripts';
+
+export let listsArray:string[]=['My List'];
 
 //IIFE to store all DOM variables and event listeners
 (function() {
     const newTaskButton = document.querySelector('.newTaskButton');
-    // newTaskButton?.addEventListener('click',(e:Event)=>getTasks());
-    
-    newTaskButton?.addEventListener('click',(e:Event)=>showNewItemForm());   
+    // newTaskButton?.addEventListener('click',(e:Event)=>getTasks());  
+        newTaskButton?.addEventListener('click',(e:Event)=>showNewItemForm(listsArray));   
 
-
-        // const newListButton = document.querySelector('.newListButton');        
-    //     newListButton?.addEventListener('click',(e:Event)=>showNewListForm());
-    //DELTE AFTER USE!!! - KEEP AS SHOWNEWLISTFORM!!!
-    
     const newListButton = document.querySelector('.newListButton');        
-        newListButton?.addEventListener('click',(e:Event)=>getTasks());
+        newListButton?.addEventListener('click',(e:Event)=>showNewListForm());
 
     const sort = document.querySelector('.sort');
         sort?.addEventListener('click',(e:Event)=>showSortMenu());   
@@ -26,7 +22,8 @@ import { createListItem, listItem } from "./scripts";
     const sortItems = document.querySelector('.sort-menu');
         sortItems?.addEventListener('mouseover',(e:Event)=>sortBorderOff(e));
         sortItems?.addEventListener('mouseout',(e:Event)=>sortBorderOn(e));
-
+    
+        //Sort Menu styling
     function sortBorderOff(e:Event) {
         let sortTag = e.target as HTMLDivElement;
         if (sortTag.nextElementSibling) {
@@ -48,6 +45,8 @@ import { createListItem, listItem } from "./scripts";
             }
         }
     }
+
+    getTasks();
 }());
 
 interface taskInt {
@@ -57,10 +56,6 @@ interface taskInt {
     status:string,
     task:string
 }
-
-
-
-
 
 //Display functions
     //Expand/Hide List details
@@ -101,7 +96,7 @@ function showSortMenu() {
 
 
 //Form Functions
-function showNewItemForm() {
+function showNewItemForm(listsArray:string[]) {
     console.log("showNewItemForm");
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
@@ -143,9 +138,7 @@ function showNewItemForm() {
     input = document.createElement('input');
         input.setAttribute('type','date');
         input.setAttribute('name','taskDate');
-        // let today = new Date();
         input.valueAsDate=new Date();
-        // input.setAttribute('value',today); //Placeholder
         input.id='taskDate';
     listItem.appendChild(input);
     list.appendChild(listItem);  
@@ -231,11 +224,22 @@ function showNewItemForm() {
     select = document.createElement('select');
         select.setAttribute('name','taskList');
         select.id='taskList';
-    option = document.createElement('option');
+
+
+    let listLength = listsArray.length;
+    debugger;
+    console.log(listsArray);
+    for (let i = 0; i<listLength; i++) {
+        option = document.createElement('option');
         option.setAttribute('value','my-list');
-        text = document.createTextNode('My List');
+        text = document.createTextNode(listsArray[i]);
         option.appendChild(text);
         select.appendChild(option);
+
+    }
+
+
+
     // Needs to add other list names
     listItem.appendChild(select);
     list.appendChild(listItem); 
@@ -283,10 +287,14 @@ function showNewListForm() {
 
     const form = document.createElement('form');
         form.setAttribute('method','dialog');
+        form.addEventListener('submit',(e:Event)=>{
+            createNewList(e);
+        })
     const fieldset = document.createElement('fieldset');
         fieldset.className='newListForm';
     const list = document.createElement('ul');
     let listItem = document.createElement('li');
+
 
     let label = document.createElement('label');
         label.setAttribute('for','newList');
@@ -296,11 +304,12 @@ function showNewListForm() {
     let input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','newList');
-        input.setAttribute('value','My Second Project'); //Placeholder
+        // input.setAttribute('value','My Second Project'); //Placeholder
+        console.log(listsArray);
         input.id='newList';
     listItem.appendChild(input);
-    list.appendChild(listItem);     
-   
+    list.appendChild(listItem);   
+    
     listItem = document.createElement('li');
     let buttonsRow = document.createElement('div');
         buttonsRow.className='buttonsRow';
@@ -308,7 +317,8 @@ function showNewListForm() {
         text = document.createTextNode('Cancel');
         button.setAttribute('type','reset');
         button.addEventListener('click',() => {
-            dialog.close()
+            form.reset();
+            dialog.close();
         });
 
         button.appendChild(text);
@@ -342,14 +352,16 @@ function getTasks() {
         return
     }
     else {
-        let taskArray = Object.values(localStorage);
-        if (Array.isArray(taskArray)) {
+        let locStoreArray = Object.values(localStorage);
+        if (Array.isArray(locStoreArray)) {
+            let taskArray:taskInt[]=[];
             for (let i = 0;i<storageLength; i++) {
-                let thisTask = taskArray[i];
+                let thisTask = locStoreArray[i];
                 let parsedTask = JSON.parse(thisTask);
                 let taskObj = new listItem(parsedTask);
-                // console.log(taskObj);
-                renderTask(taskObj);
+                taskArray.push(taskObj);
+
+                renderTask(taskObj);  
                 }
             }
         }
@@ -362,7 +374,6 @@ function renderTask(taskObj:taskInt):void {
     // console.log(taskObj);
 
         const fragment = new DocumentFragment;
-    
         const content = document.querySelector('.content');
     
         const list = document.createElement('div');
@@ -415,7 +426,6 @@ function renderTask(taskObj:taskInt):void {
             text = document.createTextNode(taskObj.list);
             taskListName.appendChild(text);
 
-
         //Add Project heading
         const listHeading = document.createElement('div');
         listHeading.className='task-list-heading';
@@ -441,9 +451,7 @@ function renderTask(taskObj:taskInt):void {
             taskPriority.appendChild(circle);
         listItem.appendChild(taskPriority);
     
-        content?.append(fragment);
-    
-
+        content?.append(fragment);  
     };
 
 function clearList(){
@@ -452,6 +460,8 @@ function clearList(){
         content.firstChild.remove();
        }  
     }
+
+
 
 
         

@@ -1,9 +1,8 @@
 import { format } from "../node_modules/date-fns/format";
 import { intlFormatDistance } from "../node_modules/date-fns/intlFormatDistance";
+import {listsArray} from "./index";
 
 export {};
-
-console.log('Hello from scripts');
 
 export class listItem {
     task:string;
@@ -23,7 +22,7 @@ export class listItem {
         let now = new Date();
         let date = new Date (this.rawDate);
         let dateDiff = (date.getTime() - now.getTime())/(1000*60*60*24);
-        console.log(dateDiff);
+        console.log(dateDiff);  
         if (dateDiff<-366) {
             console.log('dateDiff+366');
             let myDate = intlFormatDistance(date,now,{unit:'year'})
@@ -49,15 +48,7 @@ export class listItem {
             let myDate = format(new Date(this.rawDate),'PP');
             return myDate;
         }
-
-
-
-
-
-
-
     } 
-
 }
 
 export function createListItem(e:Event) {
@@ -66,12 +57,34 @@ export function createListItem(e:Event) {
     const dialog = document.getElementById('newTaskDialog') as HTMLDialogElement;
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
+
     const listArrayLength = Object.entries(localStorage).length +1;
     const newTask = Object.fromEntries(formData);
     const taskKey = `newTask${listArrayLength}`;
     localStorage.setItem(taskKey,JSON.stringify(newTask));
     form.reset();
     dialog?.close();
+}
+
+export function createNewList(e:Event) {
+    e.preventDefault();
+    console.log("createNewList");
+    const dialog = document.getElementById('newListDialog') as HTMLDialogElement;
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const thisList = document.getElementById('newList') as HTMLInputElement;
+    
+     let y:string = formData.get('newList') as string;
+    console.log(y);
+    listsArray.push(y);
+    console.log(listsArray);
+
+    
+    // form.reset();
+    // dialog?.close();
+
+    return listsArray;
 }
 
 
