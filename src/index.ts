@@ -2,9 +2,7 @@ import "../src/styles/styles.css";
 import "../src/styles/form.css";
 import delImg from './assets/images/delete.svg';
 import pencilImg from './assets/images/pencil.svg';
-import { createListItem, listItem, createNewList } from "./scripts";
-// import listItem from './scripts';
-
+import { createListItem, listItem, createNewList, getLists, findListArray } from "./scripts";
 export let listsArray:string[]=['My List'];
 
 //IIFE to store all DOM variables and event listeners
@@ -46,7 +44,10 @@ export let listsArray:string[]=['My List'];
         }
     }
 
+    getLists();
     getTasks();
+
+
 }());
 
 interface taskInt {
@@ -93,8 +94,6 @@ function showSortMenu() {
     }    
 }
 
-
-
 //Form Functions
 function showNewItemForm(listsArray:string[]) {
     console.log("showNewItemForm");
@@ -124,7 +123,7 @@ function showNewItemForm(listsArray:string[]) {
     let input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','taskName');
-               input.setAttribute('value','Get this assignment done'); //Placeholder
+               input.setAttribute('value','Task #'); //Placeholder
         input.id='taskName';
     listItem.appendChild(input);
     list.appendChild(listItem);     
@@ -208,7 +207,7 @@ function showNewItemForm(listsArray:string[]) {
     input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','taskDetails');
-        input.setAttribute('value','Here are the many details of this task'); //Placeholder
+        input.setAttribute('placeholder','Enter task details'); //Placeholder
         input.id='taskDetails';
     listItem.appendChild(input);
     list.appendChild(listItem);  
@@ -227,19 +226,16 @@ function showNewItemForm(listsArray:string[]) {
 
 
     let listLength = listsArray.length;
-    debugger;
+
     console.log(listsArray);
     for (let i = 0; i<listLength; i++) {
         option = document.createElement('option');
-        option.setAttribute('value','my-list');
+        // option.setAttribute('value','my-list');
         text = document.createTextNode(listsArray[i]);
         option.appendChild(text);
         select.appendChild(option);
 
     }
-
-
-
     // Needs to add other list names
     listItem.appendChild(select);
     list.appendChild(listItem); 
@@ -270,26 +266,26 @@ function showNewItemForm(listsArray:string[]) {
     fragment.appendChild(dialog);
     content?.append(fragment);
     dialog.showModal();
-
-
-
-
-
 }
+
 function showNewListForm() {
     console.log("showNewListForm");
 
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
-
     const dialog = document.createElement('dialog');
         dialog.id='newListDialog';
-
     const form = document.createElement('form');
         form.setAttribute('method','dialog');
+        form.id='newListForm';
         form.addEventListener('submit',(e:Event)=>{
-            createNewList(e);
+            e.preventDefault();
+            // debugger;
+            createNewList(listsArray);
+            form.reset();
+            dialog?.close();
         })
+
     const fieldset = document.createElement('fieldset');
         fieldset.className='newListForm';
     const list = document.createElement('ul');
@@ -304,7 +300,6 @@ function showNewListForm() {
     let input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','newList');
-        // input.setAttribute('value','My Second Project'); //Placeholder
         console.log(listsArray);
         input.id='newList';
     listItem.appendChild(input);
@@ -343,24 +338,27 @@ function showNewListForm() {
 
 }
 
+//Get tasks from LS, pass to renderTask()
 function getTasks() {
     console.log("getTasks");
-
+    let x = findListArray();
+    let locStoreArray = Object.values(localStorage); //HERE
     let storageLength = window.localStorage.length;
     if (storageLength==0) {
         console.log("No lists in storage");
         return
     }
     else {
-        let locStoreArray = Object.values(localStorage);
         if (Array.isArray(locStoreArray)) {
             let taskArray:taskInt[]=[];
             for (let i = 0;i<storageLength; i++) {
+                if (i===x) {
+                    continue;
+                }
                 let thisTask = locStoreArray[i];
                 let parsedTask = JSON.parse(thisTask);
                 let taskObj = new listItem(parsedTask);
                 taskArray.push(taskObj);
-
                 renderTask(taskObj);  
                 }
             }
@@ -368,11 +366,6 @@ function getTasks() {
     };
 function renderTask(taskObj:taskInt):void {
     console.log("renderTask");
-
-    //taskObj = parsed object (parsedTask) from LS
-    // console.log(taskObj.date);
-    // console.log(taskObj);
-
         const fragment = new DocumentFragment;
         const content = document.querySelector('.content');
     
@@ -459,96 +452,5 @@ function clearList(){
     while(content?.firstChild){
         content.firstChild.remove();
        }  
-    }
+    };
 
-
-
-
-        
-
-
-
-
-
-// function renderListItem() {   //CHANGED TO RENDERTASK
-//     const fragment = new DocumentFragment;
-
-//     const content = document.querySelector('.content');
-
-//     const list = document.createElement('div');
-//         list.className='list';
-//     const listItem = document.createElement('div');
-//         listItem.className='list-item';
-
-//     const taskPriority = document.createElement('div');
-//         taskPriority.className='task-priority';
-//     const circle = document.createElement('div');
-//         circle.className='circle';
-//     const taskName = document.createElement('div');
-//         taskName.className='task-name';
-//         let text = document.createTextNode('This is the next to-do item');
-//         taskName.appendChild(text);
-//     const taskDue = document.createElement('div');
-//         taskDue.className='task-due';
-//         text = document.createTextNode('Tomorrow');
-//         taskDue.appendChild(text);
-
-//     //Adds event listener to show/hide details
-//     const taskToggle = document.createElement('div');
-//         taskToggle.className='task-toggle';
-//         text = document.createTextNode('+');
-//         taskToggle.appendChild(text);
-//         taskToggle.addEventListener('click',(e:Event)=>toggleInfo(e));
-
-//     //These are the toggle-info divs
-//     const taskInfo = document.createElement('div');
-//         taskInfo.className='task-info toggle';
-//         text = document.createTextNode('All the other details about this one');
-//         taskInfo.appendChild(text);
-
-//     const taskEdit = document.createElement('div');
-//         taskEdit.className='task-edit toggle';
-//     const editPencil = document.createElement('img') as HTMLImageElement;
-//         editPencil.src=pencilImg;
-
-//     const taskStatus = document.createElement('div');
-//         taskStatus.className='task-status toggle';
-//         text = document.createTextNode('Not started');
-//         taskStatus.appendChild(text);
-//     const taskDelete = document.createElement('div');
-//         taskDelete.className='task-delete toggle';
-//     const trashBin = document.createElement('img') as HTMLImageElement;
-//         trashBin.src=delImg; 
-//         trashBin.addEventListener('click',(e:Event)=>deleteItem(e));   
-//     const taskListName = document.createElement('div');
-//         taskListName.className='task-list-name toggle';
-//         text = document.createTextNode('Project 2');
-//         taskListName.appendChild(text);
-
-//     fragment.appendChild(list);
-//     list.appendChild(listItem);
-//     listItem.appendChild(taskEdit);
-//         taskEdit.appendChild(editPencil);
-
-//     listItem.appendChild(taskDelete);
-//         taskDelete.appendChild(trashBin);
-//     listItem.appendChild(taskStatus);
-//     listItem.appendChild(taskListName);
-//     listItem.appendChild(taskInfo);
-//     listItem.appendChild(taskToggle);
-//     listItem.appendChild(taskDue);
-//     listItem.appendChild(taskName);
-//         taskPriority.appendChild(circle);
-//     listItem.appendChild(taskPriority);
-
-//     content?.append(fragment);
-
-//     //Add Project heading
-//     const listHeading = document.createElement('div');
-//         listHeading.className='task-list-heading';
-//     const heading = document.createElement('h2');
-//         text = document.createTextNode('Project 2');
-//         heading.appendChild(text);
-//         listHeading.appendChild(heading);
-//         content?.appendChild(listHeading);
-//     };
