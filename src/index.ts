@@ -99,7 +99,6 @@ function showNewItemForm(listsArray:string[]) {
     console.log("showNewItemForm");
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
-
     const dialog = document.createElement('dialog');
         dialog.id='newTaskDialog';
 
@@ -275,11 +274,12 @@ function showNewListForm() {
     const content = document.querySelector('.content');
     const dialog = document.createElement('dialog');
         dialog.id='newListDialog';
+
     const form = document.createElement('form');
         form.setAttribute('method','dialog');
         form.id='newListForm';
         form.addEventListener('submit',(e:Event)=>{
-            e.preventDefault();
+            // e.preventDefault();
             // debugger;
             createNewList(listsArray);
             form.reset();
@@ -290,7 +290,6 @@ function showNewListForm() {
         fieldset.className='newListForm';
     const list = document.createElement('ul');
     let listItem = document.createElement('li');
-
 
     let label = document.createElement('label');
         label.setAttribute('for','newList');
@@ -340,7 +339,7 @@ function showNewListForm() {
 
 //Get tasks from LS, pass to renderTask()
 function getTasks() {
-    console.log("getTasks");
+    // console.log("getTasks");
     let x = findListArray();
     let locStoreArray = Object.values(localStorage); //HERE
     let storageLength = window.localStorage.length;
@@ -365,7 +364,7 @@ function getTasks() {
         }
     };
 function renderTask(taskObj:taskInt):void {
-    console.log("renderTask");
+    // console.log("renderTask");
         const fragment = new DocumentFragment;
         const content = document.querySelector('.content');
     

@@ -57,9 +57,8 @@ export function createListItem(e:Event) {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
 
-    console.log(formData.values);
-
     const taskArrayLength = Object.entries(localStorage).length +1;
+
     const newTask = Object.fromEntries(formData);
     const taskKey = `newTask${taskArrayLength}`;
     localStorage.setItem(taskKey,JSON.stringify(newTask));
@@ -69,22 +68,31 @@ export function createListItem(e:Event) {
 
 //Push new list name to listsArray
 export function createNewList(listsArray:string[]) {
-    console.log("createNewList");
-    const dialog = document.getElementById('newListDialog') as HTMLDialogElement;
-    const form = document.getElementById('newListForm') as HTMLFormElement;
+    // console.log("createNewList");
 
+    // const dialog = document.getElementById('newListDialog') as HTMLDialogElement;
+    const form = document.getElementById('newListForm') as HTMLFormElement;
     const formData = new FormData(form);
-    const thisList = document.getElementById('newList') as HTMLInputElement;    
+    let thisList = document.getElementById('newList') as HTMLInputElement;    
+    debugger;
+
+    const newProject = Object.fromEntries(formData);
+    console.log(newProject);
+
+
     let y:string = formData.get('newList') as string;
+
+
+
     listsArray.push(y);
-    console.log(listsArray);  
+    localStorage.setItem('myLists',JSON.stringify(listsArray));
     return listsArray;
 }
 
 //Checks if listsArray is in LS, adds if not there
 export function getLists() {
     let locStore = Object.keys(localStorage);
-    let locStoreVal = Object.values(localStorage);
+    // let locStoreVal = Object.values(localStorage);
 
     if (Array.isArray(locStore)) {
         let x = locStore.find(e=>e==='myLists');
@@ -94,31 +102,6 @@ export function getLists() {
     }
 
 };
-
-// export function getLists1() {
-//     let locStore = Object.keys(localStorage);
-//     // let locStoreVal = Object.values(localStorage);
-//     console.log('*************************');
-//     console.log(locStore);
-//     // console.log(locStoreVal);
-//     console.log(typeof(locStore));
-//     // debugger;
-
-//     if (Array.isArray(locStore)) {
-//         let x = locStore.find(e=>e==='myLists');
-//         if (x) {
-//             console.log(x);
-//             let ind = locStore.indexOf(x);
-//             console.log(ind);
-//             console.log(locStore[ind]);
-//             // console.log(locStoreVal[ind]);
-//         }
-//     else {
-//         localStorage.setItem('myLists',JSON.stringify(listsArray));
-//         }
-//     };
-//     console.log('*************************');
-// };
 
 export function findListArray () {
     let locStore = Object.keys(localStorage);
