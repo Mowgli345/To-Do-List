@@ -266,10 +266,8 @@ function showNewItemForm(listsArray:string[]) {
     content?.append(fragment);
     dialog.showModal();
 }
-
 function showNewListForm() {
     console.log("showNewListForm");
-
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
     const dialog = document.createElement('dialog');
@@ -281,9 +279,7 @@ function showNewListForm() {
         form.addEventListener('submit',(e:Event)=>{
             // e.preventDefault();
             // debugger;
-            createNewList(listsArray);
-            form.reset();
-            dialog?.close();
+            createNewList(e, listsArray);
         })
 
     const fieldset = document.createElement('fieldset');
@@ -445,7 +441,6 @@ function renderTask(taskObj:taskInt):void {
     
         content?.append(fragment);  
     };
-
 function clearList(){
     const content = document.querySelector('.content');
     while(content?.firstChild){

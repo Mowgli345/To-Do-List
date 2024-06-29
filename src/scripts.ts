@@ -56,36 +56,34 @@ export function createListItem(e:Event) {
     const dialog = document.getElementById('newTaskDialog') as HTMLDialogElement;
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
-
     const taskArrayLength = Object.entries(localStorage).length +1;
 
     const newTask = Object.fromEntries(formData);
     const taskKey = `newTask${taskArrayLength}`;
+
     localStorage.setItem(taskKey,JSON.stringify(newTask));
     form.reset();
     dialog?.close();
 }
 
 //Push new list name to listsArray
-export function createNewList(listsArray:string[]) {
-    // console.log("createNewList");
-
-    // const dialog = document.getElementById('newListDialog') as HTMLDialogElement;
-    const form = document.getElementById('newListForm') as HTMLFormElement;
+export function createNewList(e:Event, listsArray:string[]) {
+    e.preventDefault();
+    const dialog = document.getElementById('newListDialog') as HTMLDialogElement;
+    const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
+
     let thisList = document.getElementById('newList') as HTMLInputElement;    
-    debugger;
-
-    const newProject = Object.fromEntries(formData);
-    console.log(newProject);
-
 
     let y:string = formData.get('newList') as string;
 
-
-
     listsArray.push(y);
     localStorage.setItem('myLists',JSON.stringify(listsArray));
+
+    //Added these x2
+    form.reset();
+    dialog?.close();
+
     return listsArray;
 }
 
