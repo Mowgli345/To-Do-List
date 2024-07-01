@@ -101,7 +101,7 @@ export function getLists() {
 
 };
 
-export function findListArray () {
+export function findListsArray () {
     let locStore = Object.keys(localStorage);
     if (Array.isArray(locStore)) {
         let x = locStore.find(e=>e==='myLists');

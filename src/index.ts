@@ -2,8 +2,17 @@ import "../src/styles/styles.css";
 import "../src/styles/form.css";
 import delImg from './assets/images/delete.svg';
 import pencilImg from './assets/images/pencil.svg';
-import { createListItem, listItem, createNewList, getLists, findListArray } from "./scripts";
-export let listsArray:string[]=['My List'];
+import { createListItem, listItem, createNewList, getLists, findListsArray } from "./scripts";
+// export let listsArray:string[]=['My List']; 
+
+// export let listsArray:string[]=[]; 
+
+export let listsArray:string[];
+
+
+
+//Change this to poulate from LS
+
 
 //IIFE to store all DOM variables and event listeners
 (function() {
@@ -43,11 +52,10 @@ export let listsArray:string[]=['My List'];
             }
         }
     }
-
+    populateLists();
     getLists();
+    showLists();
     getTasks();
-
-
 }());
 
 interface taskInt {
@@ -57,6 +65,67 @@ interface taskInt {
     status:string,
     task:string
 }
+
+//Checks if MyLists is in LS, adds if not; Updates listsArray from LS
+// function populateLists() {
+
+//     let storageLength = window.localStorage.length;
+//     if (storageLength==0) {
+//         console.log("No lists in storage");
+//         return
+//     }
+//     else { //Copy myLists in LS to listsArray
+//         let x = findListsArray();
+
+
+
+
+//         let locStoreArray = Object.values(localStorage);
+
+//         if (Array.isArray(locStoreArray)) {
+//             let listsArray:taskInt[]=[];
+//             for (let i = 0;i<storageLength; i++) {
+//                 if (i===x) {
+//                     listsArray=JSON.parse(locStoreArray[i]);
+//                     }
+//                 }
+//             }
+//         }
+// }
+
+
+//EDITS!!!
+function populateLists() {
+    let storageLength = window.localStorage.length;
+    //Checks if LS empty. If so, add myLists
+    debugger;
+
+    if (storageLength==0) {
+        console.log("No lists in storage");
+        //Set myLists in LS
+        let listsArray:string[]=['My List'];
+        localStorage.setItem('myLists',JSON.stringify(listsArray));
+        return
+    }
+
+    else { //Check if myLists is there
+        let x = findListsArray();        
+        let locStoreArray = Object.values(localStorage);
+
+
+        if (Array.isArray(locStoreArray)) {
+            let listsArray:taskInt[]=[];
+            for (let i = 0;i<storageLength; i++) {
+                if (i===x) {
+                    listsArray=JSON.parse(locStoreArray[i]);
+                    }
+                }
+            }
+        }
+}
+
+
+
 
 //Display functions
     //Expand/Hide List details
@@ -206,7 +275,7 @@ function showNewItemForm(listsArray:string[]) {
     input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','taskDetails');
-        input.setAttribute('placeholder','Enter task details'); //Placeholder
+        input.setAttribute('placeholder','Enter task details');
         input.id='taskDetails';
     listItem.appendChild(input);
     list.appendChild(listItem);  
@@ -223,7 +292,6 @@ function showNewItemForm(listsArray:string[]) {
         select.setAttribute('name','taskList');
         select.id='taskList';
 
-
     let listLength = listsArray.length;
 
     console.log(listsArray);
@@ -233,12 +301,10 @@ function showNewItemForm(listsArray:string[]) {
         text = document.createTextNode(listsArray[i]);
         option.appendChild(text);
         select.appendChild(option);
-
     }
     // Needs to add other list names
     listItem.appendChild(select);
     list.appendChild(listItem); 
-
     
     listItem = document.createElement('li');
     let buttonsRow = document.createElement('div');
@@ -277,8 +343,6 @@ function showNewListForm() {
         form.setAttribute('method','dialog');
         form.id='newListForm';
         form.addEventListener('submit',(e:Event)=>{
-            // e.preventDefault();
-            // debugger;
             createNewList(e, listsArray);
         })
 
@@ -325,19 +389,16 @@ function showNewListForm() {
     fieldset.appendChild(list);
     form.appendChild(fieldset);
     dialog.append(form);
-
     fragment.appendChild(dialog);
     content?.append(fragment);
-
     dialog.showModal();
-
 }
 
 //Get tasks from LS, pass to renderTask()
 function getTasks() {
     // console.log("getTasks");
-    let x = findListArray();
-    let locStoreArray = Object.values(localStorage); //HERE
+    let x = findListsArray();
+    let locStoreArray = Object.values(localStorage); 
     let storageLength = window.localStorage.length;
     if (storageLength==0) {
         console.log("No lists in storage");
@@ -415,13 +476,13 @@ function renderTask(taskObj:taskInt):void {
             taskListName.appendChild(text);
 
         //Add Project heading
-        const listHeading = document.createElement('div');
-        listHeading.className='task-list-heading';
-        const heading = document.createElement('h2');
-        text = document.createTextNode(taskObj.list);
-        heading.appendChild(text);
-        listHeading.appendChild(heading);
-        content?.appendChild(listHeading);
+        // const listHeading = document.createElement('div');
+        // listHeading.className='task-list-heading';
+        // const heading = document.createElement('h2');
+        // text = document.createTextNode(taskObj.list);
+        // heading.appendChild(text);
+        // listHeading.appendChild(heading);
+        // content?.appendChild(listHeading);
     
         fragment.appendChild(list);
         list.appendChild(listItem);
@@ -446,5 +507,66 @@ function clearList(){
     while(content?.firstChild){
         content.firstChild.remove();
        }  
+    };
+
+export function showLists() {
+    console.log("showLists");
+    debugger;
+
+    let x = findListsArray();
+    let locStoreArray = Object.values(localStorage); //HERE
+    let storageLength = window.localStorage.length;
+    if (storageLength==0) {
+        console.log("No lists in storage");
+        return
+    }
+    else {
+        if (Array.isArray(locStoreArray)) {
+            let listsArray:taskInt[]=[];
+            for (let i = 0;i<storageLength; i++) {
+                if (i===x) {
+                    let thisList = locStoreArray[i];
+                    let parsedList = JSON.parse(thisList);
+                    console.log(parsedList);
+
+                    // let Obj = new listItem(parsedTask);
+                    // taskArray.push(taskObj);
+                    renderList(parsedList);  
+                }
+
+                }
+            }
+        }
+    };
+function renderList(parsedList:string[]):void {
+    console.log("renderList");
+        const fragment = new DocumentFragment;
+        const content = document.querySelector('.content');
+    
+        const list = document.createElement('div');
+            list.className='list';
+
+        let length = parsedList.length;
+
+        for (let i=0; i<length;i++) {
+        //Add Project heading
+            const listHeading = document.createElement('div');
+            listHeading.className='task-list-heading';
+            const listName = document.createElement('h2');
+            let text = document.createTextNode(parsedList[i]);
+            listName.appendChild(text);
+            listHeading.appendChild(listName);
+            content?.appendChild(listHeading);
+        }
+
+        // const listItem = document.createElement('div');
+        //     listItem.className='list-item';
+
+
+    
+        // fragment.appendChild(list);
+        // list.appendChild(listItem);
+    
+        // content?.append(fragment);  
     };
 
