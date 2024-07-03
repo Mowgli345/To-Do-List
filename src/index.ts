@@ -60,18 +60,57 @@ interface taskInt {
 
 function updateDOM() {
     clearDOM();
+    let ind:number = findLocStoreLists();
+    displayLists(ind);
 
 }
 
-function checkMyLists() {
-    let storageLength = window.localStorage.length;
-    if (storageLength==0) {
-        console.log("No lists in storage");
-        localStorage.setItem('myLists',JSON.stringify("My List"));
-    }
-    else findLocStoreLists();
 
-}
+
 // localStorage.setItem('myJohnnyJuju',JSON.stringify("Testing"));
-checkMyLists();
+
 updateDOM();
+
+
+function displayLists(ind:number){
+    debugger;
+    let locStoreArray = Object.values(localStorage);
+    if (Array.isArray(locStoreArray)) {
+        //let listsArray:taskInt[]=[];
+                let listItem=locStoreArray[ind];
+                let lists = JSON.parse(listItem);
+                renderList(lists);  
+    }
+}
+
+function renderList(parsedList:string[]):void {
+    console.log("renderList");
+        const fragment = new DocumentFragment;
+        const content = document.querySelector('.content');
+    
+        const list = document.createElement('div');
+            list.className='list';
+
+        let length = parsedList.length;
+
+        for (let i=0; i<length;i++) {
+        //Add Project heading
+            const listHeading = document.createElement('div');
+            listHeading.className='task-list-heading';
+            const listName = document.createElement('h2');
+            let text = document.createTextNode(parsedList[i]);
+            listName.appendChild(text);
+            listHeading.appendChild(listName);
+            content?.appendChild(listHeading);
+        }
+
+        const listItem = document.createElement('div');
+            listItem.className='list-item';
+
+
+    
+        fragment.appendChild(list);
+        list.appendChild(listItem);
+    
+        content?.append(fragment);  
+    };

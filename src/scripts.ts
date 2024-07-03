@@ -9,17 +9,24 @@ export function clearDOM(){
        }  
     };
 //Finds myLists in LS or creates if not there  
-export function findLocStoreLists () {
-    debugger;
+export function findLocStoreLists():number {
+    // debugger;
     let locStore = Object.keys(localStorage);
+    let listsIndex:number;
     if (Array.isArray(locStore)) {
-        let x:number = locStore.findIndex(e=>e==='myLists');
-        if (x>=0) {
-            return;
-        }
-        else {
+        listsIndex = locStore.findIndex(e=>e==='myLists');
+        if (listsIndex==-1) {
+            let x:number = locStore.length;
             console.log("My Lists is not in LS - from findLocSToreLists()");
             localStorage.setItem('myLists',JSON.stringify("My List"));
+            return listsIndex;
         }
-}
+        else {
+            return listsIndex;
+        }
+
+    } else {
+        return -1;
+    }
+
 };
