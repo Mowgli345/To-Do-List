@@ -62,37 +62,30 @@ function updateDOM() {
     clearDOM();
     let ind:number = findLocStoreLists();
     displayLists(ind);
-
 }
 
-
-
 // localStorage.setItem('myJohnnyJuju',JSON.stringify("Testing"));
-
 updateDOM();
-
 
 function displayLists(ind:number){
     debugger;
     let locStoreArray = Object.values(localStorage);
     if (Array.isArray(locStoreArray)) {
-        //let listsArray:taskInt[]=[];
+        let listsArray:string[]=[];
                 let listItem=locStoreArray[ind];
                 let lists = JSON.parse(listItem);
-                renderList(lists);  
+                listsArray.push(lists);
+                renderList(listsArray);  
     }
 }
 
 function renderList(parsedList:string[]):void {
     console.log("renderList");
         const fragment = new DocumentFragment;
-        const content = document.querySelector('.content');
-    
+        const content = document.querySelector('.content');    
         const list = document.createElement('div');
             list.className='list';
-
         let length = parsedList.length;
-
         for (let i=0; i<length;i++) {
         //Add Project heading
             const listHeading = document.createElement('div');
@@ -103,14 +96,9 @@ function renderList(parsedList:string[]):void {
             listHeading.appendChild(listName);
             content?.appendChild(listHeading);
         }
-
         const listItem = document.createElement('div');
-            listItem.className='list-item';
-
-
-    
+            listItem.className='list-item';    
         fragment.appendChild(list);
-        list.appendChild(listItem);
-    
+        list.appendChild(listItem);    
         content?.append(fragment);  
     };
