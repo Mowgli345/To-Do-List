@@ -45,9 +45,6 @@ import { clearDOM, findLocStoreLists } from "./scripts";
             }
         }
     }
-
-
-
 }());
 
 interface taskInt {
@@ -60,7 +57,7 @@ interface taskInt {
 
 function updateDOM() {
     clearDOM();
-debugger;
+
     // displayLists();
     let listsArray = createListsArray();
     renderList(listsArray);  
@@ -173,8 +170,7 @@ function showNewListForm() {
 
 export function createNewList(e:Event) {
     e.preventDefault();
-    debugger;
-
+    // debugger;
     let listsArray = createListsArray();
 
     const dialog = document.getElementById('newListDialog') as HTMLDialogElement;
@@ -189,15 +185,19 @@ export function createNewList(e:Event) {
     console.log(newList);
 
     if (Array.isArray(listsArray)) {
-    listsArray.push(newList);
-    console.log(listsArray);
-    localStorage.setItem('myLists',JSON.stringify(listsArray));
+        listsArray.push(newList);
+        localStorage.setItem('myLists',JSON.stringify(listsArray));
 
-    //Added these x2
-    form.reset();
-    dialog?.close();
+        console.log(listsArray);
 
-    return listsArray;
+        clearDOM();
+
+        renderList(listsArray);
+
+        form.reset();
+        dialog?.close();
+
+        return listsArray;
 }
 }
 
@@ -208,23 +208,22 @@ function createListsArray() {
     //6 lines straight from displayLists()
 
     let locStoreArray = Object.values(localStorage);
+    
     if (Array.isArray(locStoreArray)) {
         let listsArray:string[]=[];
-
                 let listItem=locStoreArray[ind];
                 let lists = JSON.parse(listItem);
+                debugger;
+                console.log(lists);
 
                 //I need listsArray.push(lists) for the first one and then the loop after that. Why??
-
-                // for (let i = 0; i<lists.length;i++) {
-                //     listsArray.push(lists[i]);
-                // }
-
-                listsArray.push(lists);
-
-
+                for (let i = 0; i<lists.length;i++) {
+                    listsArray.push(lists[i]);
+                }
+                // listsArray.push(lists);
+                console.log(listsArray);
                 return listsArray;
-} else return [];
+    } else return [];
 }
 
 // localStorage.setItem('myJohnnyJuju',JSON.stringify("Testing"));
@@ -255,5 +254,7 @@ function initialDOM() {
 };
 
 localStorage.setItem('myJohnnyJuju',JSON.stringify("Testing"));
-initialDOM();
+// initialDOM();
+updateDOM();
+
 

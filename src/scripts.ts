@@ -21,7 +21,11 @@ export function findLocStoreLists():number {
             let x:number = locStore.length;
             console.log("My Lists is not in LS - from findLocSToreLists()");
             // localStorage.setItem('myLists',JSON.stringify("My List"));
-            localStorage.setItem('myLists','My List');
+            // localStorage.setItem('myLists','My List');
+            let listsArray:string[]=["My List"];
+            localStorage.setItem('myLists',JSON.stringify(listsArray));
+
+
             return x;
         }
         else {
