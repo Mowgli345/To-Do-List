@@ -60,22 +60,24 @@ interface taskInt {
 
 function updateDOM() {
     clearDOM();
-    let ind:number = findLocStoreLists();
-    displayLists(ind);
+debugger;
+    // displayLists();
+    let listsArray = createListsArray();
+    renderList(listsArray);  
 }
 
-localStorage.setItem('myJohnnyJuju',JSON.stringify("Testing"));
-updateDOM();
-
-function displayLists(ind:number){
+function displayLists(){
+    let ind:number = findLocStoreLists();
     let locStoreArray = Object.values(localStorage);
     if (Array.isArray(locStoreArray)) {
         let listsArray:string[]=[];
                 let listItem=locStoreArray[ind];
                 let lists = JSON.parse(listItem);
-                listsArray.push(lists);
-                renderList(listsArray);  
-    }
+                for (let i = 0; i<lists.length;i++) {
+                    listsArray.push(lists[i]);
+                }
+                return listsArray; 
+    } else return -1;
 }
 
 function renderList(parsedList:string[]):void {
@@ -171,8 +173,10 @@ function showNewListForm() {
 
 export function createNewList(e:Event) {
     e.preventDefault();
+    debugger;
 
     let listsArray = createListsArray();
+
     const dialog = document.getElementById('newListDialog') as HTMLDialogElement;
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
@@ -197,27 +201,59 @@ export function createNewList(e:Event) {
 }
 }
 
-
-
 function createListsArray() {
     let ind:number = findLocStoreLists();
-    debugger;
+    console.log("createListsArray");
+
     //6 lines straight from displayLists()
+
     let locStoreArray = Object.values(localStorage);
-    // let locStoreArray = Object.entries(localStorage);
     if (Array.isArray(locStoreArray)) {
         let listsArray:string[]=[];
 
                 let listItem=locStoreArray[ind];
                 let lists = JSON.parse(listItem);
 
-                for (let i = 0; i<lists.length;i++) {
-                    listsArray.push(lists[i]);
-                }
+                //I need listsArray.push(lists) for the first one and then the loop after that. Why??
 
-                // listsArray.push(lists);
+                // for (let i = 0; i<lists.length;i++) {
+                //     listsArray.push(lists[i]);
+                // }
 
-                console.log(listsArray);
+                listsArray.push(lists);
+
+
                 return listsArray;
-} else return -1;
+} else return [];
 }
+
+// localStorage.setItem('myJohnnyJuju',JSON.stringify("Testing"));
+// updateDOM();
+
+function initialDOM() {
+    clearDOM();
+    let locStore = Object.keys(localStorage);
+    let listsIndex:number;
+    let listsArray:string[]=[];
+
+    if (Array.isArray(locStore)) {
+        listsIndex = locStore.findIndex(e=>e==='myLists');
+        debugger;
+        if (listsIndex==-1) {
+            let x:number = locStore.length;
+            localStorage.setItem('myLists',JSON.stringify("My List"));    
+            let locStoreArray = Object.values(localStorage);
+        
+            if (Array.isArray(locStoreArray)) {    
+                let listItem=locStoreArray[x];
+                let lists = JSON.parse(listItem);     
+                listsArray.push(lists);
+            }
+        }
+    }
+    renderList(listsArray);  
+};
+
+localStorage.setItem('myJohnnyJuju',JSON.stringify("Testing"));
+initialDOM();
+

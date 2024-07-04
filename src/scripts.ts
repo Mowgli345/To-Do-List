@@ -1,6 +1,8 @@
 // import { format } from "../node_modules/date-fns/format";
 // import { intlFormatDistance } from "../node_modules/date-fns/intlFormatDistance";
 
+
+
 //ALL NEW FROM HERE
 export function clearDOM(){
     const content = document.querySelector('.content');
@@ -18,8 +20,9 @@ export function findLocStoreLists():number {
         if (listsIndex==-1) {
             let x:number = locStore.length;
             console.log("My Lists is not in LS - from findLocSToreLists()");
-            localStorage.setItem('myLists',JSON.stringify("My List"));
-            return listsIndex;
+            // localStorage.setItem('myLists',JSON.stringify("My List"));
+            localStorage.setItem('myLists','My List');
+            return x;
         }
         else {
             return listsIndex;
