@@ -4,14 +4,14 @@ import delImg from './assets/images/delete.svg';
 import pencilImg from './assets/images/pencil.svg';
 // import { createListItem, listItem, createNewList, getLists, findListsArray } from "./scripts";
 
-import { clearDOM, findLocStoreLists } from "./scripts";
+import { findLocStoreLists, createNewList } from "./scripts";
 
-
+//DOM-related scripts
 
 //IIFE to store all DOM variables and event listeners
 (function() {
      const newTaskButton = document.querySelector('.newTaskButton'); 
-        // newTaskButton?.addEventListener('click',(e:Event)=>showNewItemForm(listsArray));   
+        newTaskButton?.addEventListener('click',(e:Event)=>showNewItemForm());   
 
     const newListButton = document.querySelector('.newListButton');        
         newListButton?.addEventListener('click',(e:Event)=>showNewListForm());
@@ -47,22 +47,19 @@ import { clearDOM, findLocStoreLists } from "./scripts";
     }
 }());
 
-interface taskInt {
-    date:string,
-    details:string,
-    list:string,
-    status:string,
-    task:string
-}
-
 function updateDOM() {
     clearDOM();
-
-    // displayLists();
     let listsArray = createListsArray();
     renderList(listsArray);  
 }
+export function clearDOM(){
+    const content = document.querySelector('.content');
+    while(content?.firstChild){
+        content.firstChild.remove();
+       }  
+    };
 
+//Needed???
 function displayLists(){
     let ind:number = findLocStoreLists();
     let locStoreArray = Object.values(localStorage);
@@ -77,33 +74,8 @@ function displayLists(){
     } else return -1;
 }
 
-function renderList(parsedList:string[]):void {
-    console.log("renderList");
-        const fragment = new DocumentFragment;
-        const content = document.querySelector('.content');    
-        const list = document.createElement('div');
-            list.className='list';
-        let length = parsedList.length;
-        for (let i=0; i<length;i++) {
-        //Add Project heading
-            const listHeading = document.createElement('div');
-            listHeading.className='task-list-heading';
-            const listName = document.createElement('h2');
-            let text = document.createTextNode(parsedList[i]);
-            listName.appendChild(text);
-            listHeading.appendChild(listName);
-            content?.appendChild(listHeading);
-        }
-        const listItem = document.createElement('div');
-            listItem.className='list-item';    
-        fragment.appendChild(list);
-        list.appendChild(listItem);    
-        content?.append(fragment);  
-    };
-
 //NEW LIST FROM HERE - triggers createNewList()
 function showNewListForm() {
-    console.log("showNewListForm");
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
     const dialog = document.createElement('dialog');
@@ -113,7 +85,6 @@ function showNewListForm() {
         form.setAttribute('method','dialog');
         form.id='newListForm';
         form.addEventListener('submit',(e:Event)=>{
-            // debugger;
             createNewList(e);
         })
 
@@ -130,7 +101,6 @@ function showNewListForm() {
     let input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','newList');
-        // console.log(listsArray);
         input.id='newList';
     listItem.appendChild(input);
     list.appendChild(listItem);   
@@ -145,116 +115,228 @@ function showNewListForm() {
             form.reset();
             dialog.close();
         });
+    button.appendChild(text);
+    buttonsRow.appendChild(button);
+    button = document.createElement('button');
+    text = document.createTextNode('Add list');
+    button.setAttribute('type','submit');
+    button.appendChild(text);
+    buttonsRow.appendChild(button);    
+    listItem.appendChild(buttonsRow);
+    list.appendChild(listItem);     
+    fieldset.appendChild(list);
+    form.appendChild(fieldset);
+    dialog.append(form);
+    fragment.appendChild(dialog);
+    content?.append(fragment);
+    dialog.showModal();
+}
+export function createListsArray() {
+    let ind:number = findLocStoreLists();
+    let locStoreArray = Object.values(localStorage);
+    
+    if (Array.isArray(locStoreArray)) {
+        let listsArray:string[]=[];
+        let listItem=locStoreArray[ind];
+        let lists = JSON.parse(listItem);
+        for (let i = 0; i<lists.length;i++) {
+            listsArray.push(lists[i]);
+            }
+        return listsArray;
+    } else return [];
+}
+export function renderList(parsedList:string[]):void {
+    const fragment = new DocumentFragment;
+    const content = document.querySelector('.content');    
+    const list = document.createElement('div');
+        list.className='list';
+    let length = parsedList.length;
+    for (let i=0; i<length;i++) {
+    //Add Project heading
+        const listHeading = document.createElement('div');
+        listHeading.className='task-list-heading';
+        const listName = document.createElement('h2');
+        let text = document.createTextNode(parsedList[i]);
+        listName.appendChild(text);
+        listHeading.appendChild(listName);
+        content?.appendChild(listHeading);
+        }
+    const listItem = document.createElement('div');
+        listItem.className='list-item';    
+    fragment.appendChild(list);
+    list.appendChild(listItem);    
+    content?.append(fragment);  
+    };
 
+function showNewItemForm() {
+    console.log("showNewItemForm");
+
+    let listsArray = createListsArray();
+
+    const fragment = new DocumentFragment;
+    const content = document.querySelector('.content');
+    const dialog = document.createElement('dialog');
+        dialog.id='newTaskDialog';
+
+    const form = document.createElement('form');
+        form.setAttribute('method','dialog');
+        form.className='newItemForm';
+        form.addEventListener('submit',(e:Event)=>{
+            // createListItem(e);
+            // clearList();
+            // getTasks();
+        })
+    const fieldset = document.createElement('fieldset');
+    const list = document.createElement('ul');
+    let listItem = document.createElement('li');
+
+    let label = document.createElement('label');
+        label.setAttribute('for','taskName');
+        let text = document.createTextNode('Task');
+        label.appendChild(text);
+    listItem.appendChild(label);
+    let input = document.createElement('input');
+        input.setAttribute('type','text');
+        input.setAttribute('name','taskName');
+                input.setAttribute('value','Task #'); //Placeholder
+        input.id='taskName';
+    listItem.appendChild(input);
+    list.appendChild(listItem);     
+
+    listItem = document.createElement('li');
+    label = document.createElement('label');
+        label.setAttribute('for','taskDate');
+        text = document.createTextNode('Date');
+        label.appendChild(text);
+    listItem.appendChild(label);
+    input = document.createElement('input');
+        input.setAttribute('type','date');
+        input.setAttribute('name','taskDate');
+        input.valueAsDate=new Date();
+        input.id='taskDate';
+    listItem.appendChild(input);
+    list.appendChild(listItem);  
+    
+    listItem = document.createElement('li');
+    label = document.createElement('label');
+        label.setAttribute('for','taskPriority');
+        text = document.createTextNode('Priority');
+        label.appendChild(text);
+    listItem.appendChild(label);
+
+    let select = document.createElement('select');
+        select.setAttribute('name','taskPriority');
+        select.id='taskPriority';
+    let option = document.createElement('option');
+        option.setAttribute('value','Normal');
+        text = document.createTextNode('Normal');
+        option.appendChild(text);
+        select.appendChild(option);
+    option = document.createElement('option');
+        option.setAttribute('value','High');
+        text = document.createTextNode('High');
+        option.appendChild(text);
+        select.appendChild(option);
+    option = document.createElement('option');
+        option.setAttribute('value','Low');
+        text = document.createTextNode('Low');
+        option.appendChild(text);
+        select.appendChild(option);
+    listItem.appendChild(select);
+    list.appendChild(listItem);  
+
+    listItem = document.createElement('li');
+    label = document.createElement('label');
+        label.setAttribute('for','taskStatus');
+        text = document.createTextNode('Status');
+        label.appendChild(text);
+    listItem.appendChild(label);
+
+    select = document.createElement('select');
+        select.setAttribute('name','taskStatus');
+        select.id='taskStatus';
+    option = document.createElement('option');
+        option.setAttribute('value','not-started');
+        text = document.createTextNode('Not Started');
+        option.appendChild(text);
+        select.appendChild(option);
+    option = document.createElement('option');
+        option.setAttribute('value','in-progress');
+        text = document.createTextNode('In Progress');
+        option.appendChild(text);
+        select.appendChild(option);
+    option = document.createElement('option');
+        option.setAttribute('value','completed');
+        text = document.createTextNode('Completed');
+        option.appendChild(text);
+        select.appendChild(option);
+    listItem.appendChild(select);
+    list.appendChild(listItem);  
+
+    listItem = document.createElement('li');
+    label = document.createElement('label');
+        label.setAttribute('for','taskDetails');
+        text = document.createTextNode('Details');
+        label.appendChild(text);
+    listItem.appendChild(label);
+    input = document.createElement('input');
+        input.setAttribute('type','text');
+        input.setAttribute('name','taskDetails');
+        input.setAttribute('placeholder','Enter task details'); //Placeholder
+        input.id='taskDetails';
+    listItem.appendChild(input);
+    list.appendChild(listItem);  
+
+    //LIST NAME
+    listItem = document.createElement('li');
+    label = document.createElement('label');
+        label.setAttribute('for','taskList');
+        text = document.createTextNode('List');
+        label.appendChild(text);
+    listItem.appendChild(label);
+
+    select = document.createElement('select');
+        select.setAttribute('name','taskList');
+        select.id='taskList';
+    
+    let listLength = listsArray.length;
+
+    for (let i = 0; i<listLength; i++) {
+        option = document.createElement('option');
+        option.setAttribute('value','my-list');
+        text = document.createTextNode(listsArray[i]);
+        option.appendChild(text);
+        select.appendChild(option);
+    }
+    listItem.appendChild(select);
+    list.appendChild(listItem); 
+    
+    listItem = document.createElement('li');
+    let buttonsRow = document.createElement('div');
+        buttonsRow.className='buttonsRow';
+    let button = document.createElement('button');
+        text = document.createTextNode('Cancel');
+        button.setAttribute('type','reset');
+        button.addEventListener('click',() => {
+            dialog.close()
+        });
         button.appendChild(text);
         buttonsRow.appendChild(button);
     button = document.createElement('button');
-        text = document.createTextNode('Add list');
+        text = document.createTextNode('Add task');
         button.setAttribute('type','submit');
         button.appendChild(text);
         buttonsRow.appendChild(button);
     
     listItem.appendChild(buttonsRow);
     list.appendChild(listItem);  
-    
-    fieldset.appendChild(list);
+        fieldset.appendChild(list);
     form.appendChild(fieldset);
     dialog.append(form);
-
     fragment.appendChild(dialog);
     content?.append(fragment);
-
     dialog.showModal();
-
 }
-
-export function createNewList(e:Event) {
-    e.preventDefault();
-    // debugger;
-    let listsArray = createListsArray();
-
-    const dialog = document.getElementById('newListDialog') as HTMLDialogElement;
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-
-    let thisList = document.getElementById('newList') as HTMLInputElement;    
-
-    let newList:string = formData.get('newList') as string;
-    debugger;
-    console.log(listsArray);
-    console.log(newList);
-
-    if (Array.isArray(listsArray)) {
-        listsArray.push(newList);
-        localStorage.setItem('myLists',JSON.stringify(listsArray));
-
-        console.log(listsArray);
-
-        clearDOM();
-
-        renderList(listsArray);
-
-        form.reset();
-        dialog?.close();
-
-        return listsArray;
-}
-}
-
-function createListsArray() {
-    let ind:number = findLocStoreLists();
-    console.log("createListsArray");
-
-    //6 lines straight from displayLists()
-
-    let locStoreArray = Object.values(localStorage);
-    
-    if (Array.isArray(locStoreArray)) {
-        let listsArray:string[]=[];
-                let listItem=locStoreArray[ind];
-                let lists = JSON.parse(listItem);
-                debugger;
-                console.log(lists);
-
-                //I need listsArray.push(lists) for the first one and then the loop after that. Why??
-                for (let i = 0; i<lists.length;i++) {
-                    listsArray.push(lists[i]);
-                }
-                // listsArray.push(lists);
-                console.log(listsArray);
-                return listsArray;
-    } else return [];
-}
-
-// localStorage.setItem('myJohnnyJuju',JSON.stringify("Testing"));
-// updateDOM();
-
-function initialDOM() {
-    clearDOM();
-    let locStore = Object.keys(localStorage);
-    let listsIndex:number;
-    let listsArray:string[]=[];
-
-    if (Array.isArray(locStore)) {
-        listsIndex = locStore.findIndex(e=>e==='myLists');
-        debugger;
-        if (listsIndex==-1) {
-            let x:number = locStore.length;
-            localStorage.setItem('myLists',JSON.stringify("My List"));    
-            let locStoreArray = Object.values(localStorage);
-        
-            if (Array.isArray(locStoreArray)) {    
-                let listItem=locStoreArray[x];
-                let lists = JSON.parse(listItem);     
-                listsArray.push(lists);
-            }
-        }
-    }
-    renderList(listsArray);  
-};
 
 localStorage.setItem('myJohnnyJuju',JSON.stringify("Testing"));
-// initialDOM();
 updateDOM();
-
-
