@@ -1,13 +1,50 @@
-// import { format } from "../node_modules/date-fns/format";
-// import { intlFormatDistance } from "../node_modules/date-fns/intlFormatDistance";
+import { format } from "../node_modules/date-fns/format";
+import { intlFormatDistance } from "../node_modules/date-fns/intlFormatDistance";
 
 //APPLICATION SCRIPTS
 
 import { createListsArray, clearDOM, renderList } from "./index";
 
-
-
-//ALL NEW FROM HERE
+export class task {
+    task:string;
+    // date:Date;  //CHANGE TO DATE format
+    rawDate:Date;
+    status:string;
+    details:string;
+    list:string; 
+    constructor(taskObj: {taskName:string; taskDate:string; taskStatus:string; taskDetails:string; taskList:string}) {
+        this.task = taskObj.taskName;
+        this.rawDate = new Date(taskObj.taskDate);
+        this.status = taskObj.taskStatus;
+        this.details = taskObj.taskDetails;
+        this.list = taskObj.taskList;
+        }
+    get date() {
+        let now = new Date();
+        let date = new Date (this.rawDate);
+        let dateDiff = (date.getTime() - now.getTime())/(1000*60*60*24);
+        if (dateDiff<-366) {
+            let myDate = intlFormatDistance(date,now,{unit:'year'})
+            return myDate;
+        }
+        else if (dateDiff>-366 && dateDiff<=-56){
+            let myDate = intlFormatDistance(date,now,{unit:'month'})
+            return myDate;
+        }
+        else if (dateDiff>-56 && dateDiff<=-15){
+            let myDate = intlFormatDistance(date,now,{unit:'week'})
+            return myDate;
+        }     
+        else if (dateDiff>-15 && dateDiff<=15) {
+            let myDate = intlFormatDistance(date,now,{unit:'day'})
+            return myDate;
+        }
+        else {    
+            let myDate = format(new Date(this.rawDate),'PP');
+            return myDate;
+        }
+    } 
+}
 
 //Finds myLists in LS or creates if not there  
 export function findLocStoreLists():number {
@@ -33,7 +70,7 @@ export function findLocStoreLists():number {
 
 };
 
-interface taskInt {
+export interface taskInt {
     date:string,
     details:string,
     list:string,
@@ -57,4 +94,24 @@ export function createNewList(e:Event) {
         dialog?.close();
         return listsArray;
     }
+}
+export function createTask(e:Event) {
+    e.preventDefault();
+    console.log("createListItem");
+    const dialog = document.getElementById('newTaskDialog') as HTMLDialogElement;
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const taskArrayLength = Object.entries(localStorage).length +1;
+
+    const newTask = Object.fromEntries(formData);
+    const taskKey = `newTask${taskArrayLength}`;
+
+    localStorage.setItem(taskKey,JSON.stringify(newTask));
+    form.reset();
+    dialog?.close();
+}
+
+
+export function sortTasks() {
+
 }
