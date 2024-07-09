@@ -49,7 +49,6 @@ export class task {
 
 //Finds myLists in LS or creates if not there  
 export function findLocStoreLists():number {
-    // debugger;
     let locStore = Object.keys(localStorage);
     let listsIndex:number;
     if (Array.isArray(locStore)) {
@@ -91,8 +90,10 @@ export function createNewList(e:Event) {
     if (Array.isArray(listsArray)) {
         listsArray.push(newList);
         localStorage.setItem('myLists',JSON.stringify(listsArray));
-        clearDOM();
-        renderList(listsArray);
+
+
+        // clearDOM();
+        // renderList(listsArray);
         form.reset();
         dialog?.close();
         return listsArray;
@@ -100,7 +101,6 @@ export function createNewList(e:Event) {
 }
 export function createTask(e:Event) {
     e.preventDefault();
-    console.log("createListItem");
     const dialog = document.getElementById('newTaskDialog') as HTMLDialogElement;
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
@@ -114,8 +114,3 @@ export function createTask(e:Event) {
     dialog?.close();
 }
 
-
-// export function sortTasks(taskArray:taskInt[]) {
-//     const mySort = taskArray.sort((a:date,b:date)=>a.date-b.date);
-//     console.log(mySort);
-// }

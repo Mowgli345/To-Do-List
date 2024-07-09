@@ -52,9 +52,8 @@ function updateDOM() {
     clearDOM();
     let listsArray = createListsArray();
     let taskArray= createTasksArray();
-    console.log(taskArray);
     let sortedTasks = sortTaskArray(taskArray);
-    console.log(sortedTasks);
+    renderList(listsArray);
     renderTask(sortedTasks);
 }
 export function clearDOM(){
@@ -89,6 +88,7 @@ function showNewListForm() {
         form.id='newListForm';
         form.addEventListener('submit',(e:Event)=>{
             createNewList(e);
+            updateDOM();
         })
 
     const fieldset = document.createElement('fieldset');
@@ -164,10 +164,7 @@ export function renderList(parsedList:string[]):void {
         listHeading.appendChild(listName);
         content?.appendChild(listHeading);
         }
-    const listItem = document.createElement('div');
-        listItem.className='list-item';    
     fragment.appendChild(list);
-    list.appendChild(listItem);    
     content?.append(fragment);  
     };
 function sortTaskArray(taskArray:taskInt[]) { 
@@ -189,9 +186,6 @@ function showNewTaskForm() {
         form.className='newItemForm';
         form.addEventListener('submit',(e:Event)=>{
             createTask(e);
-            // clearDOM();
-            // let taskArray= createTasksArray();
-            // renderTask(taskArray);
             updateDOM();
         })
     const fieldset = document.createElement('fieldset');
