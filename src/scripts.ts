@@ -7,14 +7,15 @@ import { createListsArray, clearDOM, renderList } from "./index";
 
 export class task {
     task:string;
-    // date:Date;  //CHANGE TO DATE format
     rawDate:Date;
+    priority:string;
     status:string;
     details:string;
     list:string; 
-    constructor(taskObj: {taskName:string; taskDate:string; taskStatus:string; taskDetails:string; taskList:string}) {
+    constructor(taskObj: {taskName:string; taskDate:string; taskPriority:string;taskStatus:string; taskDetails:string; taskList:string}) {
         this.task = taskObj.taskName;
         this.rawDate = new Date(taskObj.taskDate);
+        this.priority = taskObj.taskPriority;
         this.status = taskObj.taskStatus;
         this.details = taskObj.taskDetails;
         this.list = taskObj.taskList;
@@ -72,10 +73,12 @@ export function findLocStoreLists():number {
 
 export interface taskInt {
     date:string,
+    rawDate:Date,
     details:string,
     list:string,
     status:string,
-    task:string
+    task:string,
+
 }
 export function createNewList(e:Event) {
     e.preventDefault();
@@ -112,6 +115,7 @@ export function createTask(e:Event) {
 }
 
 
-export function sortTasks() {
-
-}
+// export function sortTasks(taskArray:taskInt[]) {
+//     const mySort = taskArray.sort((a:date,b:date)=>a.date-b.date);
+//     console.log(mySort);
+// }

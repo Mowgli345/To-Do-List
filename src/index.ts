@@ -5,7 +5,7 @@ import pencilImg from './assets/images/pencil.svg';
 
 
 import { findLocStoreLists, createNewList, createTask, taskInt, task } from "./scripts";
-import { sortTasks } from "./scripts";
+
 
 //DOM-related scripts
 
@@ -51,9 +51,11 @@ import { sortTasks } from "./scripts";
 function updateDOM() {
     clearDOM();
     let listsArray = createListsArray();
-    // renderList(listsArray);  
     let taskArray= createTasksArray();
-    renderTask(taskArray);
+    console.log(taskArray);
+    let sortedTasks = sortTaskArray(taskArray);
+    console.log(sortedTasks);
+    renderTask(sortedTasks);
 }
 export function clearDOM(){
     const content = document.querySelector('.content');
@@ -61,7 +63,6 @@ export function clearDOM(){
         content.firstChild.remove();
        }  
     };
-
 //Needed???
 function displayLists(){
     let ind:number = findLocStoreLists();
@@ -76,7 +77,6 @@ function displayLists(){
                 return listsArray; 
     } else return -1;
 }
-
 //NEW LIST FROM HERE
 function showNewListForm() {
     const fragment = new DocumentFragment;
@@ -170,10 +170,14 @@ export function renderList(parsedList:string[]):void {
     list.appendChild(listItem);    
     content?.append(fragment);  
     };
-
+function sortTaskArray(taskArray:taskInt[]) { 
+    const sortedTasks:taskInt[] = taskArray.sort(function(a,b) {
+        return a.rawDate.getTime() - b.rawDate.getTime();
+        });
+return sortedTasks;
+    }
     //New Tasks
 function showNewTaskForm() {
-    console.log("showNewTaskForm");
     let listsArray = createListsArray();
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
@@ -185,9 +189,10 @@ function showNewTaskForm() {
         form.className='newItemForm';
         form.addEventListener('submit',(e:Event)=>{
             createTask(e);
-            clearDOM();
-            let taskArray= createTasksArray();
-            renderTask(taskArray);
+            // clearDOM();
+            // let taskArray= createTasksArray();
+            // renderTask(taskArray);
+            updateDOM();
         })
     const fieldset = document.createElement('fieldset');
     const list = document.createElement('ul');
@@ -367,7 +372,6 @@ function createTasksArray() {
     };
 function renderTask(taskArray:taskInt[]):void {
     taskArray.forEach(function(task) {
-    // console.log("renderTask");
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
 
