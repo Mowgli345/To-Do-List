@@ -63,11 +63,9 @@ export function findLocStoreLists():number {
         else {
             return listsIndex;
         }
-
     } else {
         return -1;
     }
-
 };
 
 export interface taskInt {
@@ -77,7 +75,6 @@ export interface taskInt {
     list:string,
     status:string,
     task:string,
-
 }
 export function createNewList(e:Event) {
     e.preventDefault();
@@ -90,10 +87,6 @@ export function createNewList(e:Event) {
     if (Array.isArray(listsArray)) {
         listsArray.push(newList);
         localStorage.setItem('myLists',JSON.stringify(listsArray));
-
-
-        // clearDOM();
-        // renderList(listsArray);
         form.reset();
         dialog?.close();
         return listsArray;
