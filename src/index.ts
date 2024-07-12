@@ -56,6 +56,7 @@ function updateDOM() {
     let sortedTasks = sortTaskArray(taskArray);
     renderTask(sortedTasks);
 }
+
 export function clearDOM(){
     const content = document.querySelector('.content');
     while(content?.firstChild){
@@ -120,6 +121,7 @@ function showNewListForm() {
     content?.append(fragment);
     dialog.showModal();
 }
+
 export function createListsArray() {
     let ind:number = findLocStoreLists();
     let locStoreArray = Object.values(localStorage);
@@ -245,17 +247,17 @@ function showNewTaskForm() {
         select.setAttribute('name','taskStatus');
         select.id='taskStatus';
     option = document.createElement('option');
-        option.setAttribute('value','not-started');
+        option.setAttribute('value','Not started');
         text = document.createTextNode('Not Started');
         option.appendChild(text);
         select.appendChild(option);
     option = document.createElement('option');
-        option.setAttribute('value','in-progress');
+        option.setAttribute('value','In Progress');
         text = document.createTextNode('In Progress');
         option.appendChild(text);
         select.appendChild(option);
     option = document.createElement('option');
-        option.setAttribute('value','completed');
+        option.setAttribute('value','Completed');
         text = document.createTextNode('Completed');
         option.appendChild(text);
         select.appendChild(option);
@@ -327,6 +329,7 @@ function showNewTaskForm() {
     content?.append(fragment);
     dialog.showModal();
 };
+
 function createTasksArray() {
     let x = findLocStoreLists();
     let locStoreArray = Object.values(localStorage); 
@@ -351,6 +354,8 @@ function createTasksArray() {
             } else return taskArray;
         }
     };
+
+//To Delete
 function renderTask1(taskArray:taskInt[]):void {
     taskArray.forEach(function(task) {
     const fragment = new DocumentFragment;
@@ -425,7 +430,6 @@ function renderTask1(taskArray:taskInt[]):void {
     });
 };
 
-
 //Others
 function toggleInfo(e:Event) {
     const event = e.target as HTMLDivElement;  
@@ -450,6 +454,7 @@ function toggleInfo(e:Event) {
 
 function renderTask(taskArray:taskInt[]):void {
     //Finds list on DOM to attach task
+
     function findList(thisList:string):HTMLDivElement {    
         let listHeadings = document.querySelectorAll("h2");
         let taskList = thisList;
@@ -484,10 +489,8 @@ function renderTask(taskArray:taskInt[]):void {
             content?.append(fragment);  
             return grabElement as HTMLDivElement;
     }
-    taskArray.forEach(function(task) {
-debugger;
-        console.log(task);
 
+    taskArray.forEach(function(task) {
         let thisList = task.list;   
         let grabElement = findList(thisList);
 
@@ -496,8 +499,10 @@ debugger;
 
         // const list = document.createElement('div');
         //     list.className='list';
+
         const listItem = document.createElement('div');
             listItem.className='list-item';
+            listItem.dataset.id=task.id;
 
         const taskPriority = document.createElement('div');
             taskPriority.className='task-priority';
@@ -538,7 +543,10 @@ debugger;
             taskDelete.className='task-delete toggle';
         const trashBin = document.createElement('img') as HTMLImageElement;
             trashBin.src=delImg; 
-            trashBin.addEventListener('click',(e:Event)=>deleteItem(e));   
+            trashBin.addEventListener('click',(e:Event)=>{
+                deleteItem(e);
+                updateDOM();
+            });   
         const taskListName = document.createElement('div');
             taskListName.className='task-list-name toggle';
             text = document.createTextNode(task.list);
@@ -571,17 +579,33 @@ debugger;
     });
 };
 
-
 updateDOM();
-
+// pracLS();
 
 function deleteItem(e:Event){
     if (e.target instanceof Element) {
         let task = e.target.parentElement?.parentElement;
-        debugger;
-        console.log(task);
-        // task?.remove();
+        let id = task?.dataset.id!;
+        localStorage.removeItem(id);
     }
+}
 
-
+function pracLS(){
+    let locStoreArray1 = localStorage;
+    console.log(locStoreArray1); 
+    let locStoreArray = Object.values(localStorage); 
+    console.log(typeof(locStoreArray)); 
+        for (const val of locStoreArray) {
+            console.log(val);
+        }
+        console.log("  **************");
+        for (const key in locStoreArray) {
+            console.log(key);
+            // console.log(locStoreArray[key]);
+            // console.log(locStoreArray);
+        }
+        // let x = "newTask3";
+        // let y = localStorage.getItem(x);
+        // console.log(y);
+        // localStorage.removeItem(x);
 }

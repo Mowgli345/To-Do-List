@@ -12,13 +12,15 @@ export class task {
     status:string;
     details:string;
     list:string; 
-    constructor(taskObj: {taskName:string; taskDate:string; taskPriority:string;taskStatus:string; taskDetails:string; taskList:string}) {
+    id:string;
+    constructor(taskObj: {taskName:string; taskDate:string; taskPriority:string;taskStatus:string; taskDetails:string; taskList:string; id:string}) {
         this.task = taskObj.taskName;
         this.rawDate = new Date(taskObj.taskDate);
         this.priority = taskObj.taskPriority;
         this.status = taskObj.taskStatus;
         this.details = taskObj.taskDetails;
         this.list = taskObj.taskList;
+        this.id = taskObj.id;
         }
     get date() {
         let now = new Date();
@@ -46,7 +48,6 @@ export class task {
         }
     } 
 }
-
 //Finds myLists in LS or creates if not there  
 export function findLocStoreLists():number {
     let locStore = Object.keys(localStorage);
@@ -67,7 +68,6 @@ export function findLocStoreLists():number {
         return -1;
     }
 };
-
 export interface taskInt {
     date:string,
     rawDate:Date,
@@ -75,6 +75,7 @@ export interface taskInt {
     list:string,
     status:string,
     task:string,
+    id:string
 }
 export function createNewList(e:Event) {
     e.preventDefault();
@@ -98,13 +99,11 @@ export function createTask(e:Event) {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const taskArrayLength = Object.entries(localStorage).length +1;
-
     const newTask = Object.fromEntries(formData);
-    const taskKey = `newTask${taskArrayLength}`;
-
-    // const index = Date.now();
-    // const taskKey = index.toString();
-    
+    let index = Date.now();
+    const taskKey = index.toString();
+    console.log(newTask.taskName);
+    newTask.id = taskKey;
     localStorage.setItem(taskKey,JSON.stringify(newTask));
     form.reset();
     dialog?.close();
