@@ -54,7 +54,7 @@ function updateDOM() {
     renderList(listsArray);
     let taskArray= createTasksArray();
     let sortedTasks = sortTaskArray(taskArray);
-    renderTask2(sortedTasks);
+    renderTask(sortedTasks);
 }
 export function clearDOM(){
     const content = document.querySelector('.content');
@@ -351,7 +351,7 @@ function createTasksArray() {
             } else return taskArray;
         }
     };
-function renderTask(taskArray:taskInt[]):void {
+function renderTask1(taskArray:taskInt[]):void {
     taskArray.forEach(function(task) {
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
@@ -425,7 +425,6 @@ function renderTask(taskArray:taskInt[]):void {
     });
 };
 
-updateDOM();
 
 //Others
 function toggleInfo(e:Event) {
@@ -449,18 +448,12 @@ function toggleInfo(e:Event) {
     }
 }
 
-
-
-function renderTask2(taskArray:taskInt[]):void {
+function renderTask(taskArray:taskInt[]):void {
     //Finds list on DOM to attach task
     function findList(thisList:string):HTMLDivElement {    
         let listHeadings = document.querySelectorAll("h2");
         let taskList = thisList;
-        console.log(listHeadings);
-        console.log(typeof(listHeadings));
-        console.log(listHeadings[0]);
-        debugger;
-        for (let i=0; i<listHeadings.length-1;i++) {
+        for (let i=0; i<listHeadings.length;i++) {
             let listName =listHeadings[i].textContent;
             if (taskList == listName) {
                 let grabElement = listHeadings[i].parentElement;
@@ -491,24 +484,18 @@ function renderTask2(taskArray:taskInt[]):void {
             content?.append(fragment);  
             return grabElement as HTMLDivElement;
     }
-
-
-    console.log(taskArray);
-
     taskArray.forEach(function(task) {
 debugger;
-        console.log(task.list);
-        let thisList = task.list;
-        
+        console.log(task);
 
+        let thisList = task.list;   
         let grabElement = findList(thisList);
-
 
         const fragment = new DocumentFragment;
         const content = document.querySelector('.content');
 
-        const list = document.createElement('div');
-            list.className='list';
+        // const list = document.createElement('div');
+        //     list.className='list';
         const listItem = document.createElement('div');
             listItem.className='list-item';
 
@@ -551,16 +538,18 @@ debugger;
             taskDelete.className='task-delete toggle';
         const trashBin = document.createElement('img') as HTMLImageElement;
             trashBin.src=delImg; 
-            // trashBin.addEventListener('click',(e:Event)=>deleteItem(e));   
+            trashBin.addEventListener('click',(e:Event)=>deleteItem(e));   
         const taskListName = document.createElement('div');
             taskListName.className='task-list-name toggle';
             text = document.createTextNode(task.list);
             taskListName.appendChild(text);
 
         // fragment.appendChild(list);
-        grabElement?.appendChild(list);
+        // grabElement?.appendChild(list);
+        // list.appendChild(listItem);
 
-        list.appendChild(listItem);
+        grabElement?.appendChild(listItem);
+
         listItem.appendChild(taskEdit);
             taskEdit.appendChild(editPencil);
 
@@ -574,19 +563,25 @@ debugger;
         listItem.appendChild(taskName);
             taskPriority.appendChild(circle);
         listItem.appendChild(taskPriority);
-    debugger;
-        console.log(grabElement);
-
-
 
     //Add to list here
-
         fragment.appendChild(grabElement);
-
         // content?.append(fragment);  
-
         content?.append(fragment);  
-
     });
 };
 
+
+updateDOM();
+
+
+function deleteItem(e:Event){
+    if (e.target instanceof Element) {
+        let task = e.target.parentElement?.parentElement;
+        debugger;
+        console.log(task);
+        // task?.remove();
+    }
+
+
+}

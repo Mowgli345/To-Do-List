@@ -102,6 +102,9 @@ export function createTask(e:Event) {
     const newTask = Object.fromEntries(formData);
     const taskKey = `newTask${taskArrayLength}`;
 
+    // const index = Date.now();
+    // const taskKey = index.toString();
+    
     localStorage.setItem(taskKey,JSON.stringify(newTask));
     form.reset();
     dialog?.close();
