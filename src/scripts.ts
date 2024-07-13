@@ -56,7 +56,6 @@ export function findLocStoreLists():number {
         listsIndex = locStore.findIndex(e=>e==='myLists');
         if (listsIndex==-1) {
             let x:number = locStore.length;
-            console.log("My Lists is not in LS - from findLocSToreLists()");
             let listsArray:string[]=["My List"];
             localStorage.setItem('myLists',JSON.stringify(listsArray));
             return x;
@@ -102,7 +101,6 @@ export function createTask(e:Event) {
     const newTask = Object.fromEntries(formData);
     let index = Date.now();
     const taskKey = index.toString();
-    console.log(newTask.taskName);
     newTask.id = taskKey;
     localStorage.setItem(taskKey,JSON.stringify(newTask));
     form.reset();

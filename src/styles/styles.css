@@ -1,22 +1,26 @@
 @font-face {
     font-family: 'Poppins';
     font-weight: 400;
-    src: url(/src/assets/fonts/poppins-regular-webfont.woff2) format('woff2');
+    /* src: url(/src/assets/fonts/poppins-regular-webfont.woff2) format('woff2'); */
+    src: url(/src/assets/fonts/roboto-regular-webfont.woff2) format('woff2');
 }
 @font-face {
     font-family: 'Poppins';
     font-weight: 700;
-    src: url(/src/assets/fonts/poppins-bold-webfont.woff2) format('woff2')
+    src: url(/src/assets/fonts/roboto-bold-webfont.woff2) format('woff2');
+    /* src: url(/src/assets/fonts/poppins-bold-webfont.woff2) format('woff2') */
 }
 @font-face {
     font-family: 'Poppins';
     font-weight: 500;
-    src: url(/src/assets/fonts/poppins-medium-webfont.woff2) format('woff2')
+    src: url(/src/assets/fonts/roboto-medium-webfont.woff2) format('woff2');
+    /* src: url(/src/assets/fonts/poppins-medium-webfont.woff2) format('woff2') */
 }
 @font-face {
     font-family: 'Poppins';
     font-weight: 400;
-    src: url(/src/assets/fonts/poppins-italic-webfont.woff2) format('woff2');
+    src: url(/src/assets/fonts/roboto-italic-webfont.woff2) format('woff2');
+    /* src: url(/src/assets/fonts/poppins-italic-webfont.woff2) format('woff2'); */
     font-style: italic;
 }
 :root {
@@ -44,9 +48,6 @@ body {
     justify-content: space-between;
     align-items: flex-end;
     padding-bottom: .5rem;
- }
- header {
-    /* outline: dotted red .3px; */
  }
 h1 {
     font-weight: bold;
@@ -91,19 +92,6 @@ h1 {
     text-align: center;
     margin: 0;
 }
-.task-toggle {
-    grid-area: 1/4/2/5;
-    color: var(--page-orange);
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: end;
-    line-height: 1.5rem;
-    text-align: center;
-}
-.task-toggle:hover {
-    color: var(--dark-orange);
-    cursor: pointer;
-}
  .content {
     border: 4px solid var(--page-orange);
     border-radius: 6px;
@@ -113,27 +101,23 @@ h1 {
  h2 {
     margin-bottom: 0;
  }
-.list {
-    padding:5px 6px;
-}
 .list-item {
-    /* outline:dotted green .4px; */
     display: grid;
     grid-template-rows: 1.4rem;
-    grid-template-columns: 25px 1fr 150px 35px;
+    grid-template-columns: 25px 1fr 35px 130px 35px;
     padding-top: 12px;
     padding-bottom: 6px;
     border-bottom: 1.4px solid rgb(175, 172, 172);
 }
-.list-expand {
-    grid-template-rows: 1.4rem 2rem auto;
+.list-item div {
+    /* outline:dotted green .4px; */
 }
-.list-item>div {
-    /* outline: dotted purple .2px; */
+.list-expand {
+    grid-template-rows: 1.4rem 2.9rem auto;
 }
 .task-priority {
     grid-area: 1/1/2/2;
-    align-content: center; 
+    align-items: center; 
     display: flex;
     justify-content: flex-start;
 }
@@ -148,8 +132,21 @@ h1 {
     grid-area: 1/2/2/3;
     font-size: 1.1rem;
 }
+.task-toggle {
+    grid-area: 1/5/2/6;
+    color: var(--page-orange);
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1rem;
+    text-align: center;
+
+}
+.task-toggle:hover {
+    color: var(--dark-orange);
+    cursor: pointer;
+}
 .task-info {
-    grid-area: 2/2/3/4;
+    grid-area: 3/2/4/4;
     padding-right: 1.7rem;
     font-size: 0.95rem;
     color: rgb(10, 10, 10);
@@ -158,7 +155,7 @@ h1 {
     line-height: 1.9rem;
 }
 .task-edit {
-    grid-area: 2/4/3/5;
+    grid-area: 2/3/3/4;
     display: flex;
     align-items: center;
     justify-content:center;
@@ -170,14 +167,14 @@ h1 {
     cursor: pointer;
 }
 .task-status {
-    grid-area: 3/3/4/4;
+    grid-area: 2/4/3/5;
     text-align: center;
     justify-content: center;
     align-items: flex-end;
     
 }
 .task-due {
-    grid-area: 1/3/2/4;
+    grid-area: 1/4/2/5;
     text-align: end;
     padding-right: 1rem;
     padding-bottom: 0.2rem;
@@ -186,13 +183,13 @@ h1 {
     justify-content: flex-end;
 }
 .task-list-name {
-    grid-area: 3/2/4/3;
+    grid-area: 2/2/3/3;
     justify-content: flex-start;
     align-items: flex-end;
     /* line-height: 2.4rem; */
 }
 .task-delete {
-    grid-area: 3/4/4/5;
+    grid-area: 2/5/3/6;
     display: flex;
     align-items: flex-end;
     justify-content:center;
