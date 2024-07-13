@@ -75,7 +75,7 @@ export function clearDOM(){
        }  
     };
 
-//NEW LIST FROM HERE
+//NEW LIST/TASK Forms
 function showNewListForm() {
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
@@ -132,42 +132,6 @@ function showNewListForm() {
     content?.append(fragment);
     dialog.showModal();
 }
-
-export function createListsArray() {
-    let ind:number = findLocStoreLists();
-    let locStoreArray = Object.values(localStorage);
-    
-    if (Array.isArray(locStoreArray)) {
-        let listsArray:string[]=[];
-        let listItem=locStoreArray[ind];
-        let lists = JSON.parse(listItem);
-        for (let i = 0; i<lists.length;i++) {
-            listsArray.push(lists[i]);
-            }
-        return listsArray;
-    } else return [];
-}
-export function renderList(parsedList:string[]):void {
-    const fragment = new DocumentFragment;
-    const content = document.querySelector('.content');    
-    const list = document.createElement('div');
-        list.className='list';
-    let length = parsedList.length;
-    for (let i=0; i<length;i++) {
-        const listHeading = document.createElement('div');
-        listHeading.className='task-list-heading';
-        const listName = document.createElement('h2');
-        let text = document.createTextNode(parsedList[i]);
-        listName.appendChild(text);
-        listHeading.appendChild(listName);
-        content?.appendChild(listHeading);
-        }
-
-    fragment.appendChild(list);
-    content?.append(fragment);  
-    };
-
-    //New Tasks
 function showNewTaskForm() {
     let listsArray = createListsArray();
     const fragment = new DocumentFragment;
@@ -334,6 +298,42 @@ function showNewTaskForm() {
     content?.append(fragment);
     dialog.showModal();
 };
+
+
+export function createListsArray() {
+    let ind:number = findLocStoreLists();
+    let locStoreArray = Object.values(localStorage);
+    
+    if (Array.isArray(locStoreArray)) {
+        let listsArray:string[]=[];
+        let listItem=locStoreArray[ind];
+        let lists = JSON.parse(listItem);
+        for (let i = 0; i<lists.length;i++) {
+            listsArray.push(lists[i]);
+            }
+        return listsArray;
+    } else return [];
+}
+export function renderList(parsedList:string[]):void {
+    const fragment = new DocumentFragment;
+    const content = document.querySelector('.content');    
+    const list = document.createElement('div');
+        list.className='list';
+    let length = parsedList.length;
+    for (let i=0; i<length;i++) {
+        const listHeading = document.createElement('div');
+        listHeading.className='task-list-heading';
+        const listName = document.createElement('h2');
+        let text = document.createTextNode(parsedList[i]);
+        listName.appendChild(text);
+        listHeading.appendChild(listName);
+        content?.appendChild(listHeading);
+        }
+
+    fragment.appendChild(list);
+    content?.append(fragment);  
+    };
+
 function createTasksArray() {
     let x = findLocStoreLists();
     let locStoreArray = Object.values(localStorage); 
@@ -395,16 +395,12 @@ function renderTask(taskArray:taskInt[]):void {
             content?.append(fragment);  
             return grabElement as HTMLDivElement;
     }
-
     taskArray.forEach(function(task) {
         let thisList = task.list;   
         let grabElement = findList(thisList);
 
         const fragment = new DocumentFragment;
         const content = document.querySelector('.content');
-
-        // const list = document.createElement('div');
-        //     list.className='list';
 
         const listItem = document.createElement('div');
             listItem.className='list-item';
@@ -478,12 +474,9 @@ function renderTask(taskArray:taskInt[]):void {
             taskPriority.appendChild(circle);
         listItem.appendChild(taskPriority);
 
-    //Add to list here
-        fragment.appendChild(grabElement);
-        // content?.append(fragment);  
-        content?.append(fragment);  
     });
 };
+
 function sortTaskArray(taskArray:taskInt[]) { 
     const sortedTasks:taskInt[] = taskArray.sort(function(a,b) {
         return a.rawDate.getTime() - b.rawDate.getTime();
@@ -512,36 +505,12 @@ function toggleInfo(e:Event) {
         }
     }
 }
-
-updateDOM();
-// pracLS();
-
 function deleteItem(e:Event){
     if (e.target instanceof Element) {
         let task = e.target.parentElement?.parentElement;
         let id = task?.dataset.id!;
         localStorage.removeItem(id);
     }
-}
-
-function pracLS(){
-    let locStoreArray1 = localStorage;
-    console.log(locStoreArray1); 
-    let locStoreArray = Object.values(localStorage); 
-    console.log(typeof(locStoreArray)); 
-        for (const val of locStoreArray) {
-            console.log(val);
-        }
-        console.log("  **************");
-        for (const key in locStoreArray) {
-            console.log(key);
-            // console.log(locStoreArray[key]);
-            // console.log(locStoreArray);
-        }
-        // let x = "newTask3";
-        // let y = localStorage.getItem(x);
-        // console.log(y);
-        // localStorage.removeItem(x);
 }
 function showSortMenu() {
     const sortMenu = document.querySelector('.sort-menu') as HTMLDivElement;
@@ -551,6 +520,10 @@ function showSortMenu() {
         sortMenu.style.display='block'
     }    
 }
+
+updateDOM();
+
+
 
 function sortByTask(e:Event){
     console.log("Hello");
@@ -566,14 +539,10 @@ function sortByPriority(e:Event){
     
 function sortByStatus(e:Event){
     clearDOM();
-    // let listsArray = ["Completed","In Progress","Not Started"];
     let listsArray = ["Not Started","In Progress","Completed"];
     renderList(listsArray);
-
     let taskArray= createTasksArray();
     let sortedTasks = sortTaskArray(taskArray);
-    debugger;
-    console.log(sortedTasks);
     renderSortedTask(sortedTasks);
 }
 
@@ -705,16 +674,6 @@ function sortByStatus(e:Event){
 // };
     
 
-function sortStatusTaskArray(taskArray:taskInt[]) { 
-    const sortedTasks:taskInt[] = taskArray.sort(function(a,b) {
-        let x = a.status;
-        let y = b.status;
-        if (x<y) {return -1;}
-        if (x>y) {return 1;}
-        return 0;        
-        });
-return sortedTasks;
-    }
 
 function renderSortedTask(taskArray:taskInt[]):void {
     //Finds list on DOM to attach task
@@ -753,7 +712,6 @@ function renderSortedTask(taskArray:taskInt[]):void {
             content?.append(fragment);  
             return grabElement as HTMLDivElement;
     }
-
     taskArray.forEach(function(task) {
         // let thisList = task.list;   
         //CHANGE HERE
@@ -762,9 +720,6 @@ function renderSortedTask(taskArray:taskInt[]):void {
 
         const fragment = new DocumentFragment;
         const content = document.querySelector('.content');
-
-        // const list = document.createElement('div');
-        //     list.className='list';
 
         const listItem = document.createElement('div');
             listItem.className='list-item';
@@ -818,7 +773,6 @@ function renderSortedTask(taskArray:taskInt[]):void {
             text = document.createTextNode(task.list);
             taskListName.appendChild(text);
 
-        debugger;
         grabElement?.appendChild(listItem);
 
         listItem.appendChild(taskEdit);
@@ -834,10 +788,5 @@ function renderSortedTask(taskArray:taskInt[]):void {
         listItem.appendChild(taskName);
             taskPriority.appendChild(circle);
         listItem.appendChild(taskPriority);
-
-    //Add to list here
-        // fragment.appendChild(grabElement);
-
-        // content?.append(fragment);  
     });
 };
