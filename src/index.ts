@@ -65,7 +65,17 @@ function updateDOM() {
     renderList(listsArray);
     let taskArray= createTasksArray();
     let sortedTasks = sortTaskArray(taskArray);
-    renderTask(sortedTasks);
+    let sortField = "list";
+    renderTask(sortField, sortedTasks);
+}
+function updateDOMOriginal() {
+    clearDOM();
+    let listsArray = createListsArray();
+    renderList(listsArray);
+    let taskArray= createTasksArray();
+    let sortedTasks = sortTaskArray(taskArray);
+    let sortField = "list";
+    renderTask(sortField, sortedTasks);
 }
 
 export function clearDOM(){
@@ -358,46 +368,33 @@ function createTasksArray() {
             } else return taskArray;
         }
     };
-function renderTask(taskArray:taskInt[]):void {
-    //Finds list on DOM to attach task
 
-    function findList(thisList:string):HTMLDivElement {    
-        let listHeadings = document.querySelectorAll("h2");
-        let taskList = thisList;
-        for (let i=0; i<listHeadings.length;i++) {
-            let listName =listHeadings[i].textContent;
-            if (taskList == listName) {
-                let grabElement = listHeadings[i].parentElement;
-                return grabElement as HTMLDivElement;
-                }
-            }  
-            //Adds this task's list to LS if name not found in list headings
-            let listsArray = createListsArray();
-            //Repeats from createNewList;
-            if (Array.isArray(listsArray)) {
-                listsArray.push(taskList);
-                localStorage.setItem('myLists',JSON.stringify(listsArray));
-            }
-            //Adds this list name to DOM if not already there
-            //Repeats from renderList
-            const fragment = new DocumentFragment;
-            const content = document.querySelector('.content');    
-            const list = document.createElement('div');
-                list.className='list';
-            let grabElement = document.createElement('div');
-            grabElement.className='task-list-heading';
-            const listName = document.createElement('h2');
-            let text = document.createTextNode(taskList);
-            listName.appendChild(text);
-            grabElement.appendChild(listName);
-            content?.appendChild(grabElement);          
-            fragment.appendChild(list);
-            content?.append(fragment);  
-            return grabElement as HTMLDivElement;
-    }
+function renderTask(sortField:string, taskArray:taskInt[]):void {
+    //Finds list on DOM to attach task
     taskArray.forEach(function(task) {
-        let thisList = task.list;   
+        // debugger;
+        let thisList;
+
+        if (sortField == "priority") {
+            thisList = task.priority
+        }
+        else if (sortField == "status") {
+            thisList = task.status
+        }
+        else if (sortField == "date") {
+            thisList = task.date
+        }
+        else {
+            thisList=task.list;
+        }
+
+       console.log(sortField);
+       console.log(thisList);
+
+       
         let grabElement = findList(thisList);
+               console.log(grabElement);
+
 
         const fragment = new DocumentFragment;
         const content = document.querySelector('.content');
@@ -521,12 +518,47 @@ function showSortMenu() {
     }    
 }
 
+function findList(thisList:string):HTMLDivElement {    
+    let listHeadings = document.querySelectorAll("h2");
+    let taskList = thisList;
+    for (let i=0; i<listHeadings.length;i++) {
+        let listName =listHeadings[i].textContent;
+        if (taskList == listName) {
+            let grabElement = listHeadings[i].parentElement;
+            return grabElement as HTMLDivElement;
+            }
+        }  
+        //Adds this task's list to LS if name not found in list headings
+        let listsArray = createListsArray();
+        //Repeats from createNewList;
+        if (Array.isArray(listsArray)) {
+            listsArray.push(taskList);
+            localStorage.setItem('myLists',JSON.stringify(listsArray));
+        }
+        //Adds this list name to DOM if not already there
+        //Repeats from renderList
+        const fragment = new DocumentFragment;
+        const content = document.querySelector('.content');    
+        const list = document.createElement('div');
+            list.className='list';
+        let grabElement = document.createElement('div');
+        grabElement.className='task-list-heading';
+        const listName = document.createElement('h2');
+        let text = document.createTextNode(taskList);
+        listName.appendChild(text);
+        grabElement.appendChild(listName);
+        content?.appendChild(grabElement);          
+        fragment.appendChild(list);
+        content?.append(fragment);  
+        return grabElement as HTMLDivElement;
+}
+
 updateDOM();
 
 
 
 function sortByTask(e:Event){
-    console.log("Hello");
+updateDOM();
 
 }
 function sortByDate(e:Event){
@@ -534,7 +566,15 @@ function sortByDate(e:Event){
 }
     
 function sortByPriority(e:Event){
-    console.log("Hello");
+    clearDOM();
+    let listsArray = ["Normal","High","Low"];
+    renderList(listsArray);
+    let taskArray= createTasksArray();
+    let sortedTasks = sortTaskArray(taskArray);
+    let sortField = "priority";
+    renderTask(sortField, sortedTasks);
+
+    // renderSortedTask(sortedTasks);
 }
     
 function sortByStatus(e:Event){
@@ -543,7 +583,8 @@ function sortByStatus(e:Event){
     renderList(listsArray);
     let taskArray= createTasksArray();
     let sortedTasks = sortTaskArray(taskArray);
-    renderSortedTask(sortedTasks);
+    let sortField = "status";
+    renderTask(sortField, sortedTasks);
 }
 
 // function renderSortedTask(taskArray:taskInt[]):void {

@@ -74,6 +74,7 @@ export interface taskInt {
     list:string,
     status:string,
     task:string,
+    priority: string,
     id:string
 }
 export function createNewList(e:Event) {
