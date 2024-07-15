@@ -1,26 +1,22 @@
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Roboto';
     font-weight: 400;
-    /* src: url(/src/assets/fonts/poppins-regular-webfont.woff2) format('woff2'); */
     src: url(/src/assets/fonts/roboto-regular-webfont.woff2) format('woff2');
 }
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Roboto';
     font-weight: 700;
     src: url(/src/assets/fonts/roboto-bold-webfont.woff2) format('woff2');
-    /* src: url(/src/assets/fonts/poppins-bold-webfont.woff2) format('woff2') */
 }
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Roboto';
     font-weight: 500;
     src: url(/src/assets/fonts/roboto-medium-webfont.woff2) format('woff2');
-    /* src: url(/src/assets/fonts/poppins-medium-webfont.woff2) format('woff2') */
 }
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Roboto';
     font-weight: 400;
     src: url(/src/assets/fonts/roboto-italic-webfont.woff2) format('woff2');
-    /* src: url(/src/assets/fonts/poppins-italic-webfont.woff2) format('woff2'); */
     font-style: italic;
 }
 :root {
@@ -35,10 +31,9 @@ html, body {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    /* background-color: aliceblue; */
 }
 body {
-    font-family:'Poppins',sans-serif;
+    font-family:'Roboto',sans-serif;
     font-size: 100%;
     padding: 10px 60px;
  }
@@ -154,7 +149,6 @@ h1 {
     font-style: italic;
     padding-left: 8px;
     padding-top: 4px;
-    /* line-height: 1.9rem; */
 }
 .task-edit {
     grid-area: 2/3/3/4;
@@ -187,7 +181,6 @@ h1 {
     grid-area: 2/2/3/3;
     justify-content: flex-start;
     align-items: flex-end;
-    /* line-height: 2.4rem; */
 }
 .task-delete {
     grid-area: 2/5/3/6;
@@ -237,4 +230,12 @@ h1 {
 }
 .toggle {
     display: none;
+}
+
+.noTasksMsg {
+    padding-top: 0.3rem;
+    padding-left: 0.5rem;
+    font-style: italic;
+    /* font-size: 0.95rem; */
+
 }

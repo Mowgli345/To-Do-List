@@ -339,7 +339,6 @@ export function renderList(parsedList:string[]):void {
         listHeading.appendChild(listName);
         content?.appendChild(listHeading);
         }
-
     fragment.appendChild(list);
     content?.append(fragment);  
     };
@@ -350,7 +349,6 @@ function createTasksArray() {
     let storageLength = window.localStorage.length;
     let taskArray:taskInt[]=[];
     if (storageLength==0) {
-        console.log("No lists in storage");
         return taskArray;
     }
     else {
@@ -418,7 +416,6 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
                 taskDue.style.color="red";
                 taskDue.style.fontStyle="italic";
             }
-
         //Adds event listener to show/hide details
         const taskToggle = document.createElement('div');
             taskToggle.className='task-toggle';
@@ -471,6 +468,20 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
             taskPriority.appendChild(circle);
         listItem.appendChild(taskPriority);
     });
+
+//Add "No tasks" under empty headings
+    let listHeadings = document.querySelectorAll(".task-list-heading");
+    listHeadings.forEach((heading)=> {
+        let headingDiv = heading as HTMLDivElement;
+
+        if (heading.childElementCount<2) {
+            let noTasks = document.createElement("div");
+            noTasks.className="noTasksMsg";
+            let text = document.createTextNode("There are no tasks for this list");
+            noTasks.appendChild(text);
+            heading.appendChild(noTasks);
+        }
+    });
 };
 
 function sortTaskArray(taskArray:taskInt[]) { 
@@ -496,10 +507,13 @@ function toggleInfo(e:Event) {
                 x.style.display='none';
                 event.textContent="+";
                 event.style.fontSize="32px";
+                event.style.lineHeight="1rem";
+
             } else {
                 x.style.display='flex';
                 event.textContent="-";
                 event.style.fontSize="48px";
+                event.style.lineHeight="0.5rem";
             }
             }
         }
@@ -706,53 +720,33 @@ function renderSortedTask(taskArray:taskInt[]):void {
 };
 
 function editTask(e:Event){
-    // let event = e.target as HTMLDivElement;
-    // let editTask = event.parentElement?.parentElement;
-    // console.log(editTask);
-    // let taskNum = editTask?.dataset.id;
-    // console.log(taskNum);
-    // localStorage.getItem(taskNum);
-
     if (e.target instanceof Element) {
         let task = e.target.parentElement?.parentElement;
         let id = task?.dataset.id!;
         let thisOne = localStorage.getItem(id);
-        console.log(thisOne);
         let myTask = JSON.parse(thisOne!);
         localStorage.removeItem(id);
-//HERE
+        fillEditForm();
 
         function fillEditForm() {
         showNewTaskForm();
             const taskName = document.querySelector('[name="taskName"]');
-            console.log(taskName);
-            console.log(myTask.taskName);
                 taskName?.setAttribute('value',myTask.taskName);
 
             const taskDate = document.querySelector('[name="taskDate"]') as HTMLInputElement;
-            console.log(taskDate);
-            console.log(myTask.taskDate);
                 taskDate.value=myTask.taskDate;
 
             const taskPriority = document.querySelector('[name="taskPriority"]') as HTMLInputElement;
                 taskPriority.value=myTask.taskPriority;
 
             const taskStatus = document.querySelector('[name="taskStatus"]') as HTMLInputElement;
-            console.log(taskStatus);
-            console.log(myTask.taskStatus);
                 taskStatus.value=myTask.taskStatus;
 
             const taskDetails = document.querySelector('[name="taskDetails"]') as HTMLInputElement;
-            console.log(taskDetails);
-            console.log(myTask.taskDetails);
                 taskDetails.value= myTask.taskDetails;
 
             const taskList = document.querySelector('[name="taskList"]') as HTMLInputElement;
-            console.log(taskList);
-            console.log(myTask.taskList);
                 taskList.value = myTask.taskList;    
         };
-
-        fillEditForm();
     }
 }
