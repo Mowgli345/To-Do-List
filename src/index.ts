@@ -372,9 +372,7 @@ function createTasksArray() {
 function renderTask(sortField:string, taskArray:taskInt[]):void {
     //Finds list on DOM to attach task
     taskArray.forEach(function(task) {
-        // debugger;
         let thisList;
-
         if (sortField == "priority") {
             thisList = task.priority
         }
@@ -386,15 +384,8 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
         }
         else {
             thisList=task.list;
-        }
-
-       console.log(sortField);
-       console.log(thisList);
-
-       
+        }     
         let grabElement = findList(thisList);
-               console.log(grabElement);
-
 
         const fragment = new DocumentFragment;
         const content = document.querySelector('.content');
@@ -407,14 +398,26 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
             taskPriority.className='task-priority';
         const circle = document.createElement('div');
             circle.className='circle';
+            if (task.priority=='High') {
+                circle.style.backgroundColor='red';
+            }
+            if (task.priority=='Low') {
+                circle.style.backgroundColor='rgb(57, 162, 211)';
+            };
+
         const taskName = document.createElement('div');
             taskName.className='task-name';
             let text = document.createTextNode(task.task);
             taskName.appendChild(text);
+
         const taskDue = document.createElement('div');
             taskDue.className='task-due';
             text = document.createTextNode(task.date);
             taskDue.appendChild(text);
+            if (task.rawDate < new Date()) {
+                taskDue.style.color="red";
+                taskDue.style.fontStyle="italic";
+            }
 
         //Adds event listener to show/hide details
         const taskToggle = document.createElement('div');
@@ -433,6 +436,7 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
             taskEdit.className='task-edit toggle';
         const editPencil = document.createElement('img') as HTMLImageElement;
             editPencil.src=pencilImg;
+            editPencil.addEventListener('click',(e:Event)=>editTask(e));
 
         const taskStatus = document.createElement('div');
             taskStatus.className='task-status toggle';
@@ -451,10 +455,6 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
             text = document.createTextNode(task.list);
             taskListName.appendChild(text);
 
-        // fragment.appendChild(list);
-        // grabElement?.appendChild(list);
-        // list.appendChild(listItem);
-
         grabElement?.appendChild(listItem);
 
         listItem.appendChild(taskEdit);
@@ -470,7 +470,6 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
         listItem.appendChild(taskName);
             taskPriority.appendChild(circle);
         listItem.appendChild(taskPriority);
-
     });
 };
 
@@ -494,9 +493,13 @@ function toggleInfo(e:Event) {
 
         if (x.classList.contains('toggle')) {
             if (x.style.display==="flex") {
-                x.style.display='none'
+                x.style.display='none';
+                event.textContent="+";
+                event.style.fontSize="32px";
             } else {
-                x.style.display='flex'
+                x.style.display='flex';
+                event.textContent="-";
+                event.style.fontSize="48px";
             }
             }
         }
@@ -555,12 +558,11 @@ function findList(thisList:string):HTMLDivElement {
 
 updateDOM();
 
-
-
 function sortByTask(e:Event){
 updateDOM();
 
 }
+
 function sortByDate(e:Event){
     console.log("Hello");
 }
@@ -586,135 +588,6 @@ function sortByStatus(e:Event){
     let sortField = "status";
     renderTask(sortField, sortedTasks);
 }
-
-// function renderSortedTask(taskArray:taskInt[]):void {
-//     //Finds list on DOM to attach task
-
-//     //Don't need this in renederSorted Task!!
-//     function findList(thisList:string):HTMLDivElement {    
-//         let listHeadings = document.querySelectorAll("h2");
-//         let taskList = thisList;
-//         for (let i=0; i<listHeadings.length;i++) {
-//             let listName =listHeadings[i].textContent;
-//             if (taskList == listName) {
-//                 let grabElement = listHeadings[i].parentElement;
-//                 return grabElement as HTMLDivElement;
-//                 }
-//             }  
-//             //Adds this task's list to LS if name not found in list headings
-//             let listsArray = createListsArray();
-//             //Repeats from createNewList;
-//             if (Array.isArray(listsArray)) {
-//                 listsArray.push(taskList);
-//                 localStorage.setItem('myLists',JSON.stringify(listsArray));
-//             }
-//             //Adds this list name to DOM if not already there
-//             //Repeats from renderList
-//             const fragment = new DocumentFragment;
-//             const content = document.querySelector('.content');    
-//             const list = document.createElement('div');
-//                 list.className='list';
-//             let grabElement = document.createElement('div');
-//             grabElement.className='task-list-heading';
-//             const listName = document.createElement('h2');
-//             let text = document.createTextNode(taskList);
-//             listName.appendChild(text);
-//             grabElement.appendChild(listName);
-//             content?.appendChild(grabElement);          
-//             fragment.appendChild(list);
-//             content?.append(fragment);  
-//             return grabElement as HTMLDivElement;
-//     }
-
-//     taskArray.forEach(function(task) {
-//         // let thisList = task.list;   
-//         // let grabElement = findList(thisList);
-
-//         const fragment = new DocumentFragment;
-//         const content = document.querySelector('.content');
-
-
-
-//         const listItem = document.createElement('div');
-//             listItem.className='list-item';
-//             listItem.dataset.id=task.id;
-
-//         const taskPriority = document.createElement('div');
-//             taskPriority.className='task-priority';
-//         const circle = document.createElement('div');
-//             circle.className='circle';
-//         const taskName = document.createElement('div');
-//             taskName.className='task-name';
-//             let text = document.createTextNode(task.task);
-//             taskName.appendChild(text);
-//         const taskDue = document.createElement('div');
-//             taskDue.className='task-due';
-//             text = document.createTextNode(task.date);
-//             taskDue.appendChild(text);
-
-//         //Adds event listener to show/hide details
-//         const taskToggle = document.createElement('div');
-//             taskToggle.className='task-toggle';
-//             text = document.createTextNode('+');
-//             taskToggle.appendChild(text);
-//             taskToggle.addEventListener('click',(e:Event)=>toggleInfo(e));
-
-//         //These are the toggle-info divs
-//         const taskInfo = document.createElement('div');
-//             taskInfo.className='task-info toggle';
-//             text = document.createTextNode(task.details);
-//             taskInfo.appendChild(text);
-
-//         const taskEdit = document.createElement('div');
-//             taskEdit.className='task-edit toggle';
-//         const editPencil = document.createElement('img') as HTMLImageElement;
-//             editPencil.src=pencilImg;
-
-//         const taskStatus = document.createElement('div');
-//             taskStatus.className='task-status toggle';
-//             text = document.createTextNode(task.status);
-//             taskStatus.appendChild(text);
-//         const taskDelete = document.createElement('div');
-//             taskDelete.className='task-delete toggle';
-//         const trashBin = document.createElement('img') as HTMLImageElement;
-//             trashBin.src=delImg; 
-//             trashBin.addEventListener('click',(e:Event)=>{
-//                 deleteItem(e);
-//                 updateDOM();
-//             });   
-//         const taskListName = document.createElement('div');
-//             taskListName.className='task-list-name toggle';
-//             text = document.createTextNode(task.list);
-//             taskListName.appendChild(text);
-
-
-// //Delete for Sorted
-//         // grabElement?.appendChild(listItem);
-
-//         listItem.appendChild(taskEdit);
-//             taskEdit.appendChild(editPencil);
-
-//         listItem.appendChild(taskDelete);
-//             taskDelete.appendChild(trashBin);
-//         listItem.appendChild(taskStatus);
-//         listItem.appendChild(taskListName);
-//         listItem.appendChild(taskInfo);
-//         listItem.appendChild(taskToggle);
-//         listItem.appendChild(taskDue);
-//         listItem.appendChild(taskName);
-//             taskPriority.appendChild(circle);
-//         listItem.appendChild(taskPriority);
-
-//     //DELETE for Sorted
-//         // fragment.appendChild(grabElement);
-
-//         fragment.appendChild(listItem);
-
-//         content?.append(fragment);  
-//     });
-// };
-    
-
 
 function renderSortedTask(taskArray:taskInt[]):void {
     //Finds list on DOM to attach task
@@ -831,3 +704,55 @@ function renderSortedTask(taskArray:taskInt[]):void {
         listItem.appendChild(taskPriority);
     });
 };
+
+function editTask(e:Event){
+    // let event = e.target as HTMLDivElement;
+    // let editTask = event.parentElement?.parentElement;
+    // console.log(editTask);
+    // let taskNum = editTask?.dataset.id;
+    // console.log(taskNum);
+    // localStorage.getItem(taskNum);
+
+    if (e.target instanceof Element) {
+        let task = e.target.parentElement?.parentElement;
+        let id = task?.dataset.id!;
+        let thisOne = localStorage.getItem(id);
+        console.log(thisOne);
+        let myTask = JSON.parse(thisOne!);
+        localStorage.removeItem(id);
+//HERE
+
+        function fillEditForm() {
+        showNewTaskForm();
+            const taskName = document.querySelector('[name="taskName"]');
+            console.log(taskName);
+            console.log(myTask.taskName);
+                taskName?.setAttribute('value',myTask.taskName);
+
+            const taskDate = document.querySelector('[name="taskDate"]') as HTMLInputElement;
+            console.log(taskDate);
+            console.log(myTask.taskDate);
+                taskDate.value=myTask.taskDate;
+
+            const taskPriority = document.querySelector('[name="taskPriority"]') as HTMLInputElement;
+                taskPriority.value=myTask.taskPriority;
+
+            const taskStatus = document.querySelector('[name="taskStatus"]') as HTMLInputElement;
+            console.log(taskStatus);
+            console.log(myTask.taskStatus);
+                taskStatus.value=myTask.taskStatus;
+
+            const taskDetails = document.querySelector('[name="taskDetails"]') as HTMLInputElement;
+            console.log(taskDetails);
+            console.log(myTask.taskDetails);
+                taskDetails.value= myTask.taskDetails;
+
+            const taskList = document.querySelector('[name="taskList"]') as HTMLInputElement;
+            console.log(taskList);
+            console.log(myTask.taskList);
+                taskList.value = myTask.taskList;    
+        };
+
+        fillEditForm();
+    }
+}
