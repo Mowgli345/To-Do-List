@@ -67,6 +67,7 @@ function updateDOM() {
     let sortedTasks = sortTaskArray(taskArray);
     let sortField = "list";
     renderTask(sortField, sortedTasks);
+    addListToggle();
 }
 function updateDOMOriginal() {
     clearDOM();
@@ -470,19 +471,6 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
     });
 
 //Add "No tasks" under empty headings
-    // let listHeadings = document.querySelectorAll(".task-list-heading");
-    let listHeadings = document.querySelectorAll(".task-list");
-    listHeadings.forEach((heading)=> {
-        let headingDiv = heading as HTMLDivElement;
-
-        if (heading.childElementCount<2) {
-            let noTasks = document.createElement("div");
-            noTasks.className="noTasksMsg";
-            let text = document.createTextNode("There are no tasks");
-            noTasks.appendChild(text);
-            heading.appendChild(noTasks);
-        }
-    });
 };
 
 function sortTaskArray(taskArray:taskInt[]) { 
@@ -504,7 +492,7 @@ function toggleInfo(e:Event) {
         let x = itemChild[i] as HTMLDivElement;
 
         if (x.classList.contains('toggle')) {
-            debugger;
+            // debugger;
             console.log(x.style.display);
             if (x.style.display==="flex") {
                 x.style.display='none';
@@ -754,8 +742,6 @@ function editTask(e:Event){
     }
 }
 
-
-
 function toggleList(e:Event) {
     const event = e.target as HTMLDivElement;  
     let thisList = event.parentElement?.parentElement;
@@ -769,20 +755,19 @@ function toggleList(e:Event) {
             if (x.style.display=="grid"||x.style.display=="") {
                 x.style.display='none';
                 event.textContent="+";
-                event.style.fontSize="2.4rem";
-                // event.style.lineHeight="1rem";
+                event.style.paddingLeft="1rem";
+                event.classList.remove("minus");
+
 
             } else {
                 x.style.display='grid';
-                event.textContent="-";
-                // event.style.fontSize="3.6rem";
-                // event.style.lineHeight="0.5rem";
+                event.textContent="\u2013";
+                event.classList.add("minus");
             }
             }
         }
     }
 }
-
 
 export function renderList(parsedList:string[]):void {
     const fragment = new DocumentFragment;
@@ -802,8 +787,8 @@ export function renderList(parsedList:string[]):void {
         listName.appendChild(text);
 
     const listToggle = document.createElement('div');
-    listToggle.className='list-toggle';
-    text = document.createTextNode('-');
+    listToggle.className='list-toggle minus';
+    text = document.createTextNode("\u2013");
     listToggle.appendChild(text);
     listToggle.addEventListener('click',(e:Event)=>toggleList(e));
 
@@ -816,3 +801,22 @@ export function renderList(parsedList:string[]):void {
     content?.append(fragment);  
     };
 
+
+function addListToggle() {
+    let listHeadings = document.querySelectorAll(".task-list");
+    listHeadings.forEach((heading)=> {
+        let headingDiv = heading as HTMLDivElement;
+
+        if (heading.childElementCount<2) {
+            let noTasks = document.createElement("div");
+            noTasks.className="noTasksMsg";
+            let text = document.createTextNode("There are no tasks");
+            noTasks.appendChild(text);
+            heading.appendChild(noTasks);
+            let thisToggle = heading.firstElementChild?.lastElementChild
+            thisToggle!.textContent="";
+
+
+        }
+    });
+};

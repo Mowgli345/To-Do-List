@@ -98,25 +98,37 @@ h1 {
 
 
  h2 {
-    margin-bottom: 0;
+    margin: 0;
  }
  .list-toggle {
     color: var(--page-orange);
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     font-weight: bold;
     text-align: center;
-    padding-top: 0.7rem;
+    width:20px;
+
 }
 .list-toggle:hover {
     color: var(--dark-orange);
     cursor: pointer;
+}
+.minus {
+    font-size: 2.3rem;
+    padding-right: 0.2rem;
 }
 
 .task-list-heading {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    /* outline:dotted red .4px;  */
+    line-height: 2.4rem;
 }
+
+.task-list-heading div,h2 {
+    /* outline:dotted green .4px;  */
+}
+
 .task-list-name {
     grid-area: 2/2/3/3;
     justify-content: flex-start;
