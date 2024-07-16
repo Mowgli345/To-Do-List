@@ -324,7 +324,7 @@ export function createListsArray() {
         return listsArray;
     } else return [];
 }
-export function renderList(parsedList:string[]):void {
+export function renderList2Original(parsedList:string[]):void {
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');    
     const list = document.createElement('div');
@@ -389,7 +389,7 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
         const content = document.querySelector('.content');
 
         const listItem = document.createElement('div');
-            listItem.className='list-item';
+            listItem.className='task-item';
             listItem.dataset.id=task.id;
 
         const taskPriority = document.createElement('div');
@@ -465,19 +465,20 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
         listItem.appendChild(taskToggle);
         listItem.appendChild(taskDue);
         listItem.appendChild(taskName);
-            taskPriority.appendChild(circle);
         listItem.appendChild(taskPriority);
+        taskPriority.appendChild(circle);
     });
 
 //Add "No tasks" under empty headings
-    let listHeadings = document.querySelectorAll(".task-list-heading");
+    // let listHeadings = document.querySelectorAll(".task-list-heading");
+    let listHeadings = document.querySelectorAll(".task-list");
     listHeadings.forEach((heading)=> {
         let headingDiv = heading as HTMLDivElement;
 
         if (heading.childElementCount<2) {
             let noTasks = document.createElement("div");
             noTasks.className="noTasksMsg";
-            let text = document.createTextNode("There are no tasks for this list");
+            let text = document.createTextNode("There are no tasks");
             noTasks.appendChild(text);
             heading.appendChild(noTasks);
         }
@@ -503,6 +504,8 @@ function toggleInfo(e:Event) {
         let x = itemChild[i] as HTMLDivElement;
 
         if (x.classList.contains('toggle')) {
+            debugger;
+            console.log(x.style.display);
             if (x.style.display==="flex") {
                 x.style.display='none';
                 event.textContent="+";
@@ -541,7 +544,7 @@ function findList(thisList:string):HTMLDivElement {
     for (let i=0; i<listHeadings.length;i++) {
         let listName =listHeadings[i].textContent;
         if (taskList == listName) {
-            let grabElement = listHeadings[i].parentElement;
+            let grabElement = listHeadings[i].parentElement?.parentElement;
             return grabElement as HTMLDivElement;
             }
         }  
@@ -559,7 +562,7 @@ function findList(thisList:string):HTMLDivElement {
         const list = document.createElement('div');
             list.className='list';
         let grabElement = document.createElement('div');
-        grabElement.className='task-list-heading';
+        grabElement.className='task-list';
         const listName = document.createElement('h2');
         let text = document.createTextNode(taskList);
         listName.appendChild(text);
@@ -650,7 +653,7 @@ function renderSortedTask(taskArray:taskInt[]):void {
         const content = document.querySelector('.content');
 
         const listItem = document.createElement('div');
-            listItem.className='list-item';
+            listItem.className='task-item';
             listItem.dataset.id=task.id;
 
         const taskPriority = document.createElement('div');
@@ -750,3 +753,66 @@ function editTask(e:Event){
         };
     }
 }
+
+
+
+function toggleList(e:Event) {
+    const event = e.target as HTMLDivElement;  
+    let thisList = event.parentElement?.parentElement;
+    let itemChildren = thisList?.children!; 
+    let itemChild= Array.from(itemChildren); 
+
+    if (itemChild?.length>0) {
+    for (let i = 0; i<itemChild?.length; i++) {
+        let x = itemChild[i] as HTMLDivElement;
+        if (x.className=='task-item') {
+            if (x.style.display=="grid"||x.style.display=="") {
+                x.style.display='none';
+                event.textContent="+";
+                event.style.fontSize="2.4rem";
+                // event.style.lineHeight="1rem";
+
+            } else {
+                x.style.display='grid';
+                event.textContent="-";
+                // event.style.fontSize="3.6rem";
+                // event.style.lineHeight="0.5rem";
+            }
+            }
+        }
+    }
+}
+
+
+export function renderList(parsedList:string[]):void {
+    const fragment = new DocumentFragment;
+    const content = document.querySelector('.content');    
+    const list = document.createElement('div');
+        list.className='list';
+    let length = parsedList.length;
+
+    for (let i=0; i<length;i++) {
+        const taskList = document.createElement('div');
+        taskList.className='task-list';
+        const taskListHeading = document.createElement('div');
+        taskListHeading.className='task-list-heading';
+
+        const listName = document.createElement('h2');
+        let text = document.createTextNode(parsedList[i]);
+        listName.appendChild(text);
+
+    const listToggle = document.createElement('div');
+    listToggle.className='list-toggle';
+    text = document.createTextNode('-');
+    listToggle.appendChild(text);
+    listToggle.addEventListener('click',(e:Event)=>toggleList(e));
+
+        taskListHeading.appendChild(listName);
+        taskListHeading.appendChild(listToggle);
+        taskList.appendChild(taskListHeading);
+        content?.appendChild(taskList);
+        }
+    fragment.appendChild(list);
+    content?.append(fragment);  
+    };
+
