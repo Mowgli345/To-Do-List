@@ -569,8 +569,106 @@ updateDOM();
 }
 
 function sortByDate(e:Event){
-    console.log("Hello");
-}
+    clearDOM();
+    let taskArray= createTasksArray();
+    let sortedTasks = sortTaskArray(taskArray);
+
+//EDITED RENDERTASKS
+        sortedTasks.forEach(function(task) { 
+
+            const fragment = new DocumentFragment;
+            const content = document.querySelector('.content');
+    
+            const listItem = document.createElement('div');
+                listItem.className='task-item';
+                listItem.dataset.id=task.id;
+    
+            const taskPriority = document.createElement('div');
+                taskPriority.className='task-priority';
+            const circle = document.createElement('div');
+                circle.className='circle';
+                if (task.priority=='High') {
+                    circle.style.backgroundColor='red';
+                }
+                if (task.priority=='Low') {
+                    circle.style.backgroundColor='rgb(57, 162, 211)';
+                };
+    
+            const taskName = document.createElement('div');
+                taskName.className='task-name';
+                let text = document.createTextNode(task.task);
+                taskName.appendChild(text);
+    
+            const taskDue = document.createElement('div');
+                taskDue.className='task-due';
+                text = document.createTextNode(task.date);
+                taskDue.appendChild(text);
+                if (task.rawDate < new Date()) {
+                    taskDue.style.color="red";
+                    taskDue.style.fontStyle="italic";
+                }
+            //Adds event listener to show/hide details
+            const taskToggle = document.createElement('div');
+                taskToggle.className='task-toggle';
+                text = document.createTextNode('+');
+                taskToggle.appendChild(text);
+                taskToggle.addEventListener('click',(e:Event)=>toggleInfo(e));
+    
+            //These are the toggle-info divs
+            const taskInfo = document.createElement('div');
+                taskInfo.className='task-info toggle';
+                text = document.createTextNode(task.details);
+                taskInfo.appendChild(text);
+    
+            const taskEdit = document.createElement('div');
+                taskEdit.className='task-edit toggle';
+            const editPencil = document.createElement('img') as HTMLImageElement;
+                editPencil.src=pencilImg;
+                editPencil.addEventListener('click',(e:Event)=>editTask(e));
+    
+            const taskStatus = document.createElement('div');
+                taskStatus.className='task-status toggle';
+                text = document.createTextNode(task.status);
+                taskStatus.appendChild(text);
+            const taskDelete = document.createElement('div');
+                taskDelete.className='task-delete toggle';
+            const trashBin = document.createElement('img') as HTMLImageElement;
+                trashBin.src=delImg; 
+                trashBin.addEventListener('click',(e:Event)=>{
+                    deleteItem(e);
+                    updateDOM();
+                });   
+            const taskListName = document.createElement('div');
+                taskListName.className='task-list-name toggle';
+                text = document.createTextNode(task.list);
+                taskListName.appendChild(text);
+    
+            content!.appendChild(listItem);
+    
+            listItem.appendChild(taskEdit);
+                taskEdit.appendChild(editPencil);
+    
+            listItem.appendChild(taskDelete);
+                taskDelete.appendChild(trashBin);
+            listItem.appendChild(taskStatus);
+            listItem.appendChild(taskListName);
+            listItem.appendChild(taskInfo);
+            listItem.appendChild(taskToggle);
+            listItem.appendChild(taskDue);
+            listItem.appendChild(taskName);
+            listItem.appendChild(taskPriority);
+            taskPriority.appendChild(circle);
+        });
+    
+    //Add "No tasks" under empty headings
+    };
+
+
+
+
+
+
+
     
 function sortByPriority(e:Event){
     clearDOM();
