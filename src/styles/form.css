@@ -6,15 +6,15 @@ dialog {
 }
 
 form {
-    color: var(--dark-orange);
+    color: var(--border-color);
     color:rgb(82, 82, 82);
     font-size: 1.3rem;
 }
 
 fieldset {
-    /* outline: dotted green .5px; */
     border: none;
 }
+
 ul {
     list-style: none;
     padding:0;
@@ -27,14 +27,13 @@ label {
     display: inline-block;
     width: 95px;
     line-height: 2.2rem;
-    /* outline: dotted .3px green; */
 }
 input {
     height: 1.8rem;
-    border: solid 2px var(--dark-orange);
+    border: solid 2px var(--border-color);
     border-radius: 4px;
     font-size: 1.2rem;
-    color:rgb(122, 122, 122);
+    color:var(--text-color);
 }
 
 input[type=date] {
@@ -47,7 +46,7 @@ input:focus {
 
 select {
     height: 1.8rem;
-    border: solid 2px var(--dark-orange);
+    border: solid 2px var(--border-color);
     border-radius: 4px;
     font-size: 1.2rem;
     color:rgb(122, 122, 122);
@@ -59,8 +58,8 @@ select {
     border:none;
     border-radius: 4px;
     color:white;
-    background-color: var(--page-orange);
-    background-color:rgb(179, 179, 179);
+    background-color: var(--heading-color);
+    background-color: var(--button-color);
     padding: .3rem .9rem;
     font-size: 1.3rem;
     margin-top: 16px;
@@ -68,10 +67,53 @@ select {
 }
 
 .buttonsRow>button:hover{
-    background-color: var(--dark-orange);
+    background-color: var(--border-color);
 }
 
 .buttonsRow {
     display: flex;
     justify-content: space-between;
+}
+
+li.circle {
+    height: 35px;
+    width:35px;
+    border-radius: 50%;
+    display: block;
+}
+li.circle:hover {
+    cursor: pointer;
+}
+
+.circle-blue {
+    background-color:blue;
+}
+.circle-green {
+    background-color:green;
+}
+.circle-orange {
+    background-color:orange;
+}
+.circle-grey {
+    background-color:grey;
+}
+.circle-black {
+    background-color:black;
+}
+
+#newColorDialog ul li {
+    display: inline-block;
+    margin: 0;
+}
+#newColorForm ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#newColorDialog {
+    border: none;
+    border-radius: 6px;
+    padding: 35px 30px 40px 20px;
+    width:40%;
 }
