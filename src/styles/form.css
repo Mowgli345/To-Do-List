@@ -117,3 +117,36 @@ li.circle:hover {
     padding: 35px 30px 40px 20px;
     width:40%;
 }
+
+#closeDialog {
+    background-color: white;
+    color:var(--button-color);
+    border:2.5px solid var(--border-color);
+    border-radius: 3px;
+    padding:2px 4px 2px 4px;
+    /* width:20px; */
+    align-self:flex-end;
+    font-style: bold;
+    font-size: 1.3rem;
+
+}
+
+#newColorForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap:30px;
+    /* height: 200px; */
+    padding:0;
+
+}
+#newColorForm> * {
+    /* outline: dotted red .5px; */
+}
+#newColorDialog {
+    padding:10px 20px 25px 20px;
+}
+
+ul {
+    /* gap:15px; */
+}

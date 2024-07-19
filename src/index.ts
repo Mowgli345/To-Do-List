@@ -123,6 +123,7 @@ function showNewListForm() {
         });
     button.appendChild(text);
     buttonsRow.appendChild(button);
+
     button = document.createElement('button');
     text = document.createTextNode('Add list');
     button.setAttribute('type','submit');
@@ -887,10 +888,16 @@ function showColorPicker() {
     const form = document.createElement('form');
         form.setAttribute('method','dialog');
         form.id='newColorForm';
-        // form.addEventListener('submit',(e:Event)=>{
-        //     changeColor();
-        //     updateDOM();
-        // })
+
+    const closeDialog = document.createElement('button');
+        closeDialog.id="closeDialog";
+        closeDialog.setAttribute('type','submit');
+        let text = document.createTextNode('X');
+        closeDialog.appendChild(text);
+        form.appendChild(closeDialog);
+        closeDialog.addEventListener('click',() => {
+            dialog.close();
+        });
 
     const list = document.createElement('ul');
 
