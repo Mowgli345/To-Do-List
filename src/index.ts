@@ -16,9 +16,7 @@ import { findLocStoreLists, createNewList, createTask, taskInt, task } from "./s
         newListButton?.addEventListener('click',(e:Event)=>showNewListForm());
 
     const newColorButton = document.querySelector('.newColorButton');        
-        newColorButton?.addEventListener('click',(e:Event)=>showColorPicker());
-
-    
+        newColorButton?.addEventListener('click',(e:Event)=>showColorPicker());    
 
     const sort = document.querySelector('.sort');
         sort?.addEventListener('click',(e:Event)=>showSortMenu());   
@@ -35,8 +33,7 @@ import { findLocStoreLists, createNewList, createTask, taskInt, task } from "./s
     const sortPriority = document.getElementById('sort-priority');
         sortPriority?.addEventListener('click',(e:Event)=>sortByPriority(e));
     const sortStatus = document.getElementById('sort-status');
-        sortStatus?.addEventListener('click',(e:Event)=>sortByStatus(e));
-    
+        sortStatus?.addEventListener('click',(e:Event)=>sortByStatus(e));   
     
         //Sort Menu styling
     function sortBorderOff(e:Event) {
@@ -107,6 +104,7 @@ function showNewListForm() {
     let input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','newList');
+        input.setAttribute('required','true');
         input.id='newList';
     listItem.appendChild(input);
     list.appendChild(listItem);   
@@ -133,6 +131,7 @@ function showNewListForm() {
     list.appendChild(listItem);     
     fieldset.appendChild(list);
     form.appendChild(fieldset);
+
     dialog.append(form);
     fragment.appendChild(dialog);
     content?.append(fragment);
@@ -164,7 +163,7 @@ function showNewTaskForm() {
     let input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','taskName');
-                input.setAttribute('value','Task #'); //Placeholder
+        input.setAttribute('required','true');
         input.id='taskName';
     listItem.appendChild(input);
     list.appendChild(listItem);     
@@ -304,7 +303,6 @@ function showNewTaskForm() {
     content?.append(fragment);
     dialog.showModal();
 };
-
 
 export function createListsArray() {
     let ind:number = findLocStoreLists();
@@ -477,7 +475,6 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
 
         listItem.appendChild(taskEdit);
             taskEdit.appendChild(editPencil);
-
         listItem.appendChild(taskDelete);
             taskDelete.appendChild(trashBin);
         listItem.appendChild(taskStatus);
@@ -487,7 +484,7 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
         listItem.appendChild(taskDue);
         listItem.appendChild(taskName);
         listItem.appendChild(taskPriority);
-        taskPriority.appendChild(circle);
+            taskPriority.appendChild(circle);       
     });
 
 };
@@ -508,6 +505,16 @@ export function renderList(parsedList:string[]):void {
         let text = document.createTextNode(parsedList[i]);
         listName.appendChild(text);
 
+        //DELTE LIST FROM HERE
+        const listDelete = document.createElement('div');
+            listDelete.className='list-delete';
+        const trashBin = document.createElement('img') as HTMLImageElement;
+            trashBin.src=delImg; 
+            trashBin.addEventListener('click',(e:Event)=>{
+                checkListTasks(e);
+            });  
+        listDelete.appendChild(trashBin);
+
     const listToggle = document.createElement('div');
     listToggle.className='list-toggle minus';
     text = document.createTextNode("\u2013");
@@ -515,6 +522,7 @@ export function renderList(parsedList:string[]):void {
     listToggle.addEventListener('click',(e:Event)=>toggleList(e));
 
         taskListHeading.appendChild(listName);
+        taskListHeading.appendChild(listDelete); 
         taskListHeading.appendChild(listToggle);
         taskList.appendChild(taskListHeading);
         content?.appendChild(taskList);
@@ -522,7 +530,6 @@ export function renderList(parsedList:string[]):void {
     fragment.appendChild(list);
     content?.append(fragment);  
 };
-
     
 //Others
 function toggleInfo(e:Event) {
@@ -536,8 +543,6 @@ function toggleInfo(e:Event) {
         let x = itemChild[i] as HTMLDivElement;
 
         if (x.classList.contains('toggle')) {
-            // debugger;
-            console.log(x.style.display);
             if (x.style.display==="flex") {
                 x.style.display='none';
                 event.textContent="+";
@@ -600,6 +605,7 @@ function deleteItem(e:Event){
         localStorage.removeItem(id);
     }
 }
+
 function showSortMenu() {
     const sortMenu = document.querySelector('.sort-menu') as HTMLDivElement;
     if (sortMenu.style.display==='block') {
@@ -877,8 +883,6 @@ function renderSortedTask(taskArray:taskInt[]):void {
 };
 
 
-updateDOM();
-
 function showColorPicker() {
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
@@ -909,7 +913,6 @@ function showColorPicker() {
                 updateDOM();
                 })
         list.appendChild(listItem);  
-
 
     listItem = document.createElement('li');
         listItem.className="circle circle-green";
@@ -952,10 +955,89 @@ function showColorPicker() {
     fragment.appendChild(dialog);
     content?.append(fragment);
     dialog.showModal();
-
 }
 
 function changeColor(color:string) {
     document.documentElement.className = color;
-
 }
+
+function checkListTasks(e:Event) {
+    if (e.target instanceof Element) {
+        let list = e.target.parentElement?.parentElement as HTMLDivElement;
+        if (list?.nextElementSibling?.className == "task-item") {
+                    showListDeleteConfirm(list);
+                }
+        else {
+            deleteList(list);
+        }
+    }
+}
+function deleteList(list:HTMLDivElement){
+        let id = list?.firstChild?.textContent;
+        let myLists = localStorage.getItem('myLists');
+        localStorage.removeItem(myLists!);
+        let myParsedList = JSON.parse(myLists!); 
+        let ind = myParsedList.indexOf(id);
+        if (ind>-1) {
+            myParsedList.splice(ind,1);
+        }
+        localStorage.setItem('myLists',JSON.stringify(myParsedList));        
+        let listName:string= String(id);  
+        removeListTasks(listName);
+        updateDOM();
+}
+function showListDeleteConfirm(list:HTMLDivElement) {
+    let confirmDelete = false;
+    const fragment = new DocumentFragment;
+    const content = document.querySelector('.content');
+    const dialog = document.createElement('dialog');
+        dialog.id='confirmDeleteDialog';
+    const form = document.createElement('form');
+        form.setAttribute('method','dialog');
+    let msg = document.createElement('div');
+    msg.className ='deleteConfirmMsg';
+        let text = document.createTextNode('There are tasks associated with this list. \nAre you sure you want to delete?');
+    msg.appendChild(text);
+
+    let buttonsRow = document.createElement('div');
+        buttonsRow.className='buttonsRow';
+    let button = document.createElement('button');
+        text = document.createTextNode('Delete');
+        button.addEventListener('click',(e:Event) => {
+            e.preventDefault();
+            deleteList(list);
+            dialog.close();
+        });
+    button.appendChild(text);
+    buttonsRow.appendChild(button);
+
+    button = document.createElement('button');
+    button.setAttribute('type','submit');
+    text = document.createTextNode('Cancel');
+    button.addEventListener('click',() => {
+        confirmDelete = false;
+        return confirmDelete;
+    });
+    button.appendChild(text);
+    buttonsRow.appendChild(button);
+
+    form.append(msg);
+    form.appendChild(buttonsRow);
+    dialog.appendChild(form);
+    fragment.appendChild(dialog);
+    content?.append(fragment);
+    dialog.showModal();
+}
+function removeListTasks(list:string) {
+    Object.keys(localStorage).forEach(function(key){
+        let thisKey = JSON.parse(localStorage.getItem(key)!);
+        if (thisKey.taskList == list) {
+            localStorage.removeItem(key);
+        };
+    })
+}
+
+
+updateDOM();
+
+

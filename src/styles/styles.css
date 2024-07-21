@@ -20,11 +20,6 @@
     font-style: italic;
 }
 :root, :root.grey {
-    /* --heading-color: rgb(97, 97, 97);
-    --border-color: rgb(170, 170, 170);
-    --button-color: rgb(97, 97, 97);
-    --text:rgb(76, 75, 75); */
-
     --heading-color: #565656;
     --border-color: #D7CEC7;
     --button-color: #565656;
@@ -37,33 +32,18 @@
     --text:rgb(117, 117, 117);
 }
 :root, :root.blue {
-    /* --heading-color: rgb(0,0,153);
-    --border-color: rgb(0,0,255);
-    --button-color: rgb(0,0,153);
-    --text:black; */
-
     --heading-color: #0B3C5D;
     --border-color: #2b77a3;
     --button-color: #104f79;
     --text:#1D2731;
 }
 :root, :root.black {
-    /* --heading-color: rgb(51,0,0);
-    --border-color: rgb(64,64,64);
-    --button-color: rgb(51,0,0);
-    --text:rgb(117, 117, 117); */
-
     --heading-color: #0A1612;
     --border-color: #c5c1c0;
     --button-color: #1a2930;
     --text:#1a2930;
 }
 :root, :root.green {
-    /* --heading-color: rgb(1, 112, 1);
-    --border-color: rgb(76,153,0);
-    --button-color: rgb(1, 112, 1);
-    --text:black; */
-
     --border-color: #009933;
     --heading-color: rgb(1, 112, 1);
     --button-color: #009933;
@@ -146,11 +126,38 @@ h1 {
  .task-list {
     min-width:265px ;
 }
+.task-list-heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    line-height: 2.4rem;
+
+}
+.task-list-heading >div {
+    /* outline: dotted red .2px; */
+}
+.task-list-name {
+    grid-area: 2/2/3/3;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
  h2 {
     margin: 0;
     color: var(--heading-color);
     margin-bottom: 5px;
+    margin-right: 8px;
  } 
+
+.list-delete {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+}
+.list-delete img {
+    height: 1.7rem;
+}
+
+
 .list-toggle {
     color: var(--heading-color);
     font-size: 2.2rem;
@@ -166,17 +173,8 @@ h1 {
     font-size: 2.3rem;
     padding-right: 0.2rem;
 }
-.task-list-heading {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    line-height: 2.4rem;
-}
-.task-list-name {
-    grid-area: 2/2/3/3;
-    justify-content: flex-start;
-    align-items: flex-end;
-}
+
+
 .task-item {
     display: grid;
     grid-template-rows: 1.4rem;
@@ -266,7 +264,7 @@ h1 {
 .task-delete img {
     height: 1.6rem;
 }
-.task-delete img:hover {
+.task-delete, .list-delete img:hover {
     cursor: pointer;
 }
 .newTaskButton {

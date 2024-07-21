@@ -150,3 +150,21 @@ li.circle:hover {
 ul {
     /* gap:15px; */
 }
+
+#confirmDeleteDialog {
+    /* outline: solid 2px black; */
+    white-space: pre-line;
+padding:30px;
+}
+.deletConfirmMsg {
+    font-size: 1.3rem;
+    white-space: pre-line;
+    line-height: 1.5rem;
+}
+#confirmDeleteDialog button {
+    font-size: 1rem;
+}
+#confirmDeleteDialog .buttonsRow {
+    margin-top: 10px;
+}
+
