@@ -131,6 +131,12 @@ h1 {
     flex-direction: row;
     justify-content: space-between;
     line-height: 2.4rem;
+    /* margin-bottom: 5px;
+    margin-right: 8px; */
+    /* margin:1px 8px 5px 1px; */
+    /* padding:8px; */
+    padding:1px 8px 5px 1px;
+
 
 }
 .task-list-heading >div {
@@ -144,19 +150,26 @@ h1 {
  h2 {
     margin: 0;
     color: var(--heading-color);
-    margin-bottom: 5px;
-    margin-right: 8px;
+    /* margin-bottom: 5px;
+    margin-right: 8px; */
  } 
+ .listNameTitle {
+    /* margin-right: 8px; */
+    padding: 1px;
+ }
+ h2:hover {
+    cursor: pointer;
+ }
 
 .list-delete {
     margin-right: auto;
     display: flex;
     align-items: center;
+    margin-left:8px;
 }
 .list-delete img {
     height: 1.7rem;
 }
-
 
 .list-toggle {
     color: var(--heading-color);
@@ -173,7 +186,6 @@ h1 {
     font-size: 2.3rem;
     padding-right: 0.2rem;
 }
-
 
 .task-item {
     display: grid;
@@ -313,6 +325,10 @@ dialog{
     outline:none;
 }
 
+.hide {
+    display: none;
+}
+
 @media screen and (max-width:500px) {
 .task-list-name {
     grid-area: 2/2/3/5;
@@ -369,3 +385,30 @@ body {
 }    
 }
 
+.div1 {
+    margin:30px;
+    width:400px;
+    height: 400px;
+    background-color: blue;
+    }
+.div2 {
+    /* margin:auto; */
+    width:300px;
+    height: 300px;
+    background-color:red;    
+}
+.div3 {
+    /* margin:auto; */
+    width:200px;
+    height: 200px;
+    background-color: green;      
+}
+.div1:hover {
+    cursor: pointer;
+}
+.div2:hover {
+    cursor: pointer;
+}
+.div3:hover {
+    cursor: pointer;
+}
