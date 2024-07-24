@@ -107,4 +107,18 @@ export function createTask(e:Event) {
     form.reset();
     dialog?.close();
 }
+export function findMyList(listsArray:object) {
+    if (Array.isArray(listsArray)) {
+        let listsIndex = listsArray.findIndex(e=>e==='My List');
+        if (listsIndex==-1) {
+            listsArray.push('My List');
+            return listsArray;
+        }
+        else {
+            return listsArray;
+        }
+    } else {
+        return -1;
+    }
+};
 

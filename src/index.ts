@@ -4,7 +4,7 @@ import delImg from './assets/images/delete.svg';
 import pencilImg from './assets/images/pencil.svg';
 
 
-import { findLocStoreLists, createNewList, createTask, taskInt, task } from "./scripts";
+import { findLocStoreLists, createNewList, createTask, taskInt, task, findMyList } from "./scripts";
 //DOM-related scripts
 
 //IIFE to store all DOM variables and event listeners
@@ -307,14 +307,18 @@ function showNewTaskForm() {
 export function createListsArray() {
     let ind:number = findLocStoreLists();
     let locStoreArray = Object.values(localStorage);
-    
     if (Array.isArray(locStoreArray)) {
         let listsArray:string[]=[];
         let listItem=locStoreArray[ind];
         let lists = JSON.parse(listItem);
+        let x = locStoreArray[ind];
+        // if (lists.length == 0) {
+        //     lists.push("My List");            
+        //     }
         for (let i = 0; i<lists.length;i++) {
             listsArray.push(lists[i]);
             }
+            findMyList(listsArray);
         return listsArray;
     } else return [];
 }
@@ -531,50 +535,27 @@ export function renderList(parsedList:string[]):void {
             });  
         listDelete.appendChild(trashBin);
 
-    const listToggle = document.createElement('div');
-    listToggle.className='list-toggle minus';
-    text = document.createTextNode("\u2013");
-    listToggle.appendChild(text);
-    listToggle.addEventListener('click',(e:Event)=>toggleList(e));
-
-        taskListHeading.appendChild(listName);
-        taskListHeading.appendChild(listDelete); 
-        taskListHeading.appendChild(listToggle);
-        taskList.appendChild(taskListHeading);
-
-                    //From here
-                    taskListHeading.addEventListener('mouseenter',(e:Event)=>{
-                        // debugger;
-                        // console.log("e.target:");
-                        // console.log(e.target);
-                        // console.log("e.currentTarget:");
-                        // console.log(e.currentTarget);
-                        toggleListDisplay(e);
-
-                        // practicemouseEvent(e);
-
+        const listToggle = document.createElement('div');
+        listToggle.className='list-toggle minus';
+        text = document.createTextNode("\u2013");
+        listToggle.appendChild(text);
+        listToggle.addEventListener('click',(e:Event)=>toggleList(e));
+            taskListHeading.appendChild(listName);
+            taskListHeading.appendChild(listDelete); 
+            taskListHeading.appendChild(listToggle);
+            taskList.appendChild(taskListHeading);
+                 taskListHeading.addEventListener('mouseenter',(e:Event)=>{
+                    toggleListDisplay(e);
                     });
-
-                    taskListHeading.addEventListener('mouseleave',(e:Event)=>{
-                        toggleListDisplay(e);
-
-                    } );
-            
-                    // let event = new MouseEvent('mouseover',{
-                    //     'view':window,
-                    //     'bubbles':false,
-                    //     'cancelable':true
-                    // });
-                    // listNameTitle.dispatchEvent(event);
-
+                taskListHeading.addEventListener('mouseleave',(e:Event)=>{
+                    toggleListDisplay(e);
+                    });           
         content?.appendChild(taskList);
         }
     fragment.appendChild(list);
     content?.append(fragment);  
 };
-function practicemouseEvent(e:Event) {
-    console.log(e.target);
-}
+
     
 //Others
 function toggleInfo(e:Event) {
@@ -714,7 +695,6 @@ function sortByStatus(e:Event){
     let sortField = "status";
     renderTask(sortField, sortedTasks);
 };
-
 function sortByDate(e:Event){
     clearDOM();
     let taskArray= createTasksArray();
@@ -988,11 +968,9 @@ function showColorPicker() {
     content?.append(fragment);
     dialog.showModal();
 }
-
 function changeColor(color:string) {
     document.documentElement.className = color;
 }
-
 function checkListTasks(e:Event) {
     if (e.target instanceof Element) {
         let list = e.target.parentElement?.parentElement as HTMLDivElement;
@@ -1107,6 +1085,9 @@ function mouseEvent (e:Event, text:string) {
 }
 // scriptsPractice();
 
+function practicemouseEvent(e:Event) {
+    console.log(e.target);
+}
 
 
 
