@@ -623,7 +623,7 @@ console.log(itemChild);
     if (itemChild?.length>0) {
         let x = itemChild[4] as HTMLDivElement;
         console.log(x);   
-        x.classList.toggle('hidden');     
+        x.classList.toggle('show');     
     }
 }
 
