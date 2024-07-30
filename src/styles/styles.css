@@ -49,7 +49,6 @@
     --button-color: #009933;
     --text:#1a2930;
 }
-
 html, body {
     margin: 0;
     padding: 0;
@@ -74,7 +73,6 @@ header,footer {
 h1 {
     font-weight: bold;
     color: var(--heading-color);
-    display: inline-block;
     font-size: 3rem;
     margin-bottom: 0;
     line-height: 3rem;
@@ -115,7 +113,7 @@ h1 {
     text-align: center;
     margin: 0;
 }
- .content {
+.content {
     border: 4.9px solid var(--border-color);
     border-radius: 6px;
     min-height: 75%;
@@ -123,7 +121,7 @@ h1 {
     color: var(--text);
     min-width: 260px;
  }
- .task-list {
+.task-list {
     min-width:265px ;
 }
 .task-list-heading {
@@ -131,36 +129,21 @@ h1 {
     flex-direction: row;
     justify-content: space-between;
     line-height: 2.4rem;
-    /* margin-bottom: 5px;
-    margin-right: 8px; */
-    /* margin:1px 8px 5px 1px; */
-    /* padding:8px; */
     padding:1px 8px 5px 1px;
-
-
 }
 .task-list-heading >div {
     /* outline: dotted red .2px; */
 }
-.task-list-name {
-    grid-area: 2/2/3/3;
-    justify-content: flex-start;
-    align-items: flex-end;
-}
  h2 {
     margin: 0;
     color: var(--heading-color);
-    /* margin-bottom: 5px;
-    margin-right: 8px; */
  } 
- .listNameTitle {
-    /* margin-right: 8px; */
-    padding: 1px;
- }
  h2:hover {
     cursor: pointer;
  }
-
+ .listNameTitle {
+    padding: 1px;
+ }
 .list-delete {
     margin-right: auto;
     display: flex;
@@ -170,7 +153,6 @@ h1 {
 .list-delete img {
     height: 1.7rem;
 }
-
 .list-toggle {
     color: var(--heading-color);
     font-size: 2.2rem;
@@ -189,17 +171,17 @@ h1 {
 
 .task-item {
     display: grid;
-    grid-template-rows: 1.4rem;
+    grid-template-rows: 1.7rem;
     grid-template-columns: 25px 1fr 25px 110px 35px 15px;
     padding-top: 6px;
     padding-bottom: 6px;
     border-bottom: 1.4px solid rgb(175, 172, 172);
 }
+/* .task-item>div {
+    outline: dotted red .5px;
+} */
 .task-item:last-child {
     margin-bottom: 10px;
-}
-.task-expand {
-    grid-template-rows: 1.4rem 2.9rem auto;
 }
 .task-priority {
     grid-area: 1/1/2/2;
@@ -210,13 +192,21 @@ h1 {
 .circle {
     height: 16px;
     width:16px;
-    /* background-color: green; */
     border-radius: 50%;
     display: block;
 }
 .task-name {
     grid-area: 1/2/2/4;
     font-size: 1.1rem;
+}
+.task-due {
+    grid-area: 1/4/2/5;
+    text-align: end;
+    padding-right: 1rem;
+    padding-bottom: 0.2rem;
+    display: flex;
+    align-items:flex-end;
+    justify-content: flex-end;
 }
 .task-toggle {
     grid-area: 1/5/2/6;
@@ -230,17 +220,34 @@ h1 {
     color: var(--border-color);
     cursor: pointer;
 }
-.task-info {
-    grid-area: 3/2/4/6;
-    padding-right: 1.7rem;
-    font-size: 0.95rem;
-    color: rgb(10, 10, 10);
-    font-style: italic;
-    padding-left: 8px;
-    padding-top: 4px;
+
+.innerWrapper {
+    grid-area:2/2/3/6;
+}
+
+.innerWrapper {
+    display: grid;
+    grid-template-columns: 1fr 25px 110px 35px ;
+    grid-template-rows: 1.7rem 1.7rem; 
+    overflow: hidden;
+}
+
+.hidden {
+    min-height: 0;
+    grid-template-rows: 0 0; 
+}
+.show {
+    grid-template-rows: 1.7rem 1.7rem; 
+}
+
+
+.task-list-name {
+    grid-area: 1/1/2/2;
+    justify-content: flex-start;
+    align-items: flex-end;
 }
 .task-edit {
-    grid-area: 2/3/3/4;
+    grid-area: 1/2/2/3;
     display: flex;
     align-items: center;
     justify-content:center;
@@ -252,24 +259,15 @@ h1 {
     cursor: pointer;
 }
 .task-status {
-    grid-area: 2/4/3/5;
+    grid-area: 1/3/2/4;
     text-align: center;
     justify-content: center;
     align-items: flex-end;    
 }
-.task-due {
-    grid-area: 1/4/2/5;
-    text-align: end;
-    padding-right: 1rem;
-    padding-bottom: 0.2rem;
-    display: flex;
-    align-items:flex-end;
-    justify-content: flex-end;
-}
 .task-delete {
-    grid-area: 2/5/3/6;
+    grid-area: 1/4/2/5;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content:center;
     padding-bottom: -5px;
 }
@@ -279,6 +277,17 @@ h1 {
 .task-delete, .list-delete img:hover {
     cursor: pointer;
 }
+.task-info {
+    grid-area: 2/1/3/5;
+    padding-right: 1.7rem;
+    font-size: 0.95rem;
+    color: rgb(10, 10, 10);
+    font-style: italic;
+    padding-left: 8px;
+    padding-top: 4px;
+}
+
+/* Buttons */
 .newTaskButton {
     height: 50px;
     width:50px;
@@ -295,20 +304,6 @@ h1 {
     background-color:var(--border-color);
     cursor: pointer;
 }
-.footerButton:hover {
-    background-color:var(--border-color);
-    cursor: pointer;
-    color:white;
-    border:solid 3px var(--border-color);
-}
-.toggle {
-    display: none;
-}
-.noTasksMsg {
-    padding-top: 0.3rem;
-    padding-left: 0.5rem;
-    font-style: italic;
-}
 .footerButton {
     background-color: var(--button-color);
     width:fit-content;
@@ -320,6 +315,21 @@ h1 {
     border:solid 3px var(--button-color);
     color:white;
 }
+.footerButton:hover {
+    background-color:var(--heading-color);
+    cursor: pointer;
+    color:white;
+    border:solid 3px var(--heading-color);
+}
+.toggle {
+    display: none;
+}
+.noTasksMsg {
+    padding-top: 0.3rem;
+    padding-left: 0.5rem;
+    font-style: italic;
+}
+
 dialog{
     min-width: 200px;
     outline:none;
@@ -329,7 +339,7 @@ dialog{
     display: none;
 }
 
-@media screen and (max-width:500px) {
+/* @media screen and (max-width:500px) {
 .task-list-name {
     grid-area: 2/2/3/5;
     justify-content: flex-start;
@@ -383,7 +393,7 @@ dialog{
 body {
     padding: 10px 30px;
 }    
-}
+} */
 
 .div1 {
     margin:30px;

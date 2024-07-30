@@ -448,22 +448,22 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
 
         //These are the toggle-info divs
         const taskInfo = document.createElement('div');
-            taskInfo.className='task-info toggle';
+            taskInfo.className='task-info';
             text = document.createTextNode(task.details);
             taskInfo.appendChild(text);
 
         const taskEdit = document.createElement('div');
-            taskEdit.className='task-edit toggle';
+            taskEdit.className='task-edit';
         const editPencil = document.createElement('img') as HTMLImageElement;
             editPencil.src=pencilImg;
             editPencil.addEventListener('click',(e:Event)=>editTask(e));
 
         const taskStatus = document.createElement('div');
-            taskStatus.className='task-status toggle';
+            taskStatus.className='task-status';
             text = document.createTextNode(task.status);
             taskStatus.appendChild(text);
         const taskDelete = document.createElement('div');
-            taskDelete.className='task-delete toggle';
+            taskDelete.className='task-delete';
         const trashBin = document.createElement('img') as HTMLImageElement;
             trashBin.src=delImg; 
             trashBin.addEventListener('click',(e:Event)=>{
@@ -471,25 +471,44 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
                 updateDOM();
             });   
         const taskListName = document.createElement('div');
-            taskListName.className='task-list-name toggle';
+            taskListName.className='task-list-name';
             text = document.createTextNode(task.list);
             taskListName.appendChild(text);
 
-        // grabElement?.appendChild(listItem);
         grabElement.parentElement?.appendChild(listItem);
 
-        listItem.appendChild(taskEdit);
-            taskEdit.appendChild(editPencil);
-        listItem.appendChild(taskDelete);
-            taskDelete.appendChild(trashBin);
-        listItem.appendChild(taskStatus);
-        listItem.appendChild(taskListName);
-        listItem.appendChild(taskInfo);
-        listItem.appendChild(taskToggle);
-        listItem.appendChild(taskDue);
-        listItem.appendChild(taskName);
         listItem.appendChild(taskPriority);
-            taskPriority.appendChild(circle);       
+            taskPriority.appendChild(circle); 
+        listItem.appendChild(taskName);
+        listItem.appendChild(taskDue);
+        listItem.appendChild(taskToggle);
+
+        const taskInfoWrapper = document.createElement("div");
+            taskInfoWrapper.className='taskInfoWrapper';
+
+
+        const innerWrapper = document.createElement('div');
+        innerWrapper.className='innerWrapper';
+        // innerWrapper.classList.add(('show'));
+
+
+        // listItem.appendChild(taskInfoWrapper);
+        // taskInfoWrapper.appendChild(innerWrapper);
+
+        listItem.appendChild(innerWrapper);
+
+
+
+
+        innerWrapper.appendChild(taskListName);
+        innerWrapper.appendChild(taskEdit);
+            taskEdit.appendChild(editPencil);
+        innerWrapper.appendChild(taskStatus);   
+        innerWrapper.appendChild(taskDelete);
+            taskDelete.appendChild(trashBin); 
+        innerWrapper.appendChild(taskInfo);  
+
+
     });
 
 };
@@ -552,39 +571,63 @@ export function renderList(parsedList:string[]):void {
                     });           
         content?.appendChild(taskList);
         }
-    fragment.appendChild(list);
+    // fragment.appendChild(list);
     content?.append(fragment);  
 };
 
     
 //Others
+// function toggleInfo(e:Event) {
+//     const event = e.target as HTMLDivElement;  
+//     let thisListItem = event.parentElement;
+//     let itemChildren = thisListItem?.children!; 
+//     let itemChild= Array.from(itemChildren); 
+//     debugger;
+//     console.log(thisListItem);
+//     console.log(itemChildren);
+
+//     if (itemChild?.length>0) {
+//     for (let i = 0; i<itemChild?.length; i++) {
+//         let x = itemChild[i] as HTMLDivElement;
+
+//         if (x.classList.contains('toggle')) {
+//             if (x.style.display==="flex") {
+//                 x.style.display='none';
+//                 event.textContent="+";
+//                 event.style.fontSize="32px";
+//                 event.style.lineHeight="1rem";
+
+//             } else {
+//                 x.style.display='flex';
+//                 event.textContent="-";
+//                 event.style.fontSize="48px";
+//                 event.style.lineHeight="0.5rem";
+//             }
+//             }
+//         }
+//     }
+// }
+
+
 function toggleInfo(e:Event) {
     const event = e.target as HTMLDivElement;  
     let thisListItem = event.parentElement;
     let itemChildren = thisListItem?.children!; 
     let itemChild= Array.from(itemChildren); 
 
+console.log(thisListItem);
+console.log(itemChildren);
+console.log(itemChild);
+
+
     if (itemChild?.length>0) {
-    for (let i = 0; i<itemChild?.length; i++) {
-        let x = itemChild[i] as HTMLDivElement;
-
-        if (x.classList.contains('toggle')) {
-            if (x.style.display==="flex") {
-                x.style.display='none';
-                event.textContent="+";
-                event.style.fontSize="32px";
-                event.style.lineHeight="1rem";
-
-            } else {
-                x.style.display='flex';
-                event.textContent="-";
-                event.style.fontSize="48px";
-                event.style.lineHeight="0.5rem";
-            }
-            }
-        }
+        let x = itemChild[4] as HTMLDivElement;
+        console.log(x);   
+        x.classList.toggle('hidden');     
     }
 }
+
+
 function addListToggle() {
     let listHeadings = document.querySelectorAll(".task-list");
     listHeadings.forEach((heading)=> {
