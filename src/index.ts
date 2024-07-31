@@ -408,9 +408,9 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
         const fragment = new DocumentFragment;
         const content = document.querySelector('.content');
 
-        const listItem = document.createElement('div');
-            listItem.className='task-item';
-            listItem.dataset.id=task.id;
+        const taskItem = document.createElement('div');
+            taskItem.className='task-item';
+            taskItem.dataset.id=task.id;
 
         const taskPriority = document.createElement('div');
             taskPriority.className='task-priority';
@@ -474,41 +474,34 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
             taskListName.className='task-list-name';
             text = document.createTextNode(task.list);
             taskListName.appendChild(text);
+        
 
-        grabElement.parentElement?.appendChild(listItem);
+        let inner = grabElement.querySelector('.inner');
 
-        listItem.appendChild(taskPriority);
+
+            inner!.appendChild(taskItem);
+
+        taskItem.appendChild(taskPriority);
             taskPriority.appendChild(circle); 
-        listItem.appendChild(taskName);
-        listItem.appendChild(taskDue);
-        listItem.appendChild(taskToggle);
+        taskItem.appendChild(taskName);
+        taskItem.appendChild(taskDue);
+        taskItem.appendChild(taskToggle);
 
         const taskInfoWrapper = document.createElement("div");
             taskInfoWrapper.className='taskInfoWrapper';
 
+        const taskWrapper = document.createElement('div');
+            taskWrapper.className='taskWrapper';
 
-        const innerWrapper = document.createElement('div');
-        innerWrapper.className='innerWrapper';
-        // innerWrapper.classList.add(('show'));
+        taskItem.appendChild(taskWrapper);
 
-
-        // listItem.appendChild(taskInfoWrapper);
-        // taskInfoWrapper.appendChild(innerWrapper);
-
-        listItem.appendChild(innerWrapper);
-
-
-
-
-        innerWrapper.appendChild(taskListName);
-        innerWrapper.appendChild(taskEdit);
+        taskWrapper.appendChild(taskListName);
+        taskWrapper.appendChild(taskEdit);
             taskEdit.appendChild(editPencil);
-        innerWrapper.appendChild(taskStatus);   
-        innerWrapper.appendChild(taskDelete);
+        taskWrapper.appendChild(taskStatus);   
+        taskWrapper.appendChild(taskDelete);
             taskDelete.appendChild(trashBin); 
-        innerWrapper.appendChild(taskInfo);  
-
-
+        taskWrapper.appendChild(taskInfo);  
     });
 
 };
@@ -562,82 +555,59 @@ export function renderList(parsedList:string[]):void {
             taskListHeading.appendChild(listName);
             taskListHeading.appendChild(listDelete); 
             taskListHeading.appendChild(listToggle);
-            taskList.appendChild(taskListHeading);
+
                  taskListHeading.addEventListener('mouseenter',(e:Event)=>{
                     toggleListDisplay(e);
                     });
                 taskListHeading.addEventListener('mouseleave',(e:Event)=>{
                     toggleListDisplay(e);
-                    });           
+                    });  
+        const taskListWrapper = document.createElement('div');
+            taskListWrapper.className='taskListWrapper showList';
+
+
+            debugger;
+        console.log(taskListWrapper);
+        let inner = document.createElement('div');
+            inner.className='inner';
+
+            taskListWrapper.appendChild(inner);
+            // taskListHeading.appendChild(taskListWrapper);
+
+
+            taskListHeading.appendChild(taskListWrapper);
+        
+
+
+        taskList.appendChild(taskListHeading);
         content?.appendChild(taskList);
         }
-    // fragment.appendChild(list);
     content?.append(fragment);  
 };
-
     
 //Others
-// function toggleInfo(e:Event) {
-//     const event = e.target as HTMLDivElement;  
-//     let thisListItem = event.parentElement;
-//     let itemChildren = thisListItem?.children!; 
-//     let itemChild= Array.from(itemChildren); 
-//     debugger;
-//     console.log(thisListItem);
-//     console.log(itemChildren);
-
-//     if (itemChild?.length>0) {
-//     for (let i = 0; i<itemChild?.length; i++) {
-//         let x = itemChild[i] as HTMLDivElement;
-
-//         if (x.classList.contains('toggle')) {
-//             if (x.style.display==="flex") {
-//                 x.style.display='none';
-//                 event.textContent="+";
-//                 event.style.fontSize="32px";
-//                 event.style.lineHeight="1rem";
-
-//             } else {
-//                 x.style.display='flex';
-//                 event.textContent="-";
-//                 event.style.fontSize="48px";
-//                 event.style.lineHeight="0.5rem";
-//             }
-//             }
-//         }
-//     }
-// }
-
-
 function toggleInfo(e:Event) {
     const event = e.target as HTMLDivElement;  
     let thisListItem = event.parentElement;
-    let itemChildren = thisListItem?.children!; 
-    let itemChild= Array.from(itemChildren); 
-
-console.log(thisListItem);
-console.log(itemChildren);
-console.log(itemChild);
-
-
-    if (itemChild?.length>0) {
-        let x = itemChild[4] as HTMLDivElement;
-        console.log(x);   
-        x.classList.toggle('show');     
+    let taskWrapper = thisListItem?.querySelector('.taskWrapper');
+    if (taskWrapper) taskWrapper.classList.toggle('showTask'); 
+    if (taskWrapper?.classList.contains('showTask')){
+        event.textContent="\u2013";
     }
-}
-
-
+    else {
+        event.textContent="+";
+    };
+};
 function addListToggle() {
     let listHeadings = document.querySelectorAll(".task-list");
     listHeadings.forEach((heading)=> {
-        let headingDiv = heading as HTMLDivElement;
-        if (heading.childElementCount<2) {
+        let headingDiv = heading.firstChild as HTMLDivElement;
+        if (headingDiv.childElementCount<2) {
             let noTasks = document.createElement("div");
             noTasks.className="noTasksMsg";
             let text = document.createTextNode("There are no tasks");
             noTasks.appendChild(text);
-            heading.appendChild(noTasks);
+            headingDiv.appendChild(noTasks);
             let thisToggle = heading.firstElementChild?.lastElementChild;
             thisToggle!.textContent="";
         }
@@ -645,27 +615,20 @@ function addListToggle() {
 };
 function toggleList(e:Event) {
     const event = e.target as HTMLDivElement;  
-    let thisList = event.parentElement?.parentElement;
-    let itemChildren = thisList?.children!; 
-    let itemChild= Array.from(itemChildren); 
+    let thisList = event.parentElement?.parentElement?.firstChild! as HTMLDivElement;
 
-    if (itemChild?.length>0) {
-    for (let i = 0; i<itemChild?.length; i++) {
-        let x = itemChild[i] as HTMLDivElement;
-        if (x.className=='task-item') {
-            if (x.style.display=="grid"||x.style.display=="") {
-                x.style.display='none';
-                event.textContent="+";
-                event.style.paddingLeft="1rem";
-                event.classList.remove("minus");
-            } else {
-                x.style.display='grid';
-                event.textContent="\u2013";
-                event.classList.add("minus");
-                }
-            }
-        }
+    // debugger;
+    const taskListWrapper = thisList.querySelector('.taskListWrapper');
+    // console.log(taskListWrapper);
+
+    if (taskListWrapper) taskListWrapper.classList.toggle('showList');
+    if (taskListWrapper?.classList.contains('showList')){
+        event.textContent="\u2013";
     }
+    else {
+        event.textContent="+";
+    };
+
 }
 function deleteItem(e:Event){
     if (e.target instanceof Element) {
