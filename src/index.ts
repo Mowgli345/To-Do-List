@@ -473,12 +473,9 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
         const taskListName = document.createElement('div');
             taskListName.className='task-list-name';
             text = document.createTextNode(task.list);
-            taskListName.appendChild(text);
-        
+            taskListName.appendChild(text);        
 
         let inner = grabElement.querySelector('.inner');
-
-
             inner!.appendChild(taskItem);
 
         taskItem.appendChild(taskPriority);
@@ -516,7 +513,6 @@ function toggleListDisplay(e:Event) {
         }
     else return;
 }
-
 export function renderList(parsedList:string[]):void {
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');    
@@ -555,7 +551,6 @@ export function renderList(parsedList:string[]):void {
             taskListHeading.appendChild(listName);
             taskListHeading.appendChild(listDelete); 
             taskListHeading.appendChild(listToggle);
-
                  taskListHeading.addEventListener('mouseenter',(e:Event)=>{
                     toggleListDisplay(e);
                     });
@@ -564,21 +559,10 @@ export function renderList(parsedList:string[]):void {
                     });  
         const taskListWrapper = document.createElement('div');
             taskListWrapper.className='taskListWrapper showList';
-
-
-            debugger;
-        console.log(taskListWrapper);
         let inner = document.createElement('div');
             inner.className='inner';
-
             taskListWrapper.appendChild(inner);
-            // taskListHeading.appendChild(taskListWrapper);
-
-
-            taskListHeading.appendChild(taskListWrapper);
-        
-
-
+            taskListHeading.appendChild(taskListWrapper);     
         taskList.appendChild(taskListHeading);
         content?.appendChild(taskList);
         }
@@ -617,10 +601,7 @@ function toggleList(e:Event) {
     const event = e.target as HTMLDivElement;  
     let thisList = event.parentElement?.parentElement?.firstChild! as HTMLDivElement;
 
-    // debugger;
     const taskListWrapper = thisList.querySelector('.taskListWrapper');
-    // console.log(taskListWrapper);
-
     if (taskListWrapper) taskListWrapper.classList.toggle('showList');
     if (taskListWrapper?.classList.contains('showList')){
         event.textContent="\u2013";
@@ -676,7 +657,6 @@ function editTask(e:Event){
         };
     }
 }
-
 function sortByTask(e:Event){
 updateDOM();
 

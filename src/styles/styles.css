@@ -145,6 +145,7 @@ h1 {
 
  h2 {
     margin: 0;
+    margin-right: 18px;
     color: var(--heading-color);
  } 
  h2:hover {
@@ -192,15 +193,16 @@ h1 {
     display: grid;
     grid-template-rows: 0; 
     overflow: hidden;
-    transition: grid-template-rows 0.3s;
+    transition: grid-template-rows 1s ease-in;
 }
 .showList {
-    grid-template-rows:min-content; 
+    /* grid-template-rows:min-content;  */
+    grid-template-rows:auto; 
 }
-.innerWrapper {
-
-}
-
+/* .inner {
+    outline: dotted purple .4px;
+    overflow: hidden;
+} */
 
 .task-item {
     display: grid;
