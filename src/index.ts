@@ -617,12 +617,8 @@ function deleteItem(e:Event){
     }
 }
 function showSortMenu() {
-    const sortMenu = document.querySelector('.sort-menu') as HTMLDivElement;
-    if (sortMenu.style.display==='block') {
-        sortMenu.style.display='none'
-    } else {
-        sortMenu.style.display='block'
-    }    
+    const sortMenu = document.querySelector('.sort-wrapper') as HTMLDivElement;
+    sortMenu.classList.toggle('hide');
 }
 function editTask(e:Event){
     if (e.target instanceof Element) {
