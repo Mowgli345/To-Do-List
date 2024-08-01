@@ -489,9 +489,7 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
 
         const taskWrapper = document.createElement('div');
             taskWrapper.className='taskWrapper';
-
         taskItem.appendChild(taskWrapper);
-
         taskWrapper.appendChild(taskListName);
         taskWrapper.appendChild(taskEdit);
             taskEdit.appendChild(editPencil);
@@ -585,14 +583,14 @@ function toggleInfo(e:Event) {
 function addListToggle() {
     let listHeadings = document.querySelectorAll(".task-list");
     listHeadings.forEach((heading)=> {
-        let headingDiv = heading.firstChild as HTMLDivElement;
-        if (headingDiv.childElementCount<2) {
+        let headingDiv = heading.querySelector('.taskListWrapper')?.firstChild as HTMLDivElement;
+        if (!headingDiv.hasChildNodes()) {
             let noTasks = document.createElement("div");
             noTasks.className="noTasksMsg";
             let text = document.createTextNode("There are no tasks");
             noTasks.appendChild(text);
             headingDiv.appendChild(noTasks);
-            let thisToggle = heading.firstElementChild?.lastElementChild;
+             let thisToggle = heading.firstElementChild?.querySelector('.list-toggle');
             thisToggle!.textContent="";
         }
     });
@@ -613,7 +611,7 @@ function toggleList(e:Event) {
 }
 function deleteItem(e:Event){
     if (e.target instanceof Element) {
-        let task = e.target.parentElement?.parentElement;
+        let task = e.target.parentElement?.parentElement?.parentElement;
         let id = task?.dataset.id!;
         localStorage.removeItem(id);
     }
@@ -628,7 +626,9 @@ function showSortMenu() {
 }
 function editTask(e:Event){
     if (e.target instanceof Element) {
-        let task = e.target.parentElement?.parentElement;
+        // let task = e.target.parentElement?.parentElement;
+        let task = e.target.parentElement?.parentElement?.parentElement;
+
         let id = task?.dataset.id!;
         let thisOne = localStorage.getItem(id);
         let myTask = JSON.parse(thisOne!);
@@ -637,6 +637,7 @@ function editTask(e:Event){
 
         function fillEditForm() {
         showNewTaskForm();
+            
             const taskName = document.querySelector('[name="taskName"]');
                 taskName?.setAttribute('value',myTask.taskName);
 
