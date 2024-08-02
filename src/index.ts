@@ -59,13 +59,18 @@ import { findLocStoreLists, createNewList, createTask, taskInt, task, findMyList
     }
 }());
 
-function updateDOM() {
+function updateDOM(listsArray?:string[],sortField?:string) {
     clearDOM();
-    let listsArray = createListsArray();
+    if (!listsArray) {
+        listsArray = createListsArray();
+    }
     renderList(listsArray);
     let taskArray= createTasksArray();
     let sortedTasks = sortTaskArray(taskArray);
-    let sortField = "list";
+    if (!sortField) {
+        sortField = "list";
+    }
+
     renderTask(sortField, sortedTasks);
     addListToggle();
 }
@@ -659,24 +664,14 @@ updateDOM();
 
 };
 function sortByPriority(e:Event){
-    clearDOM();
     let listsArray = ["Normal","High","Low"];
-    renderList(listsArray);
-    let taskArray= createTasksArray();
-    let sortedTasks = sortTaskArray(taskArray);
     let sortField = "priority";
-    renderTask(sortField, sortedTasks);
-
-    // renderSortedTask(sortedTasks);
+    updateDOM(listsArray,sortField);
 };
 function sortByStatus(e:Event){
-    clearDOM();
     let listsArray = ["Not Started","In Progress","Completed"];
-    renderList(listsArray);
-    let taskArray= createTasksArray();
-    let sortedTasks = sortTaskArray(taskArray);
     let sortField = "status";
-    renderTask(sortField, sortedTasks);
+    updateDOM(listsArray,sortField)
 };
 function sortByDate(e:Event){
     clearDOM();
@@ -957,9 +952,10 @@ function changeColor(color:string) {
 function checkListTasks(e:Event) {
     if (e.target instanceof Element) {
         let list = e.target.parentElement?.parentElement as HTMLDivElement;
-        if (list?.nextElementSibling?.className == "task-item") {
-                    showListDeleteConfirm(list);
-                }
+        let x = list.querySelector('.inner') as HTMLDivElement;
+        if (x!.firstElementChild!.className == "task-item") {
+            showListDeleteConfirm(list);
+        }
         else {
             deleteList(list);
         }
