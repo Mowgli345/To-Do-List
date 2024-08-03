@@ -24,8 +24,6 @@ import { findLocStoreLists, createNewList, createTask, taskInt, task, findMyList
     const sortItems = document.querySelector('.sort-menu');
         sortItems?.addEventListener('mouseover',(e:Event)=>sortBorderOff(e));
         sortItems?.addEventListener('mouseout',(e:Event)=>sortBorderOn(e));
-
-    //Sort Menu Options - To Reduce????
     const sortTask = document.getElementById('sort-task');
         sortTask?.addEventListener('click',(e:Event)=>sortByTask(e));
     const sortDate = document.getElementById('sort-date');
@@ -34,8 +32,7 @@ import { findLocStoreLists, createNewList, createTask, taskInt, task, findMyList
         sortPriority?.addEventListener('click',(e:Event)=>sortByPriority(e));
     const sortStatus = document.getElementById('sort-status');
         sortStatus?.addEventListener('click',(e:Event)=>sortByStatus(e));   
-    
-        //Sort Menu styling
+    //Sort Menu styling
     function sortBorderOff(e:Event) {
         let sortTag = e.target as HTMLDivElement;
         if (sortTag.nextElementSibling) {
@@ -72,16 +69,14 @@ function updateDOM(listsArray?:string[],sortField?:string) {
     }
     renderTask(sortField, sortedTasks);
     addListToggle();
-}
-
+};
 export function clearDOM(){
     const content = document.querySelector('.content');
     while(content?.firstChild){
         content.firstChild.remove();
        }  
-    };
+};
 
-//NEW LIST/TASK Forms
 function showNewListForm() {
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
@@ -251,12 +246,11 @@ function showNewTaskForm() {
     input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name','taskDetails');
-        input.setAttribute('placeholder','Enter task details'); //Placeholder
+        input.setAttribute('placeholder','Enter task details'); 
         input.id='taskDetails';
     listItem.appendChild(input);
     list.appendChild(listItem);  
 
-    //LIST NAME
     listItem = document.createElement('li');
     label = document.createElement('label');
         label.setAttribute('for','taskList');
@@ -272,7 +266,6 @@ function showNewTaskForm() {
 
     for (let i = 0; i<listLength; i++) {
         option = document.createElement('option');
-        // option.setAttribute('value','my-list');
         option.setAttribute('placeholder','my-list');
         text = document.createTextNode(listsArray[i]);
         option.appendChild(text);
@@ -316,13 +309,10 @@ export function createListsArray() {
         let listItem=locStoreArray[ind];
         let lists = JSON.parse(listItem);
         let x = locStoreArray[ind];
-        // if (lists.length == 0) {
-        //     lists.push("My List");            
-        //     }
         for (let i = 0; i<lists.length;i++) {
             listsArray.push(lists[i]);
             }
-            findMyList(listsArray);
+        findMyList(listsArray);
         return listsArray;
     } else return [];
 }
@@ -349,8 +339,6 @@ function createTasksArray() {
             } else return taskArray;
         }
 };
-
-//Returns tasks in date order
 function sortTaskArray(taskArray:taskInt[]) { 
     const sortedTasks:taskInt[] = taskArray.sort(function(a,b) {
         return a.rawDate.getTime() - b.rawDate.getTime();
@@ -367,15 +355,11 @@ function findList(thisList:string):HTMLDivElement {
             return grabElement as HTMLDivElement;
             }
         }  
-        //Adds this task's list to LS if name not found in list headings
         let listsArray = createListsArray();
-        //Repeats from createNewList;
         if (Array.isArray(listsArray)) {
             listsArray.push(taskList);
             localStorage.setItem('myLists',JSON.stringify(listsArray));
         }
-        //Adds this list name to DOM if not already there
-        //Repeats from renderList
         const fragment = new DocumentFragment;
         const content = document.querySelector('.content');    
         const list = document.createElement('div');
@@ -391,41 +375,28 @@ function findList(thisList:string):HTMLDivElement {
         content?.append(fragment);  
         return grabElement as HTMLDivElement;
 };
-function setSortField(sortField:string) {
-
-}
-
 function renderTask(sortField:string, taskArray:taskInt[]):void {
     //Finds list on DOM to attach task
     taskArray.forEach(function(task) {
         let thisList;
         let grabElement;
-
         if (sortField == "priority") {
-            // thisList = task.priority
             grabElement = findList(task.priority);
         }
         else if (sortField == "status") {
-            thisList = task.status
             grabElement = findList(task.status);
         }
         else if (sortField == "date") {
-            thisList = task.date;
             grabElement = document.querySelector('.task-list-heading')!;
         }
         else {
-            thisList=task.list;
             grabElement = findList(task.list);
         }    
-        // grabElement = findList(thisList);
-
         const fragment = new DocumentFragment;
         const content = document.querySelector('.content');
-
         const taskItem = document.createElement('div');
             taskItem.className='task-item';
             taskItem.dataset.id=task.id;
-
         const taskPriority = document.createElement('div');
             taskPriority.className='task-priority';
         const circle = document.createElement('div');
@@ -439,7 +410,6 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
             else {
                 circle.style.backgroundColor='green';
             }
-
         const taskName = document.createElement('div');
             taskName.className='task-name';
             let text = document.createTextNode(task.task);
@@ -453,19 +423,15 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
                 taskDue.style.color="red";
                 taskDue.style.fontStyle="italic";
             }
-        //Adds event listener to show/hide details
         const taskToggle = document.createElement('div');
             taskToggle.className='task-toggle';
             text = document.createTextNode('+');
             taskToggle.appendChild(text);
             taskToggle.addEventListener('click',(e:Event)=>toggleInfo(e));
-
-        //These are the toggle-info divs
         const taskInfo = document.createElement('div');
             taskInfo.className='task-info';
             text = document.createTextNode(task.details);
             taskInfo.appendChild(text);
-
         const taskEdit = document.createElement('div');
             taskEdit.className='task-edit';
         const editPencil = document.createElement('img') as HTMLImageElement;
@@ -511,11 +477,8 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
         taskWrapper.appendChild(taskDelete);
             taskDelete.appendChild(trashBin); 
         taskWrapper.appendChild(taskInfo);  
-        console.log(grabElement);
     });
-
 };
-
 function toggleListDisplay(e:Event) {
     let thisDiv = e.target as HTMLDivElement;
     if (thisDiv.className =="task-list-heading"){
@@ -548,7 +511,6 @@ export function renderList(parsedList:string[]):void {
 
         const listDelete = document.createElement('div');
             listDelete.className='list-delete hide';
-
         const trashBin = document.createElement('img') as HTMLImageElement;
             trashBin.src=delImg; 
             trashBin.addEventListener('click',(e:Event)=>{
@@ -637,9 +599,7 @@ function showSortMenu() {
 }
 function editTask(e:Event){
     if (e.target instanceof Element) {
-        // let task = e.target.parentElement?.parentElement;
         let task = e.target.parentElement?.parentElement?.parentElement;
-
         let id = task?.dataset.id!;
         let thisOne = localStorage.getItem(id);
         let myTask = JSON.parse(thisOne!);
@@ -647,23 +607,17 @@ function editTask(e:Event){
         fillEditForm();
 
         function fillEditForm() {
-        showNewTaskForm();
-            
+        showNewTaskForm();            
             const taskName = document.querySelector('[name="taskName"]');
                 taskName?.setAttribute('value',myTask.taskName);
-
             const taskDate = document.querySelector('[name="taskDate"]') as HTMLInputElement;
                 taskDate.value=myTask.taskDate;
-
             const taskPriority = document.querySelector('[name="taskPriority"]') as HTMLInputElement;
                 taskPriority.value=myTask.taskPriority;
-
             const taskStatus = document.querySelector('[name="taskStatus"]') as HTMLInputElement;
                 taskStatus.value=myTask.taskStatus;
-
             const taskDetails = document.querySelector('[name="taskDetails"]') as HTMLInputElement;
                 taskDetails.value= myTask.taskDetails;
-
             const taskList = document.querySelector('[name="taskList"]') as HTMLInputElement;
                 taskList.value = myTask.taskList;    
         };
@@ -671,7 +625,6 @@ function editTask(e:Event){
 }
 function sortByTask(e:Event){
 updateDOM();
-
 };
 function sortByPriority(e:Event){
     let listsArray = ["Normal","High","Low"];
@@ -683,140 +636,46 @@ function sortByStatus(e:Event){
     let sortField = "status";
     updateDOM(listsArray,sortField)
 };
-
 function sortByDate(e:Event){
     clearDOM();
-
     let taskArray= createTasksArray();
     let sortedTasks = sortTaskArray(taskArray);
-//Start List
-dateListName();        
-    function dateListName() {
-    const content = document.querySelector('.content');    
-    const list = document.createElement('div');
-        list.className='list';
-
-        const taskList = document.createElement('div');
-            taskList.className='task-list';
-        const taskListHeading = document.createElement('div');
-            taskListHeading.className='task-list-heading';
-
-        const listNameTitle = document.createElement("div");
-            listNameTitle.className="listNameTitle";
-        const h2 = document.createElement('h2');
-            h2.textContent= "My Tasks";
-            listNameTitle.appendChild(h2);
-
-        const listDelete = document.createElement('div');
-            listDelete.className='list-delete hide';
-
-        const taskListWrapper = document.createElement('div');
-            taskListWrapper.className='taskListWrapper showList';
-        let inner = document.createElement('div');
-            inner.className='inner';
-            taskListWrapper.appendChild(inner);
-            taskListHeading.appendChild(listNameTitle);  
-            taskList.appendChild(taskListHeading);
-            taskListHeading.appendChild(taskListWrapper);  
-        content?.appendChild(taskList);
-    }
-    debugger;
+    dateListName();    
     renderTask('date', sortedTasks);
-//End List
-
-
-    // sortedTasks.forEach(function(task) { 
-    //     const fragment = new DocumentFragment;
-    //     const content = document.querySelector('.content');
-    //     const listItem = document.createElement('div');
-    //         listItem.className='task-item';
-    //         listItem.dataset.id=task.id;
-
-    //     const taskPriority = document.createElement('div');
-    //         taskPriority.className='task-priority';
-    //     const circle = document.createElement('div');
-    //         circle.className='circle';
-    //         if (task.priority=='High') {
-    //             circle.style.backgroundColor='red';
-    //         }
-    //         if (task.priority=='Low') {
-    //             circle.style.backgroundColor='rgb(57, 162, 211)';
-    //         };
-
-    //     const taskName = document.createElement('div');
-    //         taskName.className='task-name';
-    //         let text = document.createTextNode(task.task);
-    //         taskName.appendChild(text);
-
-    //     const taskDue = document.createElement('div');
-    //         taskDue.className='task-due';
-    //         text = document.createTextNode(task.date);
-    //         taskDue.appendChild(text);
-    //         if (task.rawDate < new Date()) {
-    //             taskDue.style.color="red";
-    //             taskDue.style.fontStyle="italic";
-    //         }
-    //     //Adds event listener to show/hide details
-    //     const taskToggle = document.createElement('div');
-    //         taskToggle.className='task-toggle';
-    //         text = document.createTextNode('+');
-    //         taskToggle.appendChild(text);
-    //         taskToggle.addEventListener('click',(e:Event)=>toggleInfo(e));
-
-    //     //These are the toggle-info divs
-    //     const taskInfo = document.createElement('div');
-    //         taskInfo.className='task-info toggle';
-    //         text = document.createTextNode(task.details);
-    //         taskInfo.appendChild(text);
-
-    //     const taskEdit = document.createElement('div');
-    //         taskEdit.className='task-edit toggle';
-    //     const editPencil = document.createElement('img') as HTMLImageElement;
-    //         editPencil.src=pencilImg;
-    //         editPencil.addEventListener('click',(e:Event)=>editTask(e));
-
-    //     const taskStatus = document.createElement('div');
-    //         taskStatus.className='task-status toggle';
-    //         text = document.createTextNode(task.status);
-    //         taskStatus.appendChild(text);
-    //     const taskDelete = document.createElement('div');
-    //         taskDelete.className='task-delete toggle';
-    //     const trashBin = document.createElement('img') as HTMLImageElement;
-    //         trashBin.src=delImg; 
-    //         trashBin.addEventListener('click',(e:Event)=>{
-    //             deleteItem(e);
-    //             updateDOM();
-    //         });   
-    //     const taskListName = document.createElement('div');
-    //         taskListName.className='task-list-name toggle';
-    //         text = document.createTextNode(task.list);
-    //         taskListName.appendChild(text);
-
-    //     content!.appendChild(listItem);
-    //     listItem.appendChild(taskEdit);
-    //         taskEdit.appendChild(editPencil);
-    //     listItem.appendChild(taskDelete);
-    //         taskDelete.appendChild(trashBin);
-    //     listItem.appendChild(taskStatus);
-    //     listItem.appendChild(taskListName);
-    //     listItem.appendChild(taskInfo);
-    //     listItem.appendChild(taskToggle);
-    //     listItem.appendChild(taskDue);
-    //     listItem.appendChild(taskName);
-    //     listItem.appendChild(taskPriority);
-    //     taskPriority.appendChild(circle);
-    // });    
+        function dateListName() {
+            const content = document.querySelector('.content');    
+            const list = document.createElement('div');
+                list.className='list';
+                const taskList = document.createElement('div');
+                    taskList.className='task-list';
+                const taskListHeading = document.createElement('div');
+                    taskListHeading.className='task-list-heading';
+                const listNameTitle = document.createElement("div");
+                    listNameTitle.className="listNameTitle";
+                const h2 = document.createElement('h2');
+                    h2.textContent= "My Tasks";
+                    listNameTitle.appendChild(h2);
+                const listDelete = document.createElement('div');
+                    listDelete.className='list-delete hide';
+                const taskListWrapper = document.createElement('div');
+                    taskListWrapper.className='taskListWrapper showList';
+                let inner = document.createElement('div');
+                    inner.className='inner';
+                    taskListWrapper.appendChild(inner);
+                    taskListHeading.appendChild(listNameTitle);  
+                    taskList.appendChild(taskListHeading);
+                    taskListHeading.appendChild(taskListWrapper);  
+                content?.appendChild(taskList);
+            }
 }; 
 function showColorPicker() {
     const fragment = new DocumentFragment;
     const content = document.querySelector('.content');
     const dialog = document.createElement('dialog');
         dialog.id='newColorDialog';
-
     const form = document.createElement('form');
         form.setAttribute('method','dialog');
         form.id='newColorForm';
-
     const closeDialog = document.createElement('button');
         closeDialog.id="closeDialog";
         closeDialog.setAttribute('type','submit');
@@ -826,9 +685,7 @@ function showColorPicker() {
         closeDialog.addEventListener('click',() => {
             dialog.close();
         });
-
     const list = document.createElement('ul');
-
     let listItem = document.createElement('li');
         listItem.className="circle circle-blue";
         listItem.addEventListener('click',(e:Event)=>{
@@ -837,7 +694,6 @@ function showColorPicker() {
                 updateDOM();
                 })
         list.appendChild(listItem);  
-
     listItem = document.createElement('li');
         listItem.className="circle circle-green";
         listItem.addEventListener('click',(e:Event)=>{
@@ -921,7 +777,6 @@ function showListDeleteConfirm(list:HTMLDivElement) {
     msg.className ='deleteConfirmMsg';
         let text = document.createTextNode('There are tasks associated with this list. \nAre you sure you want to delete?');
     msg.appendChild(text);
-
     let buttonsRow = document.createElement('div');
         buttonsRow.className='buttonsRow';
     let button = document.createElement('button');
@@ -961,46 +816,3 @@ function removeListTasks(list:string) {
 }
 
 updateDOM();
-
-// EventListenerPractice
-function scriptsPractice() {
-    const content = document.querySelector('.content');      
-    let div1= document.createElement("div");
-        div1.className="div1";
-        content?.appendChild(div1);
-    let div2= document.createElement("div");
-        div2.className="div2";
-        div1.appendChild(div2);
-    let div3= document.createElement("div");
-        div3.className="div3";
-        div2.appendChild(div3);
-
-        let eventType = "mouseenter";
-        // let eventType = "mouseover";
-        // let eventType = "click";
-
-    div1.addEventListener(eventType,(e:Event) =>{
-        mouseEvent(e, "Blue (1)");
-    });
-    // div2.addEventListener(eventType,(e:Event)=> {
-    //     mouseEvent(e, "Red (2)");
-    // });
-    // div3.addEventListener(eventType,(e:Event)=> {
-    //     mouseEvent(e, "Green (3)");
-    // });
-}
-function mouseEvent (e:Event, text:string) {
-    console.log(`${text}`);
-    console.log(e.target);
-    console.log(e.currentTarget);
-    // let x = e.target as HTMLDivElement;
-    // x.style.backgroundColor="yellow";    
-}
-// scriptsPractice();
-
-function practicemouseEvent(e:Event) {
-    console.log(e.target);
-}
-
-
-

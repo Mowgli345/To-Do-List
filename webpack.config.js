@@ -30,7 +30,7 @@ module.exports = {
   entry: {
     index: './src/index.ts',
     scripts: './src/scripts.ts',
-    local: './src/localStorage.ts'
+    // local: './src/localStorage.ts'
         },
 
   output: {
