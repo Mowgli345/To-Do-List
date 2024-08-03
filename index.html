@@ -4,24 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do</title>
-<script defer src="index.js"></script><script defer src="scripts.js"></script><script defer src="local.js"></script></head>
+<script defer src="runtime.js"></script><script defer src="index.js"></script><script defer src="scripts.js"></script></head>
 <body>
     <header>
         <h1>To Do</h1>
-        <div class ='sort'>Sort
-        <div class ='sort-menu'>
-            <ul>
-                <li>Task</li>
-                <li>Date</li>
-                <li>Priority</li>
-                <li>Status</li>
-            </ul>
-        </div>
-    </div>
         <div class="newTaskButton">+</div>
+        <div class ='sort'>
+        <div class="sort-text">Sort</div>   
+        <div class="sort-wrapper hide">
+            <div class ='sort-menu'>
+                <ul>
+                    <li id ="sort-task">Task</li>
+                    <li id ="sort-date">Date</li>
+                    <li id ="sort-priority">Priority</li>
+                    <li id ="sort-status">Status</li>
+                </ul>
+            </div>
+    </div>
+    </div>
     </header>
     <div class="content">
     </div>
-    <div class="newListButton">New List</div>    
+    <footer>
+        <div class="newColorButton footerButton">Color</div>    
+        <div class="newListButton footerButton">New List</div> 
+    </footer>   
 </body>
 </html>
