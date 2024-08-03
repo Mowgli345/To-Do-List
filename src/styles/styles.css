@@ -270,6 +270,8 @@ h1 {
 }
 .showTask {
     grid-template-rows: 1.7rem 1.7rem; 
+    grid-template-rows: 1.7rem auto; 
+
 }
 
 .task-list-name {
@@ -317,6 +319,7 @@ h1 {
     font-style: italic;
     padding-left: 8px;
     padding-top: 1px;
+    line-height: 1.7rem;
 }
 
 /* Buttons */
