@@ -20,11 +20,23 @@ module.exports = {
        {test: /\.css$/i,
        use: ['style-loader','css-loader'],
           } ,
-        {test: /\.(ttf | otf)$/i,
-        type: 'asset/resource',
-            } ,
+        // {test: /\.(ttf | otf)$/i,
+        // type: 'asset/resource',
+        // generator: {
+        //     filename:'fonts/[name][ext]'
+        // }
+        //     } ,
+        {test: /\.(woff2)$/i,
+            type: 'asset/resource',
+            generator: {
+                filename:'fonts/[name][ext]'
+            }
+                } ,
         {test: /\.( png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',   
+        generator: {
+            filename:'img/[name][ext]'
+        }
             },
     ]   },
   entry: {
@@ -35,7 +47,9 @@ module.exports = {
 
   output: {
     filename: '[name].bundle.js',
+
     path: path.resolve ( __dirname, 'dist' ),  
+    // assetModuleFilename:'assets/[name][ext]',
     publicPath: 'auto',
     },
     plugins: [
