@@ -582,7 +582,6 @@ function toggleList(e:Event) {
     else {
         event.textContent="+";
     };
-
 }
 function deleteItem(e:Event){
     if (e.target instanceof Element) {
@@ -627,12 +626,13 @@ updateDOM();
 function sortByPriority(e:Event){
     let listsArray = ["Normal","High","Low"];
     let sortField = "priority";
-    updateDOM(listsArray,sortField);
+    updateSortDOM(listsArray,sortField);
 };
 function sortByStatus(e:Event){
     let listsArray = ["Not Started","In Progress","Completed"];
     let sortField = "status";
-    updateDOM(listsArray,sortField)
+    // updateDOM(listsArray,sortField)
+    updateSortDOM(listsArray,sortField)
 };
 function sortByDate(e:Event){
     clearDOM();
@@ -814,3 +814,57 @@ function removeListTasks(list:string) {
 }
 
 updateDOM();
+
+function updateSortDOM(listsArray?:string[],sortField?:string) {
+    clearDOM();
+    if (!listsArray) {
+        listsArray = createListsArray();
+    }
+    renderSortList(listsArray);
+    let taskArray= createTasksArray();
+    let sortedTasks = sortTaskArray(taskArray);
+    if (!sortField) {
+        sortField = "list";
+    }
+    renderTask(sortField, sortedTasks);
+    addListToggle();
+};
+
+export function renderSortList(parsedList:string[]):void {
+    const fragment = new DocumentFragment;
+    const content = document.querySelector('.content');    
+    const list = document.createElement('div');
+        list.className='list';
+    let length = parsedList.length;
+
+    for (let i=0; i<length;i++) {
+        const taskList = document.createElement('div');
+        taskList.className='task-list';
+        const taskListHeading = document.createElement('div');
+        taskListHeading.className='task-list-heading';
+
+        const listName = document.createElement("div");
+        listName.className="listNameTitle";
+        const listNameTitle = document.createElement('h2');
+        let text = document.createTextNode(parsedList[i]);
+        listNameTitle.appendChild(text);
+        listName.appendChild(listNameTitle);        
+
+        const listToggle = document.createElement('div');
+        listToggle.className='list-toggle minus';
+        text = document.createTextNode("\u2013");
+        listToggle.appendChild(text);
+        listToggle.addEventListener('click',(e:Event)=>toggleList(e));
+            taskListHeading.appendChild(listName);
+            taskListHeading.appendChild(listToggle);
+        const taskListWrapper = document.createElement('div');
+            taskListWrapper.className='taskListWrapper showList';
+        let inner = document.createElement('div');
+            inner.className='inner';
+            taskListWrapper.appendChild(inner);
+            taskListHeading.appendChild(taskListWrapper);     
+        taskList.appendChild(taskListHeading);
+        content?.appendChild(taskList);
+        }
+    content?.append(fragment);  
+};
