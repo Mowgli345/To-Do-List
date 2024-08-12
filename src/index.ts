@@ -3,9 +3,7 @@ import "../src/styles/form.css";
 import delImg from './assets/images/delete.svg';
 import pencilImg from './assets/images/pencil.svg';
 
-
 import { findLocStoreLists, createNewList, createTask, taskInt, task, findMyList } from "./scripts";
-//DOM-related scripts
 
 //IIFE to store all DOM variables and event listeners
 (function() {
