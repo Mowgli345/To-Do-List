@@ -93,9 +93,10 @@ html, body {
 body {
     font-family:'Roboto',sans-serif;
     font-size: 100%;
-    padding: 10px 70px;
+    padding: 10px calc(28px + 1.5vw) 15px;
     min-width: 280px;
     max-width: 640px;
+    margin:0px auto;
  }
 header,footer {
     display: flex;
@@ -394,7 +395,7 @@ img:hover {
     cursor: pointer;
 }
 
-@media screen and (max-width:500px) {
+@media screen and (max-width:520px) {
 .task-list-name {
     grid-area: 2/2/3/5;
 }
@@ -454,7 +455,7 @@ img:hover {
     grid-area: 3/1/4/5;
     padding-left: 8px;
 }
-body {
+/* body {
     padding: 10px 30px;
-}    
+}     */
 } 

@@ -2,12 +2,21 @@ dialog {
     border: none;
     border-radius: 6px;
     padding: 35px 30px 40px 20px;
-    width:55%;
+    overflow: hidden;
+}
+#newListDialog {
+    padding: 35px 12px 40px 10px;
+    & form {
+        min-width: 240px;
+        overflow: hidden;
+        max-width: 100%;
+    }
 }
 form {
     color: var(--border-color);
     color:rgb(82, 82, 82);
     font-size: 1.3rem;
+    min-width: 295px;
 }
 fieldset {
     border: none;
@@ -25,28 +34,21 @@ label {
     width: 95px;
     line-height: 2.2rem;
 }
-input {
-    height: 1.8rem;
+input, select {
+    box-sizing: border-box;
+    height: 1.9rem;
     border: solid 2px var(--input-color);
     border-radius: 4px;
     font-size: 1.2rem;
     color:var(--text-color);
+    width:100%;
+    background-color: white;
 }
 input[type=date] {
     font-family: Arial, Helvetica, sans-serif;
 }
 input:focus {
     outline:solid 1px var(--input-color);
-}
-
-select {
-    height: 1.8rem;
-    border: solid 2px var(--input-color);
-    border-radius: 4px;
-    font-size: 1.2rem;
-    color:rgb(122, 122, 122);
-    background-color: white;
-    width:70%;
 }
 .buttonsRow>button {
     border:none;
