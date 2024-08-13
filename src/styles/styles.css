@@ -20,41 +20,65 @@
     font-style: italic;
 }
 :root, :root.grey {
+    background-color:white;
     --heading-color: #565656;
-    --border-color: #D7CEC7;
+    --border-color: #8b8b8b;
     --button-color: #565656;
+    --button-hover-color:#807e7d;
+    --input-color: #8b8b8b;
     --text:rgb(76, 75, 75);
     --filter: invert(33%) sepia(1%) saturate(0%) hue-rotate(350deg) brightness(93%) contrast(86%);
     --hover-filter:  invert(0%) sepia(4%) saturate(0%) hue-rotate(309deg) brightness(93%) contrast(107%);
 }
 :root, :root.orange {
+    background-color:rgb(252, 252, 252);
     --heading-color: rgb(255, 159, 28);
     --border-color: rgb(255, 191, 105);
-    --button-color: rgb(255,153,0);
+    --button-color: rgb(236, 159, 42);
+    --button-hover-color:rgb(255, 159, 28);
+    --input-color: rgb(255, 191, 105);
     --text:rgb(117, 117, 117);
     --filter: invert(77%) sepia(35%) saturate(4460%) hue-rotate(344deg) brightness(101%) contrast(101%);
     --hover-filter: invert(95%) sepia(24%) saturate(5708%) hue-rotate(308deg) brightness(99%) contrast(103%);
 }
 :root, :root.blue {
-    --heading-color: #0B3C5D;
-    --border-color: #2b77a3;
-    --button-color: #104f79;
+    background-color:white;
+    --heading-color: #152985;
+    --border-color: #092f96;
+    --button-color: #092f96;
+    --button-hover-color: #194b8b;
+    --input-color: #092f96;
     --text:#1D2731;
     --filter: invert(17%) sepia(79%) saturate(536%) hue-rotate(161deg) brightness(103%) contrast(99%);
     --hover-filter: invert(37%) sepia(70%) saturate(469%) hue-rotate(158deg) brightness(95%) contrast(92%);
 }
 :root, :root.black {
-    --heading-color: #0A1612;
-    --border-color: #c5c1c0;
-    --button-color: #1a2930;
-    --text:#1a2930;
+    background-color:#1a2930 ;
+    --heading-color: #c5c1c0;
+    --border-color: white;
+    --button-color: #b8b8b8;
+    --button-hover-color: #949190;
+    --input-color: #1a2930;
+    --text:white;
     --filter: invert(6%) sepia(9%) saturate(2593%) hue-rotate(109deg) brightness(94%) contrast(95%);
     --hover-filter: invert(0%) sepia(4%) saturate(0%) hue-rotate(309deg) brightness(93%) contrast(107%);
+    & .newTaskButton {
+        background-color: var(--button-color);
+    }
+    & .newTaskButton:hover {
+        background-color: var(--button-hover-color);
+    }
+    /* & input {
+    outline: solid 2px var(--background-color);
+    } */
 }
 :root, :root.green {
+    background-color:white;
     --border-color: #009933;
     --heading-color: rgb(1, 112, 1);
     --button-color: #009933;
+    --button-hover-color:rgb(1, 112, 1); 
+    --input-color: #009933;
     --text:#1a2930;
     --filter: invert(24%) sepia(54%) saturate(2665%) hue-rotate(95deg) brightness(94%) contrast(99%);
     --hover-filter: invert(29%) sepia(98%) saturate(1359%) hue-rotate(121deg) brightness(99%) contrast(101%);
@@ -319,40 +343,7 @@ h1 {
     padding-top: 1px;
     line-height: 1.7rem;
 }
-/* Buttons */
-.newTaskButton {
-    height: 50px;
-    width:50px;
-    background-color: var(--heading-color);
-    border-radius: 50%;
-    display: inline-block;
-    text-align:center;
-    line-height: 47px;
-    color: white;
-    font-size: 3rem;
-    font-weight: bold;
-}
-.newTaskButton:hover {
-    background-color:var(--border-color);
-    cursor: pointer;
-}
-.footerButton {
-    background-color: var(--button-color);
-    width:fit-content;
-    padding:4px 12px;
-    border-radius: 4px;
-    margin-top: 12px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border:solid 3px var(--button-color);
-    color:white;
-}
-.footerButton:hover {
-    background-color:var(--heading-color);
-    cursor: pointer;
-    color:white;
-    border:solid 3px var(--heading-color);
-}
+
 .toggle {
     display: none;
 }
@@ -361,19 +352,46 @@ h1 {
     padding-left: 0.5rem;
     font-style: italic;
 }
-
 dialog{
     min-width: 200px;
     outline:none;
 }
-
 img {
     filter:var(--filter);
 }
-
 img:hover {
     cursor: pointer;
     filter: var(--hover-filter);
+}
+.newTaskButton {
+    height: 50px;
+    width:50px;
+    background-color: var(--border-color);
+    border-radius: 50%;
+    display: inline-block;
+    text-align:center;
+    line-height: 47px;
+    font-size: 3rem;
+}
+.newTaskButton:hover {
+    background-color:var(--heading-color);
+}
+.footerButton {
+    background-color: var(--button-color);
+    width:fit-content;
+    padding:7px 15px;
+    border-radius: 4px;
+    margin-top: 12px;
+    font-size: 1.2rem;
+    color:white;
+}
+.button {
+    color:white;
+    font-weight: bold;
+}
+.button:hover {
+    background-color:var(--button-hover-color);
+    cursor: pointer;
 }
 
 @media screen and (max-width:500px) {

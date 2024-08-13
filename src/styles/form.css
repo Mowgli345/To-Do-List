@@ -27,7 +27,7 @@ label {
 }
 input {
     height: 1.8rem;
-    border: solid 2px var(--border-color);
+    border: solid 2px var(--input-color);
     border-radius: 4px;
     font-size: 1.2rem;
     color:var(--text-color);
@@ -36,11 +36,12 @@ input[type=date] {
     font-family: Arial, Helvetica, sans-serif;
 }
 input:focus {
-    border:solid 2px green;
+    outline:solid 1px var(--input-color);
 }
+
 select {
     height: 1.8rem;
-    border: solid 2px var(--border-color);
+    border: solid 2px var(--input-color);
     border-radius: 4px;
     font-size: 1.2rem;
     color:rgb(122, 122, 122);
@@ -51,14 +52,14 @@ select {
     border:none;
     border-radius: 4px;
     color:white;
-    background-color: var(--heading-color);
+    /* background-color: var(--heading-color); */
     background-color: var(--button-color);
     padding: .3rem .9rem;
     font-size: 1.3rem;
     margin-top: 16px;
 }
 .buttonsRow>button:hover{
-    background-color: var(--border-color);
+    background-color: var(--button-hover-color);
 }
 .buttonsRow {
     display: flex;

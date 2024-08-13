@@ -631,7 +631,6 @@ function sortByPriority(e:Event){
 function sortByStatus(e:Event){
     let listsArray = ["Not Started","In Progress","Completed"];
     let sortField = "status";
-    // updateDOM(listsArray,sortField)
     updateSortDOM(listsArray,sortField)
 };
 function sortByDate(e:Event){
@@ -813,19 +812,11 @@ function removeListTasks(list:string) {
     })
 }
 
-updateDOM();
-
-function updateSortDOM(listsArray?:string[],sortField?:string) {
+function updateSortDOM(listsArray:string[],sortField:string) {
     clearDOM();
-    if (!listsArray) {
-        listsArray = createListsArray();
-    }
     renderSortList(listsArray);
     let taskArray= createTasksArray();
     let sortedTasks = sortTaskArray(taskArray);
-    if (!sortField) {
-        sortField = "list";
-    }
     renderTask(sortField, sortedTasks);
     addListToggle();
 };
@@ -868,3 +859,4 @@ export function renderSortList(parsedList:string[]):void {
         }
     content?.append(fragment);  
 };
+updateDOM();
