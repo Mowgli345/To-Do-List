@@ -7,7 +7,7 @@ dialog {
 #newListDialog {
     padding: 35px 12px 40px 10px;
     & form {
-        min-width: 240px;
+        /* min-width: 240px; */
         overflow: hidden;
         max-width: 100%;
     }
@@ -35,6 +35,7 @@ label {
     line-height: 2.2rem;
 }
 input, select {
+    appearance: none;
     box-sizing: border-box;
     height: 1.9rem;
     border: solid 2px var(--input-color);
@@ -54,7 +55,6 @@ input:focus {
     border:none;
     border-radius: 4px;
     color:white;
-    /* background-color: var(--heading-color); */
     background-color: var(--button-color);
     padding: .3rem .9rem;
     font-size: 1.3rem;
@@ -140,4 +140,43 @@ li.circle:hover {
 }
 #confirmDeleteDialog .buttonsRow {
     margin-top: 10px;
+}
+
+@media screen and (max-width:490px) {
+    dialog {
+        background-color: red;
+        /* overflow: hidden; */
+        max-width: 100%;
+        padding: 35px 10px 40px 12px;
+    }
+    #newListDialog {
+        padding: 35px 2px 40px 2px;
+        & form {
+            min-width: 70%;
+            padding:0;
+            /* overflow: hidden; */
+            /* max-width: 100%; */
+
+        }
+    }
+    .newListForm {
+        margin:0;
+        background-color: purple;
+        padding:0;
+    }
+    form {
+        background-color: yellow;
+        color: var(--border-color);
+        color:rgb(82, 82, 82);
+        font-size: 1.3rem;
+        padding:0;
+        /* min-width: 295px; */
+    }
+    input, select {
+        width:100%;
+    }
+    fieldset {
+        padding: 0;
+    }
+
 }
