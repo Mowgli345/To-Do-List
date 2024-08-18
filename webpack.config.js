@@ -42,7 +42,7 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
 
-    path: path.resolve ( __dirname, 'dist' ),  
+    path: path.resolve ( __dirname, 'docs' ),  
     // assetModuleFilename:'assets/[name][ext]',
     publicPath: 'auto',
     },
@@ -56,7 +56,7 @@ module.exports = {
         clean:true,
     },
     devServer: {
-        static:'dist',
+        static:'docs',
     },
     devtool: 'inline-source-map',
 }
