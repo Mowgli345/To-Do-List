@@ -1,8 +1,13 @@
 dialog {
     border: none;
     border-radius: 6px;
-    padding: 35px 30px 40px 20px;
     overflow: hidden;
+    /* min-width: 240px; */
+}
+form {
+    color: var(--border-color);
+    color:rgb(82, 82, 82);
+    font-size: 1.3rem;
 }
 #newListDialog {
     padding: 35px 12px 40px 10px;
@@ -11,12 +16,6 @@ dialog {
         overflow: hidden;
         max-width: 100%;
     }
-}
-form {
-    color: var(--border-color);
-    color:rgb(82, 82, 82);
-    font-size: 1.3rem;
-    min-width: 295px;
 }
 fieldset {
     border: none;
@@ -67,11 +66,46 @@ input:focus {
     display: flex;
     justify-content: space-between;
 }
+#newColorDialog {
+    border: none;
+    border-radius: 6px;
+    padding:10px 10px 15px 10px;
+    width:60%;
+    max-width: 280px;
+}
+#newColorForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap:18px;
+    padding:0;
+}
+#closeDialog {
+    background-color: white;
+    color:var(--button-color);
+    border:2.5px solid var(--border-color);
+    border-radius: 3px;
+    padding:1px 3px 1px 3px;
+    align-self:flex-end;
+    font-style: bold;
+    font-size: 1.3rem;
+}
+#newColorDialog ul li {
+    display: inline-block;
+    margin: 0;
+}
+#newColorForm ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
 li.circle {
     height: 35px;
     width:35px;
     border-radius: 50%;
     display: block;
+
 }
 li.circle:hover {
     cursor: pointer;
@@ -91,41 +125,8 @@ li.circle:hover {
 .circle-black {
     background-color:black;
 }
-#newColorDialog ul li {
-    display: inline-block;
-    margin: 0;
-}
-#newColorForm ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-#newColorDialog {
-    border: none;
-    border-radius: 6px;
-    padding: 35px 30px 40px 20px;
-    width:40%;
-}
-#closeDialog {
-    background-color: white;
-    color:var(--button-color);
-    border:2.5px solid var(--border-color);
-    border-radius: 3px;
-    padding:2px 4px 2px 4px;
-    align-self:flex-end;
-    font-style: bold;
-    font-size: 1.3rem;
-}
-#newColorForm {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap:30px;
-    padding:0;
-}
-#newColorDialog {
-    padding:10px 20px 25px 20px;
-}
+
+
 #confirmDeleteDialog {
     white-space: pre-line;
     padding:30px;
@@ -143,9 +144,9 @@ li.circle:hover {
 }
 
 @media screen and (max-width:490px) {
-    dialog {
+    /* dialog {
         background-color: red;
-        /* overflow: hidden; */
+        overflow: hidden;
         max-width: 100%;
         padding: 35px 10px 40px 12px;
     }
@@ -154,18 +155,18 @@ li.circle:hover {
         & form {
             min-width: 70%;
             padding:0;
-            /* overflow: hidden; */
-            /* max-width: 100%; */
+            overflow: hidden;
+            max-width: 100%;
 
         }
-    }
+    } */
     .newListForm {
         margin:0;
-        background-color: purple;
+
         padding:0;
     }
     form {
-        background-color: yellow;
+        /* background-color: yellow; */
         color: var(--border-color);
         color:rgb(82, 82, 82);
         font-size: 1.3rem;
