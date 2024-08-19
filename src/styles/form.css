@@ -162,16 +162,13 @@ li.circle:hover {
     } */
     .newListForm {
         margin:0;
-
         padding:0;
     }
     form {
-        /* background-color: yellow; */
         color: var(--border-color);
         color:rgb(82, 82, 82);
         font-size: 1.3rem;
         padding:0;
-        /* min-width: 295px; */
     }
     input, select {
         width:100%;

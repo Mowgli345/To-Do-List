@@ -36,13 +36,11 @@ module.exports = {
   entry: {
     index: './src/index.ts',
     scripts: './src/scripts.ts',
-
         },
 
   output: {
     filename: '[name].bundle.js',
-
-    path: path.resolve ( __dirname, 'docs' ),  
+    path: path.resolve ( __dirname, 'dist' ),  
     // assetModuleFilename:'assets/[name][ext]',
     publicPath: 'auto',
     },
@@ -56,7 +54,7 @@ module.exports = {
         clean:true,
     },
     devServer: {
-        static:'docs',
+        static:'dist',
     },
     devtool: 'inline-source-map',
 }
