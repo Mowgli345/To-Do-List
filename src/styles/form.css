@@ -2,7 +2,6 @@ dialog {
     border: none;
     border-radius: 6px;
     overflow: hidden;
-    /* min-width: 240px; */
 }
 form {
     color: var(--border-color);
@@ -12,7 +11,6 @@ form {
 #newListDialog {
     padding: 35px 12px 40px 10px;
     & form {
-        /* min-width: 240px; */
         overflow: hidden;
         max-width: 100%;
     }
@@ -144,25 +142,12 @@ li.circle:hover {
 }
 
 @media screen and (max-width:490px) {
-    /* dialog {
-        background-color: red;
-        overflow: hidden;
-        max-width: 100%;
-        padding: 35px 10px 40px 12px;
-    }
-    #newListDialog {
-        padding: 35px 2px 40px 2px;
-        & form {
-            min-width: 70%;
-            padding:0;
-            overflow: hidden;
-            max-width: 100%;
-
-        }
-    } */
     .newListForm {
         margin:0;
         padding:0;
+    }
+    .newItemForm {
+        height: 100vh;
     }
     form {
         color: var(--border-color);
@@ -175,6 +160,9 @@ li.circle:hover {
     }
     fieldset {
         padding: 0;
+    }
+    button {
+        border: none;
     }
 
 }
