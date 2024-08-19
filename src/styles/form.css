@@ -162,7 +162,7 @@ li.circle:hover {
         padding: 0;
     }
     button {
-        border: none;
+        outline: none;
     }
 
 }
