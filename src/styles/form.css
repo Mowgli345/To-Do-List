@@ -164,5 +164,8 @@ li.circle:hover {
     button {
         outline: none;
     }
+    #closeDialog {
+        outline: none;
+    }
 
 }
