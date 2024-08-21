@@ -385,7 +385,7 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
             grabElement = findList(task.status);
         }
         else if (sortField == "date") {
-            grabElement = document.querySelector('.task-list-heading')!;
+            grabElement = document.querySelector('.task-list-container')!;
         }
         else {
             grabElement = findList(task.list);
@@ -451,8 +451,8 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
         const taskListName = document.createElement('div');
             taskListName.className='task-list-name';
             text = document.createTextNode(task.list);
-            taskListName.appendChild(text);        
-
+            taskListName.appendChild(text);      
+            
         let inner = grabElement.querySelector('.inner');
             inner!.appendChild(taskItem);
 
@@ -479,7 +479,7 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
 };
 function toggleListDisplay(e:Event) {
     let thisDiv = e.target as HTMLDivElement;
-    if (thisDiv.className =="task-list-heading"){
+    if (thisDiv.className =="task-list-container"){
         let listChildren = thisDiv.children;
         if (listChildren!.length>1) {
             thisDiv?.children[1].classList.toggle('hide');
@@ -498,8 +498,9 @@ export function renderList(parsedList:string[]):void {
         const taskList = document.createElement('div');
         taskList.className='task-list';
         const taskListHeading = document.createElement('div');
-        taskListHeading.className='task-list-heading';
-
+        taskListHeading.className='task-list-container';
+        const listHeader = document.createElement('div');
+        listHeader.className='listHeader';
         const listName = document.createElement("div");
         listName.className="listNameTitle";
         const listNameTitle = document.createElement('h2');
@@ -521,13 +522,14 @@ export function renderList(parsedList:string[]):void {
         text = document.createTextNode("\u2013");
         listToggle.appendChild(text);
         listToggle.addEventListener('click',(e:Event)=>toggleList(e));
-            taskListHeading.appendChild(listName);
-            taskListHeading.appendChild(listDelete); 
-            taskListHeading.appendChild(listToggle);
-                 taskListHeading.addEventListener('mouseenter',(e:Event)=>{
+
+            listHeader.appendChild(listName);
+            listHeader.appendChild(listDelete); 
+            listHeader.appendChild(listToggle);
+                 listHeader.addEventListener('mouseenter',(e:Event)=>{
                     toggleListDisplay(e);
                     });
-                taskListHeading.addEventListener('mouseleave',(e:Event)=>{
+                listHeader.addEventListener('mouseleave',(e:Event)=>{
                     toggleListDisplay(e);
                     });  
         const taskListWrapper = document.createElement('div');
@@ -535,6 +537,7 @@ export function renderList(parsedList:string[]):void {
         let inner = document.createElement('div');
             inner.className='inner';
             taskListWrapper.appendChild(inner);
+            taskListHeading.appendChild(listHeader);
             taskListHeading.appendChild(taskListWrapper);     
         taskList.appendChild(taskListHeading);
         content?.appendChild(taskList);
@@ -646,7 +649,7 @@ function sortByDate(e:Event){
                 const taskList = document.createElement('div');
                     taskList.className='task-list';
                 const taskListHeading = document.createElement('div');
-                    taskListHeading.className='task-list-heading';
+                    taskListHeading.className='task-list-container';
                 const listNameTitle = document.createElement("div");
                     listNameTitle.className="listNameTitle";
                 const h2 = document.createElement('h2');
@@ -832,7 +835,7 @@ export function renderSortList(parsedList:string[]):void {
         const taskList = document.createElement('div');
         taskList.className='task-list';
         const taskListHeading = document.createElement('div');
-        taskListHeading.className='task-list-heading';
+        taskListHeading.className='task-list-container';
 
         const listName = document.createElement("div");
         listName.className="listNameTitle";

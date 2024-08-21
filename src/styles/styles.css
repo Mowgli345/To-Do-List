@@ -176,12 +176,25 @@ h1 {
  }
 .task-list {
     min-width:265px ;
+    outline:solid black .5px
 }
-.task-list-heading {
+.task-list-container {
     display: grid;
-    grid-template-rows: 2.4rem;
-    grid-template-columns: auto 30px 1fr;
+    /* grid-template-rows: 2.4rem; */
+    /* grid-template-rows: minmax(2.4rem, auto); */
+
+    /* grid-template-columns: auto 30px 1fr; */
+    /* grid-template-columns: 50px minmax(30px auto) 25px; */
     padding:1px 8px 5px 1px;
+    & div {
+        outline: dotted red .4px;
+    }
+}
+.listHeader {
+    display: flex;
+}
+.listHeader * {
+    outline: dotted blue .4px;
 }
  h2 {
     margin: 0;
@@ -204,6 +217,8 @@ h1 {
     transition: all 0.2s;
     visibility: visible;
     opacity: 1;
+    align-items: flex-start;
+    padding-top: 3px;
 }
 .list-delete img {
     height: 1.7rem;
@@ -230,6 +245,10 @@ h1 {
 .minus {
     font-size: 2.3rem;
     padding-right: 0.2rem;
+    line-height:1rem ;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 8px;
 }
 .taskListWrapper {
     grid-area: 2/1/3/4;
@@ -400,7 +419,7 @@ img:hover {
 .task-item {
     display: grid;
     grid-template-rows: auto;
-    grid-template-columns: 25px 1fr 25px 95px 35px 15px;
+    grid-template-columns: 25px 1fr 25px 95px 45px 15px;
 }
 .task-priority {
     grid-area: 1/1/2/2;
@@ -413,7 +432,7 @@ img:hover {
     line-height: 1.35rem;
 }
 .task-due {
-    grid-area: 2/2/3/4;
+    grid-area: 2/2/3/5;
     padding-left: 0.5rem;
     font-style: italic;
     justify-content: flex-start;
@@ -426,6 +445,8 @@ img:hover {
 .taskWrapper{
     grid-area:3/2/4/6;
     grid-template-rows: 0 0 0;
+    grid-template-columns: auto 20px 30px ;
+    background-color: #c5c1c0;
 }
 .task-list-name {
     grid-area: 2/2/3/5;
@@ -440,11 +461,11 @@ img:hover {
     padding-left: 8px;
 }
 .task-edit {
-    grid-area: 2/3/3/4;
-    justify-content: flex-end;
+    grid-area: 2/4/3/5;
+    justify-content: flex-start;
 }
 .task-status {
-    grid-area: 2/1/3/3;
+    grid-area: 2/1/3/4;
     text-align: start;
     justify-content:start;
     align-items: flex-end; 
