@@ -176,31 +176,20 @@ h1 {
  }
 .taskList {
     min-width:265px ;
-    outline:solid black .5px
+    margin-top: 0.5rem; 
+    margin-bottom: 0.8rem;
 }
 .taskListContainer {
     display: grid;
     /* grid-template-rows: 2.4rem; */
-    /* grid-template-rows: minmax(2.4rem, auto); */
-
-    /* grid-template-columns: auto 30px 1fr; */
-    /* grid-template-columns: 50px minmax(30px auto) 25px; */
-    padding:1px 8px 5px 1px;
-    /* & div {
-        outline: dotted red .4px;
-    } */
 }
 .listHeader {
-    grid-area: 1/1/2/5;
+    grid-area: 1/1/2/4;
     display: flex;
-    outline: solid red .7px;
-}
-.listHeader * {
-    outline: dotted blue .4px;
 }
  .listNameTitle {
     padding: 1px;
-    /* grid-area: 1/1/2/2; */
+    line-height: 1.7em;
  }
  h2 {
     margin: 0;
@@ -212,10 +201,9 @@ h1 {
  }
 .listDelete {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
+    flex-grow: 1;
     margin-left:8px;
-    /* grid-area: 1/2/2/3; */
     transition: all 0.2s;
     visibility: visible;
     opacity: 1;
@@ -235,7 +223,6 @@ h1 {
     font-weight: bold;
     text-align: center;
     width:20px;
-    /* grid-area: 1/3/2/4; */
     margin-left: auto;
     display: flex;
     align-items: center;
@@ -324,6 +311,7 @@ h1 {
 .showTask {
     grid-template-rows: 1.7rem 1.7rem; 
     grid-template-rows: 1.7rem auto; 
+    transition: grid-template-rows 0.3s;
 }
 .taskListName {
     grid-area: 1/1/2/2;
