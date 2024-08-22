@@ -18,17 +18,17 @@ import { findLocStoreLists, createNewList, createTask, taskInt, task, findMyList
 
     const sort = document.querySelector('.sort');
         sort?.addEventListener('click',(e:Event)=>showSortMenu());   
-    const showInfo = document.querySelector('.task-toggle');
-    const sortItems = document.querySelector('.sort-menu');
+    const showInfo = document.querySelector('.taskToggle');
+    const sortItems = document.querySelector('.sortMenu');
         sortItems?.addEventListener('mouseover',(e:Event)=>sortBorderOff(e));
         sortItems?.addEventListener('mouseout',(e:Event)=>sortBorderOn(e));
-    const sortTask = document.getElementById('sort-task');
+    const sortTask = document.getElementById('sortTask');
         sortTask?.addEventListener('click',(e:Event)=>sortByTask(e));
-    const sortDate = document.getElementById('sort-date');
+    const sortDate = document.getElementById('sortDate');
         sortDate?.addEventListener('click',(e:Event)=>sortByDate(e));
-    const sortPriority = document.getElementById('sort-priority');
+    const sortPriority = document.getElementById('sortPriority');
         sortPriority?.addEventListener('click',(e:Event)=>sortByPriority(e));
-    const sortStatus = document.getElementById('sort-status');
+    const sortStatus = document.getElementById('sortStatus');
         sortStatus?.addEventListener('click',(e:Event)=>sortByStatus(e));   
     //Sort Menu styling
     function sortBorderOff(e:Event) {
@@ -349,7 +349,7 @@ function findList(thisList:string):HTMLDivElement {
     for (let i=0; i<listHeadings.length;i++) {
         let listName =listHeadings[i].textContent;
         if (taskList == listName) {
-            let grabElement = listHeadings[i].parentElement?.parentElement;
+            let grabElement = listHeadings[i].parentElement?.parentElement?.parentElement;
             return grabElement as HTMLDivElement;
             }
         }  
@@ -363,7 +363,7 @@ function findList(thisList:string):HTMLDivElement {
         const list = document.createElement('div');
             list.className='list';
         let grabElement = document.createElement('div');
-        grabElement.className='task-list';
+        grabElement.className='taskList';
         const listName = document.createElement('h2');
         let text = document.createTextNode(taskList);
         listName.appendChild(text);
@@ -385,7 +385,7 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
             grabElement = findList(task.status);
         }
         else if (sortField == "date") {
-            grabElement = document.querySelector('.task-list-container')!;
+            grabElement = document.querySelector('.taskListContainer')!;
         }
         else {
             grabElement = findList(task.list);
@@ -393,10 +393,10 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
         const fragment = new DocumentFragment;
         const content = document.querySelector('.content');
         const taskItem = document.createElement('div');
-            taskItem.className='task-item';
+            taskItem.className='taskItem';
             taskItem.dataset.id=task.id;
         const taskPriority = document.createElement('div');
-            taskPriority.className='task-priority';
+            taskPriority.className='taskPriority';
         const circle = document.createElement('div');
             circle.className='circle';
             if (task.priority=='High') {
@@ -409,12 +409,12 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
                 circle.style.backgroundColor='green';
             }
         const taskName = document.createElement('div');
-            taskName.className='task-name';
+            taskName.className='taskName';
             let text = document.createTextNode(task.task);
             taskName.appendChild(text);
 
         const taskDue = document.createElement('div');
-            taskDue.className='task-due';
+            taskDue.className='taskDue';
             text = document.createTextNode(task.date);
             taskDue.appendChild(text);
             if (task.rawDate < new Date()) {
@@ -422,26 +422,26 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
                 taskDue.style.fontStyle="italic";
             }
         const taskToggle = document.createElement('div');
-            taskToggle.className='task-toggle';
+            taskToggle.className='taskToggle';
             text = document.createTextNode('+');
             taskToggle.appendChild(text);
             taskToggle.addEventListener('click',(e:Event)=>toggleInfo(e));
         const taskInfo = document.createElement('div');
-            taskInfo.className='task-info';
+            taskInfo.className='taskInfo';
             text = document.createTextNode(task.details);
             taskInfo.appendChild(text);
         const taskEdit = document.createElement('div');
-            taskEdit.className='task-edit';
+            taskEdit.className='taskEdit';
         const editPencil = document.createElement('img') as HTMLImageElement;
             editPencil.src=pencilImg;
             editPencil.addEventListener('click',(e:Event)=>editTask(e));
 
         const taskStatus = document.createElement('div');
-            taskStatus.className='task-status';
+            taskStatus.className='taskStatus';
             text = document.createTextNode(task.status);
             taskStatus.appendChild(text);
         const taskDelete = document.createElement('div');
-            taskDelete.className='task-delete';
+            taskDelete.className='taskDelete';
         const trashBin = document.createElement('img') as HTMLImageElement;
             trashBin.src=delImg; 
             trashBin.addEventListener('click',(e:Event)=>{
@@ -449,7 +449,7 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
                 updateDOM();
             });   
         const taskListName = document.createElement('div');
-            taskListName.className='task-list-name';
+            taskListName.className='taskListName';
             text = document.createTextNode(task.list);
             taskListName.appendChild(text);      
             
@@ -479,7 +479,7 @@ function renderTask(sortField:string, taskArray:taskInt[]):void {
 };
 function toggleListDisplay(e:Event) {
     let thisDiv = e.target as HTMLDivElement;
-    if (thisDiv.className =="task-list-container"){
+    if (thisDiv.parentElement?.className =="taskListContainer"){
         let listChildren = thisDiv.children;
         if (listChildren!.length>1) {
             thisDiv?.children[1].classList.toggle('hide');
@@ -496,9 +496,9 @@ export function renderList(parsedList:string[]):void {
 
     for (let i=0; i<length;i++) {
         const taskList = document.createElement('div');
-        taskList.className='task-list';
+        taskList.className='taskList';
         const taskListHeading = document.createElement('div');
-        taskListHeading.className='task-list-container';
+        taskListHeading.className='taskListContainer';
         const listHeader = document.createElement('div');
         listHeader.className='listHeader';
         const listName = document.createElement("div");
@@ -509,7 +509,7 @@ export function renderList(parsedList:string[]):void {
         listName.appendChild(listNameTitle);
 
         const listDelete = document.createElement('div');
-            listDelete.className='list-delete hide';
+            listDelete.className='listDelete hide';
         const trashBin = document.createElement('img') as HTMLImageElement;
             trashBin.src=delImg; 
             trashBin.addEventListener('click',(e:Event)=>{
@@ -518,7 +518,7 @@ export function renderList(parsedList:string[]):void {
         listDelete.appendChild(trashBin);
 
         const listToggle = document.createElement('div');
-        listToggle.className='list-toggle minus';
+        listToggle.className='listToggle minus';
         text = document.createTextNode("\u2013");
         listToggle.appendChild(text);
         listToggle.addEventListener('click',(e:Event)=>toggleList(e));
@@ -559,7 +559,7 @@ function toggleInfo(e:Event) {
     };
 };
 function addListToggle() {
-    let listHeadings = document.querySelectorAll(".task-list");
+    let listHeadings = document.querySelectorAll(".taskList");
     listHeadings.forEach((heading)=> {
         let headingDiv = heading.querySelector('.taskListWrapper')?.firstChild as HTMLDivElement;
         if (!headingDiv.hasChildNodes()) {
@@ -568,15 +568,14 @@ function addListToggle() {
             let text = document.createTextNode("There are no tasks");
             noTasks.appendChild(text);
             headingDiv.appendChild(noTasks);
-             let thisToggle = heading.firstElementChild?.querySelector('.list-toggle');
+             let thisToggle = heading.firstElementChild?.querySelector('.listToggle');
             thisToggle!.textContent="";
         }
     });
 };
 function toggleList(e:Event) {
     const event = e.target as HTMLDivElement;  
-    let thisList = event.parentElement?.parentElement?.firstChild! as HTMLDivElement;
-
+    let thisList = event.parentElement?.parentElement?.parentElement?.firstChild! as HTMLDivElement;
     const taskListWrapper = thisList.querySelector('.taskListWrapper');
     if (taskListWrapper) taskListWrapper.classList.toggle('showList');
     if (taskListWrapper?.classList.contains('showList')){
@@ -647,16 +646,16 @@ function sortByDate(e:Event){
             const list = document.createElement('div');
                 list.className='list';
                 const taskList = document.createElement('div');
-                    taskList.className='task-list';
+                    taskList.className='taskList';
                 const taskListHeading = document.createElement('div');
-                    taskListHeading.className='task-list-container';
+                    taskListHeading.className='taskListContainer';
                 const listNameTitle = document.createElement("div");
                     listNameTitle.className="listNameTitle";
                 const h2 = document.createElement('h2');
                     h2.textContent= "My Tasks";
                     listNameTitle.appendChild(h2);
                 const listDelete = document.createElement('div');
-                    listDelete.className='list-delete hide';
+                    listDelete.className='listDelete hide';
                 const taskListWrapper = document.createElement('div');
                     taskListWrapper.className='taskListWrapper showList';
                 let inner = document.createElement('div');
@@ -687,7 +686,7 @@ function showColorPicker() {
         });
     const list = document.createElement('ul');
     let listItem = document.createElement('li');
-        listItem.className="circle circle-blue";
+        listItem.className="circle circleBlue";
         listItem.addEventListener('click',(e:Event)=>{
                 let color = "blue";
                 changeColor(color);
@@ -695,7 +694,7 @@ function showColorPicker() {
                 })
         list.appendChild(listItem);  
     listItem = document.createElement('li');
-        listItem.className="circle circle-green";
+        listItem.className="circle circleGreen";
         listItem.addEventListener('click',(e:Event)=>{
             let color = "green";
             changeColor(color);
@@ -704,7 +703,7 @@ function showColorPicker() {
         list.appendChild(listItem);  
 
     listItem = document.createElement('li');
-        listItem.className="circle circle-orange";
+        listItem.className="circle circleOrange";
         listItem.addEventListener('click',(e:Event)=>{
             let color = "orange";
             changeColor(color);
@@ -713,7 +712,7 @@ function showColorPicker() {
         list.appendChild(listItem);    
 
     listItem = document.createElement('li');
-        listItem.className="circle circle-grey";
+        listItem.className="circle circleGrey";
         listItem.addEventListener('click',(e:Event)=>{
             let color = "grey";
             changeColor(color);
@@ -722,7 +721,7 @@ function showColorPicker() {
         list.appendChild(listItem);    
 
     listItem = document.createElement('li');
-        listItem.className="circle circle-black";
+        listItem.className="circle circleBlack";
         listItem.addEventListener('click',(e:Event)=>{
             let color = "black";
             changeColor(color);
@@ -741,9 +740,9 @@ function changeColor(color:string) {
 }
 function checkListTasks(e:Event) {
     if (e.target instanceof Element) {
-        let list = e.target.parentElement?.parentElement as HTMLDivElement;
+        let list = e.target.parentElement?.parentElement?.parentElement as HTMLDivElement;
         let x = list.querySelector('.inner') as HTMLDivElement;
-        if (x!.firstElementChild!.className == "task-item") {
+        if (x!.firstElementChild!.className == "taskItem") {
             showListDeleteConfirm(list);
         }
         else {
@@ -752,7 +751,7 @@ function checkListTasks(e:Event) {
     }
 }
 function deleteList(list:HTMLDivElement){
-        let id = list?.firstChild?.textContent;
+        let id = list?.firstChild?.firstChild?.textContent;
         let myLists = localStorage.getItem('myLists');
         localStorage.removeItem(myLists!);
         let myParsedList = JSON.parse(myLists!); 
@@ -833,9 +832,9 @@ export function renderSortList(parsedList:string[]):void {
 
     for (let i=0; i<length;i++) {
         const taskList = document.createElement('div');
-        taskList.className='task-list';
+        taskList.className='taskList';
         const taskListHeading = document.createElement('div');
-        taskListHeading.className='task-list-container';
+        taskListHeading.className='taskListContainer';
 
         const listName = document.createElement("div");
         listName.className="listNameTitle";
@@ -845,7 +844,7 @@ export function renderSortList(parsedList:string[]):void {
         listName.appendChild(listNameTitle);        
 
         const listToggle = document.createElement('div');
-        listToggle.className='list-toggle minus';
+        listToggle.className='listToggle minus';
         text = document.createTextNode("\u2013");
         listToggle.appendChild(text);
         listToggle.addEventListener('click',(e:Event)=>toggleList(e));

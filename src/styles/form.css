@@ -108,19 +108,19 @@ li.circle {
 li.circle:hover {
     cursor: pointer;
 }
-.circle-blue {
+.circleBlue {
     background-color:blue;
 }
-.circle-green {
+.circleGreen {
     background-color:green;
 }
-.circle-orange {
+.circleOrange {
     background-color:orange;
 }
-.circle-grey {
+.circleGrey {
     background-color:grey;
 }
-.circle-black {
+.circleBlack {
     background-color:black;
 }
 
