@@ -254,6 +254,7 @@ h1 {
 .taskItem {
     display: grid;
     grid-template-rows: 1.7rem;
+    grid-template-rows: auto;
     grid-template-columns: 25px 1fr 25px 110px 35px 15px;
     padding-top: 6px;
     padding-bottom: 6px;
@@ -265,9 +266,10 @@ h1 {
 }
 .taskPriority {
     grid-area: 1/1/2/2;
-    align-items: center; 
+    align-items: flex-start; 
     display: flex;
     justify-content: flex-start;
+    margin-top: 4px;
 }
 .circle {
     height: 16px;
@@ -285,7 +287,7 @@ h1 {
     padding-right: 1rem;
     padding-bottom: 0.2rem;
     display: flex;
-    align-items:flex-end;
+    align-items:flex-start;
     justify-content: flex-end;
 }
 .taskToggle {
@@ -307,6 +309,7 @@ h1 {
     grid-template-rows: 0 0; 
     overflow: hidden;
     transition: grid-template-rows 0.3s;
+    margin-top: 0.2rem;
 }
 .showTask {
     grid-template-rows: 1.7rem 1.7rem; 
