@@ -542,7 +542,7 @@ export function renderList(parsedList:string[]):void {
         taskList.appendChild(taskListHeading);
         content?.appendChild(taskList);
 
-        debugger;
+
         let windowWidth = window.innerWidth;
         console.log(windowWidth);
         if (windowWidth<=520) {
