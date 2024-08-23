@@ -541,9 +541,30 @@ export function renderList(parsedList:string[]):void {
             taskListHeading.appendChild(taskListWrapper);     
         taskList.appendChild(taskListHeading);
         content?.appendChild(taskList);
+
+        debugger;
+        let windowWidth = window.innerWidth;
+        console.log(windowWidth);
+        if (windowWidth<=520) {
+            shrinkWrap(listNameTitle);
+            }
         }
     content?.append(fragment);  
 };
+
+function shrinkWrap(element: HTMLElement) {
+    const { firstChild, lastChild } = element;
+    if (!element || !firstChild || !lastChild) return;
+    const range = document.createRange();
+    range.setStartBefore(firstChild);
+    range.setEndAfter(lastChild);
+    const { width } = range.getBoundingClientRect();
+    element.style.width = width + "px";
+    element.style.boxSizing = "content-box";
+  };
+  
+
+
     
 //Others
 function toggleInfo(e:Event) {
