@@ -77,6 +77,16 @@ export interface taskInt {
     priority: string,
     id:string
 }
+export interface taskObjInt {
+    id:string,
+    taskDate:string,
+    taskDetails:string,
+    taskList:string,
+    taskStatus:string,
+    taskName:string,
+    taskPriority: string,
+
+}
 export function createNewList(e:Event) {
     e.preventDefault();
     let listsArray = createListsArray();

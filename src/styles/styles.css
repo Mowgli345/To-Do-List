@@ -20,7 +20,7 @@
     font-style: italic;
 }
 :root, :root.grey {
-    background-color:white;
+    --background-color:white;
     --heading-color: #565656;
     --border-color: #8b8b8b;
     --button-color: #565656;
@@ -31,7 +31,7 @@
     --hover-filter:  invert(0%) sepia(4%) saturate(0%) hue-rotate(309deg) brightness(93%) contrast(107%);
 }
 :root, :root.orange {
-    background-color:rgb(252, 252, 252);
+    --background-color:rgb(252, 252, 252);
     --heading-color: rgb(255, 159, 28);
     --border-color: rgb(255, 191, 105);
     --button-color: rgb(236, 159, 42);
@@ -42,7 +42,7 @@
     --hover-filter: invert(95%) sepia(24%) saturate(5708%) hue-rotate(308deg) brightness(99%) contrast(103%);
 }
 :root, :root.blue {
-    background-color:white;
+    --background-color:white;
     --heading-color: #152985;
     --border-color: #092f96;
     --button-color: #092f96;
@@ -53,7 +53,7 @@
     --hover-filter: invert(37%) sepia(70%) saturate(469%) hue-rotate(158deg) brightness(95%) contrast(92%);
 }
 :root, :root.black {
-    background-color:#1a2930 ;
+    --background-color:#1a2930 ;
     --heading-color: #c5c1c0;
     --border-color: white;
     --button-color: #b8b8b8;
@@ -70,7 +70,7 @@
     }
 }
 :root, :root.green {
-    background-color:white;
+    --background-color:white;
     --border-color: #009933;
     --heading-color: rgb(1, 112, 1);
     --button-color: #009933;
@@ -94,6 +94,7 @@ body {
     min-width: 280px;
     max-width: 640px;
     margin:0px auto;
+    background-color: var(--background-color);
  }
 header,footer {
     display: flex;
@@ -133,35 +134,38 @@ h1 {
     position:absolute;
     left:-36px;
     top: 2rem;
-    background-color: white;
+    background-color: var(--background-color);
     visibility: visible;
     opacity: 1;
     transition: all .1s;
+    border-radius: 6px;
+    color:var(--heading-color);
 }
 .sortMenu {
     font-size: 1.2rem;
-    color:var(--text);
     padding:5px;
-    outline: solid 3px var(--button-color);
+    outline: solid 3px var(--border-color);
     opacity:1;
     border-radius: 8px;
-    background-color: white;
 }
 .sortMenu ul>li {
     padding: 4px 6px;
     text-align: center;
     margin: 0;
+    border-top:1px solid var(--border-color);
+}
+.sortMenu ul li:first-of-type {
+    border-top: none;
 }
 .sortMenu ul>li:hover {
     background-color:var(--heading-color);
-    color:white;
-    border:none;
+    color:var(--background-color);
+    border-color:var(--background-color);
     border-radius: 4px;
+    cursor: pointer;
 }
-.sortMenu ul li+li {
-    border-top:1px solid rgb(175, 172, 172);
-    text-align: center;
-    margin: 0;
+.sortMenu ul>li:hover+li {
+    border-top:var(--background-color);
 }
 .content {
     border: 4.9px solid var(--border-color);
@@ -175,10 +179,8 @@ h1 {
     min-width:265px ;
     margin-bottom: 0.6rem;
 }
-
 .taskListContainer {
     display: grid;
-    /* grid-template-rows: 2.4rem; */
 }
 .listHeader {
     grid-area: 1/1/2/4;
@@ -255,9 +257,8 @@ h1 {
     grid-template-columns: 25px 1fr 25px 110px 35px 15px;
     padding-top: 6px;
     padding-bottom: 6px;
-    border-bottom: 1.4px solid rgb(175, 172, 172);
+    border-bottom: 1.4px solid var(--border-color);
 }
-
 .taskItem:last-child {
     margin-bottom: 10px;
 }
@@ -354,7 +355,6 @@ h1 {
     padding-top: 1px;
     line-height: 1.7rem;
 }
-
 .toggle {
     display: none;
 }
@@ -415,7 +415,6 @@ img:hover {
     grid-area: 1/1/2/2;
     display: flex;
     align-items:flex-start;
-
 }
 .taskName {
     grid-area: 1/2/2/5;
@@ -437,7 +436,6 @@ img:hover {
     grid-template-rows: 0 0 0;
     grid-template-columns: auto 20px 30px ;
 }
-
 .taskListName {
     grid-area: 2/2/3/5;
 }
