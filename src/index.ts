@@ -499,8 +499,10 @@ export function renderList(parsedList:string[]):void {
         taskList.className='taskList';
         const taskListHeading = document.createElement('div');
         taskListHeading.className='taskListContainer';
+
         const listHeader = document.createElement('div');
         listHeader.className='listHeader';
+        
         const listName = document.createElement("div");
         listName.className="listNameTitle";
         const listNameTitle = document.createElement('h2');
@@ -508,6 +510,7 @@ export function renderList(parsedList:string[]):void {
         listNameTitle.appendChild(text);
         listName.appendChild(listNameTitle);
 
+        //HERE
         const listDelete = document.createElement('div');
             listDelete.className='listDelete hide';
         const trashBin = document.createElement('img') as HTMLImageElement;
@@ -516,6 +519,7 @@ export function renderList(parsedList:string[]):void {
                 checkListTasks(e);
             });  
         listDelete.appendChild(trashBin);
+        //To here
 
         const listToggle = document.createElement('div');
         listToggle.className='listToggle minus';
@@ -524,14 +528,19 @@ export function renderList(parsedList:string[]):void {
         listToggle.addEventListener('click',(e:Event)=>toggleList(e));
 
             listHeader.appendChild(listName);
+            //AND THIS LINE
             listHeader.appendChild(listDelete); 
             listHeader.appendChild(listToggle);
+
+            //HERE
                  listHeader.addEventListener('mouseenter',(e:Event)=>{
                     toggleListDisplay(e);
                     });
                 listHeader.addEventListener('mouseleave',(e:Event)=>{
                     toggleListDisplay(e);
                     });  
+            //To HERE
+
         const taskListWrapper = document.createElement('div');
             taskListWrapper.className='taskListWrapper showList';
         let inner = document.createElement('div');
@@ -542,15 +551,15 @@ export function renderList(parsedList:string[]):void {
         taskList.appendChild(taskListHeading);
         content?.appendChild(taskList);
 
-
         let windowWidth = window.innerWidth;
-        console.log(windowWidth);
         if (windowWidth<=520) {
             shrinkWrap(listNameTitle);
             }
         }
     content?.append(fragment);  
 };
+
+
 
 function shrinkWrap(element: HTMLElement) {
     const { firstChild, lastChild } = element;
@@ -562,10 +571,7 @@ function shrinkWrap(element: HTMLElement) {
     element.style.width = width + "px";
     element.style.boxSizing = "content-box";
   };
-  
-
-
-    
+   
 //Others
 function toggleInfo(e:Event) {
     const event = e.target as HTMLDivElement;  
@@ -614,7 +620,7 @@ function deleteItem(e:Event){
     }
 }
 function showSortMenu() {
-    const sortMenu = document.querySelector('.sort-wrapper') as HTMLDivElement;
+    const sortMenu = document.querySelector('.sortWrapper') as HTMLDivElement;
     sortMenu.classList.toggle('hide');
 }
 function editTask(e:Event){
@@ -857,6 +863,9 @@ export function renderSortList(parsedList:string[]):void {
         const taskListHeading = document.createElement('div');
         taskListHeading.className='taskListContainer';
 
+        const listHeader = document.createElement('div');
+        listHeader.className='listHeader';
+
         const listName = document.createElement("div");
         listName.className="listNameTitle";
         const listNameTitle = document.createElement('h2');
@@ -869,16 +878,24 @@ export function renderSortList(parsedList:string[]):void {
         text = document.createTextNode("\u2013");
         listToggle.appendChild(text);
         listToggle.addEventListener('click',(e:Event)=>toggleList(e));
-            taskListHeading.appendChild(listName);
-            taskListHeading.appendChild(listToggle);
+
+        listHeader.appendChild(listName);
+        listHeader.appendChild(listToggle);
+
         const taskListWrapper = document.createElement('div');
             taskListWrapper.className='taskListWrapper showList';
         let inner = document.createElement('div');
             inner.className='inner';
             taskListWrapper.appendChild(inner);
+            taskListHeading.appendChild(listHeader);
             taskListHeading.appendChild(taskListWrapper);     
         taskList.appendChild(taskListHeading);
         content?.appendChild(taskList);
+        
+        let windowWidth = window.innerWidth;
+        if (windowWidth<=520) {
+            shrinkWrap(listNameTitle);
+            }
         }
     content?.append(fragment);  
 };
